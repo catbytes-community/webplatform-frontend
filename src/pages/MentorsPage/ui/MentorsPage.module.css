@@ -14,4 +14,17 @@
 
 .experienceContainer {
     display: flex;
+    gap: 8px;
+}
+
+.cardStyle {
+    padding: 12px 24px;
+    border-radius: 8px;
+}
+
+.directionCardStyle {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
 }
