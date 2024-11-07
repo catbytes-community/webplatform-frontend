@@ -1,5 +1,6 @@
 import Header from "../../../shared/ui/Header/Header";
 import style from "./StudyBuddyPage.module.css";
+import Ad from "../components/Ad/Ad";
 
 export const StudyBuddyPage = () => {
   const ads = [
@@ -102,33 +103,20 @@ export const StudyBuddyPage = () => {
     <div className={style.header}>
       <Header text="Study Groups" />
       {ads.map((ad) => (
-        <div key={ad.id}>
-          <b>Created by: </b>
-          {ad.author}
-          <br />
-          <b>Study topic: </b>
-          {ad.studyTopic}
-          <br />
-          <b>Level: </b>
-          {ad.level}
-          <br />
-          <b>Description: </b>
-          {ad.description}
-          <br />
-          <b>Study period: </b>
-          {formatDate(ad.studyPeriodFrom)} – {formatDate(ad.studyPeriodTo)} (
-          {getDaysDifference(new Date(ad.studyPeriodTo), new Date())} days left)
-          <br />
-          <b>Study schedule: </b>
-          {getSchedule(Array.from(ad.studyTime.entries()))} hours per week
-          <br />
-          <b>Study time (UTC): </b>
-          {Array.from(ad.studyTime.entries()).map(([day, time]) => (
+        <Ad
+          id={ad.id}
+          author={ad.author}
+          studyTopic={ad.studyTopic}
+          level={ad.level}
+          description={ad.description}
+          studyPeriodFrom={formatDate(ad.studyPeriodFrom)}
+          studyPeriodTo={formatDate(ad.studyPeriodTo)}
+          daysLeft={getDaysDifference(new Date(ad.studyPeriodTo), new Date())}
+          studySchedule={getSchedule(Array.from(ad.studyTime.entries()))}
+          studyTime={Array.from(ad.studyTime.entries()).map(([day, time]) => (
             <div>{`${day} | ${time.from} –  ${time.to}`}</div>
           ))}
-          <br />
-          <br />
-        </div>
+        />
       ))}
     </div>
   );
