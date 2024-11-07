@@ -35,7 +35,9 @@ export const StudyBuddyPage = () => {
       studyPeriodFrom: "2024-11-10",
       studyPeriodTo: "2024-12-31",
       studyTime: new Map([
-        ["Monday", { from: "19.00", to: "21.00" }],
+        ["Monday", { from: "19.00", to: "21.50" }],
+        ["Tuesday", { from: "19.00", to: "21.40" }],
+        ["Thursday", { from: "19.00", to: "22.15" }],
         ["Saturday", { from: "12.00", to: "14.40" }],
         ["Sunday", { from: "12.00", to: "14.40" }],
       ]),
@@ -71,10 +73,12 @@ export const StudyBuddyPage = () => {
     let formattedMins = totalMilliseconds[1] / 60;
     if (formattedMins >= 60) {
       formattedHours += Math.floor(formattedMins / 60);
-      formattedMins -= 60;
+      formattedMins -= 60 * Math.floor(formattedMins / 60);
     }
     return formattedMins !== 0
-      ? `${formattedHours}.${formattedMins}`
+      ? `${formattedHours}.${
+          formattedMins < 10 ? `0${formattedMins}` : formattedMins
+        }`
       : `${formattedHours}`;
   }
 
@@ -88,7 +92,7 @@ export const StudyBuddyPage = () => {
     return `${day}.${month}.${year}`;
   }
 
-  function displaySchedule(schedule: any[]) {
+  function getSchedule(schedule: any[]) {
     const times = schedule.map(([day, time]) => [time.from, time.to]);
     const timesDiff = times.map((time) => getTimeDifference(time[0], time[1]));
     return getTimeSum(timesDiff);
@@ -116,7 +120,7 @@ export const StudyBuddyPage = () => {
           {getDaysDifference(new Date(ad.studyPeriodTo), new Date())} days left)
           <br />
           <b>Study schedule: </b>
-          {displaySchedule(Array.from(ad.studyTime.entries()))} hours per week
+          {getSchedule(Array.from(ad.studyTime.entries()))} hours per week
           <br />
           <b>Study time (UTC): </b>
           {Array.from(ad.studyTime.entries()).map(([day, time]) => (
