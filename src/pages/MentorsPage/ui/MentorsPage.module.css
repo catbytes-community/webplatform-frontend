@@ -1,0 +1,30 @@
+.mentorsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 543px;
+    margin: 0 auto;
+}
+
+.mentorsTitle {
+    width: fit-content;
+    font-weight: 400;
+    margin: 21px 0;
+}
+
+.experienceContainer {
+    display: flex;
+    gap: 8px;
+}
+
+.cardStyle {
+    padding: 12px 24px;
+    border-radius: 8px;
+}
+
+.directionCardStyle {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+}
