@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./ResourceCard.module.css";
+import Button from "../../../pages/Pomodoro/components/Button/Button";
 
 interface Resource {
   id: number;
@@ -8,6 +9,7 @@ interface Resource {
   tags: string[];
   link?: string;
   author: string;
+  fullInfo?: string;
 }
 
 interface ResourceCardProps {
@@ -15,12 +17,10 @@ interface ResourceCardProps {
   onAddToFavorites: (id: number) => void;
 }
 
-//Здесь предполагается возможность постановки лайка и добавления поста в избранное
-
-const ResourceCard: React.FC<ResourceCardProps> = ({ resource, onAddToFavorites }) => {
-
-  //Здесь предполагается возможность постановки лайка и добавления поста в избранное
-
+const ResourceCard: React.FC<ResourceCardProps> = ({
+  resource,
+  onAddToFavorites,
+}) => {
   const [likes, setLikes] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
@@ -34,6 +34,10 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, onAddToFavorites 
     setIsLiked(!isLiked);
   };
 
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+  };
+
   return (
     <div className={styles.card}>
       <h2 className={styles.title}>{resource.title}</h2>
@@ -45,6 +49,13 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, onAddToFavorites 
           </span>
         ))}
       </div>
+
+      {resource.fullInfo && (
+        <div className={styles.fullInfo}>
+          <p>{truncateText(resource.fullInfo, 50)}</p>
+        </div>
+      )}
+
       {resource.link && (
         <a
           href={resource.link}
@@ -56,13 +67,13 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, onAddToFavorites 
         </a>
       )}
       <p className={styles.author}>Author: {resource.author}</p>
+
       <div className={styles.actions}>
-      <button
-          className={`${styles.likeButton} ${isLiked ? styles.liked : ""}`}
-          onClick={handleLike}
-        >
-          Like 
-        </button> 
+        <Button
+          title={"Like"}
+          activeClass={`${styles.likeButton} ${isLiked ? styles.liked : ""}`}
+          _callback={handleLike}
+        />
         <span className={styles.likeCount}> ❤️{likes} </span>
       </div>
     </div>
