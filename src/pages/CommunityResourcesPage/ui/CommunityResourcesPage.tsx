@@ -58,15 +58,12 @@ const CommunityResources: React.FC = () => {
       <div className={styles.filter}>
         <div className={styles.tags}>
           {displayedTags.map((tag) => (
-            <button
-              key={tag}
-              className={`${styles.tag} ${
-                selectedTags.includes(tag) ? styles.selected : ""
-              }`}
-              onClick={() => handleTagClick(tag)}
-            >
-              {tag}
-            </button>
+            <Button
+            key={tag}
+            title={tag}
+            activeClass={`${styles.tag} ${selectedTags.includes(tag) ? styles.selected : ""}`}
+            _callback={() => handleTagClick(tag)}
+          />
           ))}
         </div>
         <div className={styles.filterButtons}>

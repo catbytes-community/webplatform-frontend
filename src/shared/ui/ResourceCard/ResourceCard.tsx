@@ -74,7 +74,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
           activeClass={`${styles.likeButton} ${isLiked ? styles.liked : ""}`}
           _callback={handleLike}
         />
-        <span className={styles.likeCount}> ❤️{likes} </span>
+        <span className={styles.likeCount}> 🖤{likes} </span>
       </div>
     </div>
   );
