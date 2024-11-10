@@ -1,5 +1,3 @@
-import style from "./MainPage.module.css";
-
 export const MainPage = () => {
-  return <div className={style.main}>Main Page</div>;
+  return <div className="text-teal-500">Main Page</div>;
 };

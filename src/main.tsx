@@ -1,15 +1,16 @@
-import { createRoot } from 'react-dom/client'
-import { App } from "./app"
-import { ErrorBoundary } from "./app/providers/ErrorBoundary"
-import { BrowserRouter } from "react-router-dom"
-import { StoreProvider } from "./app/providers/StoreProvider"
+import { createRoot } from "react-dom/client";
+import { App } from "./app";
+import { ErrorBoundary } from "./app/providers/ErrorBoundary";
+import { BrowserRouter } from "react-router-dom";
+import { StoreProvider } from "./app/providers/StoreProvider";
+import "./index.css";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StoreProvider>
-        <BrowserRouter>
-            <ErrorBoundary>
-                    <App />
-            </ErrorBoundary>
-        </BrowserRouter>
-    </StoreProvider> 
-)
+    <BrowserRouter>
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    </BrowserRouter>
+  </StoreProvider>
+);
