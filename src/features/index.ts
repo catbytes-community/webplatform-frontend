@@ -1,3 +1,3 @@
-import {FilterMentors} from './filterMentors/FilterMentors';
+import {FilterMentors} from './filterMentors/ui/FilterMentors';
 
 export {FilterMentors};

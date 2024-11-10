@@ -1,11 +1,14 @@
-import { mentorsData } from "../../../pages/MentorsPage/api/dummyMentorsData"
 import { Card } from "../../../shared/ui"
 import s from './MentorsList.module.css'
+import { MentorsProps } from "../../../pages/MentorsPage/ui/MentorsPage"
 
-export const MentorsList = () => {
+export const MentorsList = ({mentors}: MentorsProps) => {
+  if(mentors?.length === 0) {
+    return <p className="mt-4">No mentors found</p>
+  }
   return (
     <div className="flex flex-col gap-5">
-      {mentorsData?.map(mentor => (
+      {mentors?.map(mentor => (
         <Card className={s.cardStyle} key={mentor?.id}>
             <div className="flex gap-5">
               <img className={s.mentorPhoto} src={mentor?.photo} alt="mentor_photo" />
