@@ -7,7 +7,7 @@ import { FilterMentors } from '../../../features';
 export const MentorsPage = () => {
     return (
         <div className={s.mentorsContainer}>
-            <h2 className={s.mentorsTitle}>Mentors</h2>
+            <h1 className={s.mentorsTitle}>Our Mentors</h1>
             <FilterMentors/>
             <MentorsList/>
         </div>
