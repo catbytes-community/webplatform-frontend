@@ -7,7 +7,7 @@ export const MentorsList = () => {
     <>
       {mentorsData?.map(mentor => (
         <Card className={s.cardStyle} key={mentor?.id}>
-            <p>Name: {mentor?.name}</p>
+            <p className="text-3xl font-bold underline">Name: {mentor?.name}</p>
             <p>Last Name: {mentor?.lastName}</p>
             <p>Experience: {mentor?.experience} years</p>
             <div className={s.experienceContainer}>
