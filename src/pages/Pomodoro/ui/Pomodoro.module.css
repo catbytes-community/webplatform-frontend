@@ -1,29 +1,26 @@
-body{
-    background-color: #5a296e;
+.pomodoro {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #5a296e;
 }
 
-.pomodoro{
-    height: 100vh;
-    width: 100%;
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+h1 {
+  color: white;
+  display: block;
 }
 
-h1{
-    color: white;
-    display: block;
+ul {
+  display: flex;
 }
 
-ul{
-    display: flex;
+li {
+  list-style: none;
 }
 
-li{
-    list-style: none;
-}
-
-.time-container{
-    color: white;
+.time-container {
+  color: white;
 }
