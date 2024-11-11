@@ -6,6 +6,7 @@ import { MentorsPage } from "../../../pages/MentorsPage";
 import { AllProjectsPage } from "../../../pages/AllProjectsPage";
 import { StudyBuddyPage } from "../../../pages/StudyBuddyPage";
 import { Pomodoro } from "../../../pages/Pomodoro";
+import { ApplicationsPage } from "../../../pages/ApplicationsPage";
 import { LoginPage } from "../../../pages/LoginPage";
 
 export enum AppRoutes {
@@ -16,6 +17,7 @@ export enum AppRoutes {
   STUDY_BUDDY = "study_groups",
   NOT_FOUND = "not_found",
   POMODORO = "pomodoro",
+  APPLICATIONS = "applications",
   LOGIN = "login",
 }
 
@@ -27,6 +29,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.STUDY_BUDDY]: "/study_groups",
   [AppRoutes.NOT_FOUND]: "*",
   [AppRoutes.POMODORO]: "/pomodoro",
+  [AppRoutes.APPLICATIONS]: "/applications",
   [AppRoutes.LOGIN]: "/login",
 };
 
@@ -58,6 +61,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.POMODORO]: {
     path: RoutePath.pomodoro,
     element: <Pomodoro />,
+  },
+  [AppRoutes.APPLICATIONS]: {
+    path: RoutePath.applications,
+    element: <ApplicationsPage />,
   },
   [AppRoutes.LOGIN]: {
     path: RoutePath.login,
