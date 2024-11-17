@@ -1,0 +1,13 @@
+
+.filterButton{
+  border: 1px solid black;
+  min-width: fit-content;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 4px 8px;
+  width: fit-content;
+}
+.filterButton_active{
+  background-color: black;
+  color: white;
+}

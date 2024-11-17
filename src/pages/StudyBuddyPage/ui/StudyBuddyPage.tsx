@@ -1,6 +1,7 @@
-import Header from "../../../shared/ui/Header/Header";
 import style from "./StudyBuddyPage.module.css";
 import Ad from "../components/Ad/Ad";
+import Button, { ButtonsEnum } from "../../../shared/ui/Button/Button";
+import Filters from "../components/Ad/Filters/Filters";
 
 export const StudyBuddyPage = () => {
   const ads = [
@@ -100,24 +101,38 @@ export const StudyBuddyPage = () => {
   }
 
   return (
-    <div className={style.header}>
-      <Header text="Study Groups" />
-      {ads.map((ad) => (
-        <Ad
-          id={ad.id}
-          author={ad.author}
-          studyTopic={ad.studyTopic}
-          level={ad.level}
-          description={ad.description}
-          studyPeriodFrom={formatDate(ad.studyPeriodFrom)}
-          studyPeriodTo={formatDate(ad.studyPeriodTo)}
-          daysLeft={getDaysDifference(new Date(ad.studyPeriodTo), new Date())}
-          studySchedule={getSchedule(Array.from(ad.studyTime.entries()))}
-          studyTime={Array.from(ad.studyTime.entries()).map(([day, time]) => (
-            <div>{`${day} | ${time.from} –  ${time.to}`}</div>
-          ))}
+    <div className={style.studyBuddyContainer}>
+      <h1 className="text-black text-xl my-10">Study Groups</h1>
+      <div className={style.createStudyGroup}>
+        <Button
+          label="+ Create Study Group"
+          btnType={ButtonsEnum.PRIMARY}
+          onClick={() => {}}
         />
-      ))}
+      </div>
+      <Filters />
+      <div className="flex flex-col gap-4">
+        {ads.map((ad) => (
+          <Ad
+            id={ad.id}
+            author={ad.author}
+            studyTopic={ad.studyTopic}
+            level={ad.level}
+            description={ad.description}
+            studyPeriodFrom={formatDate(ad.studyPeriodFrom)}
+            studyPeriodTo={formatDate(ad.studyPeriodTo)}
+            daysLeft={getDaysDifference(new Date(ad.studyPeriodTo), new Date())}
+            studySchedule={getSchedule(Array.from(ad.studyTime.entries()))}
+            studyTime={Array.from(ad.studyTime.entries()).map(([day, time]) => (
+              <div>
+                <div>{`${day}`}</div>
+                <div>|</div>
+                <div>{` ${time.from} –  ${time.to}`}</div>
+              </div>
+            ))}
+          />
+        ))}
+      </div>
     </div>
   );
 };

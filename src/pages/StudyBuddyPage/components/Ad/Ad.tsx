@@ -1,7 +1,19 @@
-import Button from "../Button/Button";
+import { Card } from "../../../../shared/ui";
+import Button, { ButtonsEnum } from "../../../../shared/ui/Button/Button";
 import style from "./ad.module.css";
 
-export default function Ad({id, author, studyTopic, level, description, studyPeriodFrom, studyPeriodTo, daysLeft, studySchedule, studyTime}: {
+export default function Ad({
+  id,
+  author,
+  studyTopic,
+  level,
+  description,
+  studyPeriodFrom,
+  studyPeriodTo,
+  daysLeft,
+  studySchedule,
+  studyTime,
+}: {
   id: number;
   author: string;
   studyTopic: string;
@@ -14,7 +26,7 @@ export default function Ad({id, author, studyTopic, level, description, studyPer
   studyTime: any;
 }) {
   return (
-    <div className={style.ad}>
+    <Card className={style.ad}>
       <b>Created by: </b>
       {author}
       <br />
@@ -35,10 +47,10 @@ export default function Ad({id, author, studyTopic, level, description, studyPer
       <br />
       <b>Study time (UTC): </b>
       <div className={style.studyTime}>{studyTime}</div>
-      <div className={style.buttons}>
-        <Button title="JOIN" click={()=>{}}/>
-        <Button title="LEAVE" click={()=>{}}/>
+      <div className='flex justify-end gap-2 h-9'>
+        <Button label="JOIN" btnType={ButtonsEnum.PRIMARY} onClick={() => {}} />
+        <Button label="LEAVE" btnType={ButtonsEnum.SECONDARY} onClick={() => {}} />
       </div>
-    </div>
+    </Card>
   );
 }
