@@ -1,0 +1,12 @@
+.mentorsContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 660px;
+    margin: 0 auto;
+}
+
+.mentorsTitle {
+    width: fit-content;
+    font-weight: 400;
+    margin: 21px 0;
+}
