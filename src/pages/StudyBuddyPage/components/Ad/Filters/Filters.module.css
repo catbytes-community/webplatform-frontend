@@ -11,3 +11,21 @@
   background-color: black;
   color: white;
 }
+.filterDropdown{
+  position: absolute;
+  top: 36px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 12px;
+  display: none;
+}
+.filterLevelDropdown{
+  left: 171px;
+}
+.filterDaysDropdown{
+  left: 252px;
+}
+.filterTimesDropdown{
+  left: 368px;
+}
