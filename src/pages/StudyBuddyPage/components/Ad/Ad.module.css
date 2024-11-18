@@ -13,5 +13,5 @@
 }
 .studyTime > div {
   display: grid;
-  grid-template-columns: 100px 30px 200px;
+  grid-template-columns: 65px 15px 100px;
 }

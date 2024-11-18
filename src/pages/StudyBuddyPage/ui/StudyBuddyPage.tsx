@@ -2,9 +2,21 @@ import style from "./StudyBuddyPage.module.css";
 import Ad from "../components/Ad/Ad";
 import Button, { ButtonsEnum } from "../../../shared/ui/Button/Button";
 import Filters from "../components/Ad/Filters/Filters";
+import { useEffect, useState } from "react";
+
+export interface IAd {
+  id: number;
+  author: string;
+  studyTopic: string;
+  level: string;
+  description: string;
+  studyPeriodFrom: string;
+  studyPeriodTo: string;
+  studyTime: Map<string, { from: string; to: string }>;
+}
 
 export const StudyBuddyPage = () => {
-  const ads = [
+  const adsDummy: IAd[] = [
     {
       id: 1,
       author: "Jane Doe",
@@ -45,6 +57,13 @@ export const StudyBuddyPage = () => {
       ]),
     },
   ];
+  const [ads, setAds] = useState<IAd[]>([]);
+  const [filteredAds, setFilteredAds] = useState<IAd[]>([]);
+  const [isEmptyFilter, setIsEmptyFilter] = useState(false);
+
+  useEffect(() => {
+    setAds(adsDummy);
+  }, []);
 
   function getTimeDifference(startTime: string, endTime: string) {
     const [startHours, startMinutes] = startTime.split(".").map(Number);
@@ -99,6 +118,12 @@ export const StudyBuddyPage = () => {
     const timesDiff = times.map((time) => getTimeDifference(time[0], time[1]));
     return getTimeSum(timesDiff);
   }
+  const handleFilteredAds = (filtered: IAd[]) => {
+    setFilteredAds(filtered);
+  };
+  const handleEmptyAds = (filtered: boolean) => {
+    setIsEmptyFilter(filtered);
+  };
 
   return (
     <div className={style.studyBuddyContainer}>
@@ -110,28 +135,42 @@ export const StudyBuddyPage = () => {
           onClick={() => {}}
         />
       </div>
-      <Filters />
+      <Filters
+        ads={ads}
+        onFilter={handleFilteredAds}
+        isEmptyFilter={handleEmptyAds}
+      />
       <div className="flex flex-col gap-4">
-        {ads.map((ad) => (
-          <Ad
-            id={ad.id}
-            author={ad.author}
-            studyTopic={ad.studyTopic}
-            level={ad.level}
-            description={ad.description}
-            studyPeriodFrom={formatDate(ad.studyPeriodFrom)}
-            studyPeriodTo={formatDate(ad.studyPeriodTo)}
-            daysLeft={getDaysDifference(new Date(ad.studyPeriodTo), new Date())}
-            studySchedule={getSchedule(Array.from(ad.studyTime.entries()))}
-            studyTime={Array.from(ad.studyTime.entries()).map(([day, time]) => (
-              <div>
-                <div>{`${day}`}</div>
-                <div>|</div>
-                <div>{` ${time.from} –  ${time.to}`}</div>
-              </div>
-            ))}
-          />
-        ))}
+        {isEmptyFilter ? (
+          <div className="text-center text-xl">No ads were found :(</div>
+        ) : (
+          (filteredAds.length ? filteredAds : ads).map((ad) => (
+            <Ad
+              key={ad.id}
+              id={ad.id}
+              author={ad.author}
+              studyTopic={ad.studyTopic}
+              level={ad.level}
+              description={ad.description}
+              studyPeriodFrom={formatDate(ad.studyPeriodFrom)}
+              studyPeriodTo={formatDate(ad.studyPeriodTo)}
+              daysLeft={getDaysDifference(
+                new Date(ad.studyPeriodTo),
+                new Date()
+              )}
+              studySchedule={getSchedule(Array.from(ad.studyTime.entries()))}
+              studyTime={Array.from(ad.studyTime.entries()).map(
+                ([day, time]) => (
+                  <div key={day}>
+                    <div>{`${day}`}</div>
+                    <div>|</div>
+                    <div>{` ${time.from} –  ${time.to}`}</div>
+                  </div>
+                )
+              )}
+            />
+          ))
+        )}
       </div>
     </div>
   );
