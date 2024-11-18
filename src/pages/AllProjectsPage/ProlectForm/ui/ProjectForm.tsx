@@ -1,5 +1,5 @@
 import style from "./ProjectForm.module.css";
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import CrossImg from './cross.svg?react'
 
 type ProjectFormProps = {
@@ -9,7 +9,7 @@ type ProjectFormProps = {
 export const ProjectForm = (props: ProjectFormProps) => {
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
 
-  const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImage = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file: File = event.target.files?.[0];
     if (file) {
       const reader: FileReader = new FileReader();
@@ -18,7 +18,7 @@ export const ProjectForm = (props: ProjectFormProps) => {
       };
       reader.readAsDataURL(file);
     }
-  };
+  },[]);
 
   return (
     <div className={style.add_proj_holder}>
@@ -27,7 +27,7 @@ export const ProjectForm = (props: ProjectFormProps) => {
         <div className={style.proj_img}>
           <input type="file"
                  id="imageInput"
-                 accept="image/*"
+                 accept="image/png,image/jpeg"
                  onChange={handleImage}
                  hidden
           />
