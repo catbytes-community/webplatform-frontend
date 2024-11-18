@@ -1,4 +1,4 @@
-button {
+.primary_btn, .secondary_btn, .tertiary_btn {
     margin: 0;
     border: 0;
     min-width: 170px;
