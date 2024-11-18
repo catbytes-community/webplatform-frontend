@@ -1,3 +1,69 @@
 body {
     font-family: "Poppins", sans-serif;
 }
+
+.primary_btn, .secondary_btn, .tertiary_btn {
+    margin: 0;
+    border: 0;
+    min-width: 170px;
+    max-height: 42px;
+    padding: 11px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    cursor: pointer;
+    text-align: center;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.primary_btn {
+    background: rgb(255,55,127);
+    background: linear-gradient(90deg, rgba(255,55,127,1) 0%, rgba(255,212,130,1) 85%);
+    box-shadow: 0px 6px 7px 0px #FF868D4A;
+}
+
+.secondary_btn {
+    position: relative;
+    color: transparent;
+    background: linear-gradient(90deg, rgba(255,55,127,1) 0%, rgba(255,212,130,1) 85%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    box-shadow: 0px 6px 7px 0px #FF868D4A;
+}
+
+.secondary_btn::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(90deg, rgba(255,212,130,1) 0%, rgba(255,55,127,1) 85%);
+    mask:
+            linear-gradient(90deg, #fff 0%, #fff 100%) content-box,
+            linear-gradient(90deg, #fff 0%, #fff 100%);
+    -webkit-mask-composite: destination-out;
+    pointer-events: none;
+}
+
+.tertiary_btn {
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: underline;
+    color: black;
+}
+
+.tertiary_btn:hover{
+    background: white;
+}

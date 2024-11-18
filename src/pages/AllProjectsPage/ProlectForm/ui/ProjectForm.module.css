@@ -1,13 +1,15 @@
-
-
 .title {
     font-weight: 700;
     font-size: 42px;
     color: black;
 }
 
+
 .add_proj_holder {
-    color: black;
+    padding: 100px 40px 400px 40px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px;
 }
 
 .proj_img > label {
@@ -42,4 +44,62 @@
     height: 100%;
     object-fit: cover;
     z-index: 0;
+}
+
+.proj_main {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 24px;
+}
+
+.proj_main > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.proj_main > div:first-child {
+    grid-column: 1/-1;
+}
+
+.proj_main > div > label {
+    margin-bottom: 12px;
+    color: #131212;
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.proj_main > div > input {
+    background-color: #F1F1F1;
+    padding: 16px 20px;
+    border: 1px solid #C5C5C5;
+    border-radius: 6px;
+}
+
+.proj_main > div > span {
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.missed {
+    border-color: red;
+}
+
+.proj_header {
+    padding: 0 40px;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    justify-content: space-between;
+    z-index: 100;
+    background-color: white;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 42px;
+    color: black;
 }
