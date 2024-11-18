@@ -1,5 +1,5 @@
 import style from "./ProjectForm.module.css";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import CrossImg from './cross.svg?react'
 import Button, {ButtonsEnum} from "../../../../shared/ui/Button/Button.tsx";
 
@@ -11,7 +11,9 @@ type ProjectFormProps = {
 
 export const ProjectForm = (props: ProjectFormProps) => {
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
-  const [counter, setCounter] = useState<number>(100);
+  const counterName = useRef<HTMLSpanElement | null>(null);
+  const counterSummary = useRef<HTMLSpanElement | null>(null);
+  const counterDescription = useRef<HTMLSpanElement | null>(null);
 
   const handleImage = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file: File = event.target.files?.[0];
@@ -24,12 +26,9 @@ export const ProjectForm = (props: ProjectFormProps) => {
     }
   },[]);
 
-  const charactersCounter = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const text: string = event.target.value;
-    setCounter(100 - text.length);
-  }
+  const updateText = (ref: React.MutableRefObject<HTMLSpanElement | null>, value: string, text: string, amount: number)  => {ref.current!.innerHTML = text + (amount - value.length)};
 
-//TODO: add action to form and onSubmit
+//TODO: add action to form and onSubmit. Add names for DB. Change counter on ref
   return (
     <div>
       <form method={'post'} action={''}>
@@ -64,9 +63,9 @@ export const ProjectForm = (props: ProjectFormProps) => {
               <div>
                 <label>Project name*</label>
                 <input name="projectName" required={true} placeholder={'Enter project name'}
-                       onChange={charactersCounter}
+                       onChange={(e) => updateText(counterName, e.target.value, 'Characters left ', 100)}
                        maxLength={100}/>
-                <span>Characters left {counter}</span>
+                <span ref={counterName}>Up to 100</span>
               </div>
               <div>
                 <label>Project duration*</label>
@@ -88,15 +87,13 @@ export const ProjectForm = (props: ProjectFormProps) => {
             <div className={style.proj_description}>
               <div >
                 <label>Project summary*</label>
-                <textarea name="projectSummary" required={true} placeholder={'Summarize the project in 1-2 sentences'}
-                       maxLength={200}/>
-                <span>Up to 200 characters</span>
+                <textarea name="projectSummary" required={true} placeholder={'Summarize the project in 1-2 sentences'} onChange={(e) => updateText(counterSummary, e.target.value, 'Characters left ', 200)} maxLength={200}/>
+                <span ref={counterSummary}>Up to 200 characters</span>
               </div>
               <div>
                 <label>Detailed project description</label>
-                <textarea name="projectDetails" required={true} placeholder={'Describe the project’s goals, stages and expected outcomes'}
-                       maxLength={200}/>
-                <span>Up to 2 000 characters</span>
+                <textarea name="projectDetails" required={true} placeholder={'Describe the project’s goals, stages and expected outcomes'} onChange={(e) => updateText(counterDescription, e.target.value, 'Characters left ', 2000)} maxLength={2000}/>
+                <span ref={counterDescription}>Up to 2 000 characters</span>
               </div>
             </div>
           </div>

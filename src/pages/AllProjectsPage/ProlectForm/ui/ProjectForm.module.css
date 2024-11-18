@@ -104,7 +104,7 @@
     resize: none;
 }
 
-.proj_main > div > span {
+.proj_main > div > span, .proj_description > div >  span{
     margin-top: 8px;
     font-size: 11px;
     font-weight: 400;
