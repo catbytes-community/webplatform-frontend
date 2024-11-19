@@ -2,24 +2,26 @@
     box-sizing: border-box;
     border: 1px solid black;
     border-radius: 8px;
-    padding: 16px;
+    padding: 20px;
     margin-bottom: 16px;
     background-color: #fff;
-    font-size: 16px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    min-height: 280px;
-    min-width: 40%;
+    min-height: 123px;
+    min-width: 408px;
     justify-content: space-between;
   }
   
   .title {
-    color: #000000;
+    color: #000000;   
+    font-size: 16px;
   }
   
   .description {
     color: #000000;
+    font-size: 12px;
+
   }
   
   .tags {

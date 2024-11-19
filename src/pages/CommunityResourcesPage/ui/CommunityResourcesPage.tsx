@@ -3,11 +3,15 @@ import ResourceCard from "../../../shared/ui/ResourceCard/ResourceCard";
 import { resources } from "./constants";
 import styles from "./CommunityResourcesPage.module.css";
 import Button from "../../Pomodoro/components/Button/Button";
+import { useNavigate } from "react-router-dom";
+import CrossIcon from "../../../shared/ui/icons/CrossIcon";
 
 const CommunityResources: React.FC = () => {
   const [resourcesList] = useState(resources);
-  const [selectedTags, setSelectedTags] = useState<string[]>(["All"]); // Изначально All выбран
-  const [showAllTags, setShowAllTags] = useState(false); // Стейт для управления показом всех тегов
+  const [selectedTags, setSelectedTags] = useState<string[]>(["All"]);
+  const [showAllTags] = useState(false);
+  const isUserLoggedIn = true;
+  const navigate = useNavigate();
 
   const handleTagClick = (tag: string) => {
     if (tag === "All") {
@@ -36,20 +40,16 @@ const CommunityResources: React.FC = () => {
     return selectedTags.some((tag) => resource.tags.includes(tag));
   });
 
-  const handleAddToFavorites = (id: number) => {
-    console.log(`Resource with ID ${id} added to favorites.`);
-  };
-
-  const toggleShowAllTags = () => {
-    setShowAllTags((prev) => !prev);
-  };
-
   const displayedTags = showAllTags
     ? ["All", ...new Set(resourcesList.flatMap((resource) => resource.tags))]
     : [
         "All",
         ...new Set(resourcesList.flatMap((resource) => resource.tags)),
       ].slice(0, 6);
+
+  const handleCreateResource = () => {
+    navigate("/create_resource");
+  };
 
   return (
     <div className={styles.container}>
@@ -59,38 +59,33 @@ const CommunityResources: React.FC = () => {
         <div className={styles.tags}>
           {displayedTags.map((tag) => (
             <Button
-            key={tag}
-            title={tag}
-            activeClass={`${styles.tag} ${selectedTags.includes(tag) ? styles.selected : ""}`}
-            _callback={() => handleTagClick(tag)}
-          />
+              key={tag}
+              title={tag}
+              activeClass={`${styles.tag} ${
+                selectedTags.includes(tag) ? styles.selected : ""
+              }`}
+              _callback={() => handleTagClick(tag)}
+            />
           ))}
         </div>
-        <div className={styles.filterButtons}>
-          {!showAllTags && displayedTags.length < resourcesList.length && (
-            <Button
-              title={"Show More"}
-              activeClass={styles.showMore}
-              _callback={() => toggleShowAllTags()}
-            />
-          )}
-          {showAllTags && (
-            <Button
-              title={"Show Less"}
-              activeClass={styles.showMore}
-              _callback={() => toggleShowAllTags()}
-            />
-          )}
-        </div>
+
+        {isUserLoggedIn && (
+          <div className={styles.createButton}>
+            <button
+              type="button"
+              className={styles.createResourceButton}
+              onClick={handleCreateResource}
+            >
+              Add Resource
+              <CrossIcon />
+            </button>
+          </div>
+        )}
       </div>
 
       <div className={styles.resourceList}>
         {filteredResources.map((resource) => (
-          <ResourceCard
-            key={resource.id}
-            resource={resource}
-            onAddToFavorites={handleAddToFavorites}
-          />
+          <ResourceCard key={resource.id} resource={resource} />
         ))}
       </div>
     </div>

@@ -1,0 +1,91 @@
+.container {
+    max-width: 500px;
+    margin: 30px auto;
+  }
+  
+  .title {
+    text-align: left;
+    margin-bottom: 20px;
+    color: #000000;
+    font-size: 20px;
+    font-weight: 400;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .label {
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .input,
+  .textarea,
+  .fileButtons {
+    margin-bottom: 16px;
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    font-size: 20px;
+  }
+
+  .input {
+    min-height: 60px;
+  }
+
+  .input::placeholder,
+  .textarea::placeholder {
+    color: #000000;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 26px;
+    font-family: "Fira Mono", monospace;
+  }
+  
+  .textarea {
+    resize: vertical;
+  }
+  
+  .submitButton {
+    background-color: transparent;
+    color: #000000;
+    border: 1px solid #000000;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    width: 35%;
+  }
+  
+  .hiddenInput {
+    display: none; 
+  }
+  
+  .fileButtons {
+    display: flex;
+    gap: 10px;
+    box-sizing: border-box;
+  }
+  
+  .iconButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  .iconButton svg {
+    width: 30px;
+    height: 30px;
+    fill: #ffffff;
+    transition: fill 0.3s;
+  }
+  
+  .fileInfo {
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #000000;
+  }
+  

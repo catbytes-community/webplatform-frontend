@@ -7,6 +7,7 @@ import { AllProjectsPage } from "../../../pages/AllProjectsPage";
 import { StudyBuddyPage } from "../../../pages/StudyBuddyPage";
 import { Pomodoro } from "../../../pages/Pomodoro";
 import { CommunityResources } from "../../../pages/CommunityResourcesPage";
+import { CreateResourcePage } from "../../../pages/CreateResourcePage";
 
 export enum AppRoutes {
   MAIN = "main",
@@ -16,7 +17,8 @@ export enum AppRoutes {
   STUDY_BUDDY = "study_groups",
   NOT_FOUND = "not_found",
   POMODORO = "pomodoro",
-  COMMUNITY_RESOURCES = "community_resources"
+  COMMUNITY_RESOURCES = "community_resources",
+  CREATE_RESOURCE = "CREATE_RESOURCE"
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
@@ -27,7 +29,8 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.STUDY_BUDDY]: "/study_groups",
   [AppRoutes.NOT_FOUND]: "*",
   [AppRoutes.POMODORO]: "/pomodoro",
-  [AppRoutes.COMMUNITY_RESOURCES]: "/community_resources"
+  [AppRoutes.COMMUNITY_RESOURCES]: "/community_resources",
+  [AppRoutes.CREATE_RESOURCE]: "/create_resource",
 };
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
@@ -62,5 +65,9 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.COMMUNITY_RESOURCES]: {
     path: RoutePath.community_resources,
     element: <CommunityResources />
-  }
+  },
+  [AppRoutes.CREATE_RESOURCE]: {
+    path: RoutePath.CREATE_RESOURCE,
+    element: <CreateResourcePage />
+  },
 };
