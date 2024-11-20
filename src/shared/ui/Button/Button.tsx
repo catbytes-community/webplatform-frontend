@@ -17,7 +17,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = (props: ButtonProps): ReactElement => {
     return (
         <button
-            className={style[props.btnType]}
+            className={props.btnType}
             onClick={props.onClick}>
             {props.label}
             {props.btnType === ButtonsEnum.TERTIARY && <ArrowImg/>}
