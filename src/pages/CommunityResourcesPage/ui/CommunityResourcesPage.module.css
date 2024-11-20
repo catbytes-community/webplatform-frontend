@@ -77,6 +77,8 @@
   }
   
   .tag.selected {
-    background-color: #ececec;
+    background-color: #000000;
+    color: #ffffff;
+    border-color: #000000;
   }
 
