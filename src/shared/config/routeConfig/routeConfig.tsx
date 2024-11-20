@@ -8,6 +8,8 @@ import { StudyBuddyPage } from "../../../pages/StudyBuddyPage";
 import { Pomodoro } from "../../../pages/Pomodoro";
 import { CommunityResources } from "../../../pages/CommunityResourcesPage";
 import { CreateResourcePage } from "../../../pages/CreateResourcePage";
+import { ApplicationsPage } from "../../../pages/ApplicationsPage";
+import { LoginPage } from "../../../pages/LoginPage";
 
 export enum AppRoutes {
   MAIN = "main",
@@ -19,6 +21,8 @@ export enum AppRoutes {
   POMODORO = "pomodoro",
   COMMUNITY_RESOURCES = "community_resources",
   CREATE_RESOURCE = "CREATE_RESOURCE"
+  APPLICATIONS = "applications",
+  LOGIN = "login",
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
@@ -31,6 +35,8 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.POMODORO]: "/pomodoro",
   [AppRoutes.COMMUNITY_RESOURCES]: "/community_resources",
   [AppRoutes.CREATE_RESOURCE]: "/create_resource",
+  [AppRoutes.APPLICATIONS]: "/applications",
+  [AppRoutes.LOGIN]: "/login",
 };
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
@@ -69,5 +75,13 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.CREATE_RESOURCE]: {
     path: RoutePath.CREATE_RESOURCE,
     element: <CreateResourcePage />
+  },
+  [AppRoutes.APPLICATIONS]: {
+    path: RoutePath.applications,
+    element: <ApplicationsPage />,
+  },
+  [AppRoutes.LOGIN]: {
+    path: RoutePath.login,
+    element: <LoginPage />,
   },
 };
