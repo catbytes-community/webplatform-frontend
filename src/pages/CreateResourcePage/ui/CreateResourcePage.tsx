@@ -1,16 +1,31 @@
 import React, { useState } from "react";
 import styles from "./CreateResourcePage.module.css";
-import Button from "../../Pomodoro/components/Button/Button";
 import VideoIcon from "../../../shared/ui/icons/VideoIcon";
 import ImageIcon from "../../../shared/ui/icons/ImageIcon";
 import FileIcon from "../../../shared/ui/icons/FileIcon";
 import CrossIcon from "../../../shared/ui/icons/CrossIcon";
+import { useNavigate } from "react-router-dom";
+import { Resource } from "../../CommunityResourcesPage/ui/constants";
 
-export const CreateResourcePage: React.FC = () => {
+interface CreateResourcePageProps {
+  addResource?: (newResource: Resource) => void;
+}
+
+export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
+  addResource,
+}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [fullInfo, setFullInfo] = useState("");
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+
+  const tags = ["Documents", "Video", "Links", "Posts"];
+  const navigate = useNavigate();
+
+  const handleTagClick = (tag: string) => {
+    setSelectedTag(tag);
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -26,21 +41,33 @@ export const CreateResourcePage: React.FC = () => {
     }
   };
 
-  const CreateResourceSubmit = () => {
-    console.log("Resource saved");
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedTag) {
+      alert("Please select a tag for the resource.");
+      return;
+    }
+
     const newResource = {
       id: Date.now(),
       title,
       description,
       file,
       fullInfo,
+      tags: [selectedTag],
     };
 
-    console.log("Resource created:", newResource);
+    if (addResource) {
+      addResource(newResource);
+    }
+
+    navigate("/community_resources");
+
+    setTitle("");
+    setDescription("");
+    setFile(null);
+    setFullInfo("");
+    setSelectedTag(null);
   };
 
   return (
@@ -109,6 +136,21 @@ export const CreateResourcePage: React.FC = () => {
 
         {file && <p className={styles.fileInfo}>Selected file: {file.name}</p>}
 
+        <div className={styles.tagSelector}>
+          {tags.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => handleTagClick(tag)}
+              className={`${styles.tagButton} ${
+                selectedTag === tag ? styles.activeTag : ""
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+
         <textarea
           id="fullInfo"
           value={fullInfo}
@@ -118,11 +160,9 @@ export const CreateResourcePage: React.FC = () => {
           rows={6}
         />
 
-        <Button
-          title={"Published"}
-          activeClass={styles.submitButton}
-          _callback={CreateResourceSubmit}
-        />
+        <button type="submit" className={styles.submitButton}>
+          Published
+        </button>
       </form>
     </div>
   );
