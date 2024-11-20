@@ -20,7 +20,7 @@ export enum AppRoutes {
   NOT_FOUND = "not_found",
   POMODORO = "pomodoro",
   COMMUNITY_RESOURCES = "community_resources",
-  CREATE_RESOURCE = "CREATE_RESOURCE"
+  CREATE_RESOURCE = "CREATE_RESOURCE",
   APPLICATIONS = "applications",
   LOGIN = "login",
 }
