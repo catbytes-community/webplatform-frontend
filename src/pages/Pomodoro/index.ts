@@ -1,3 +1,3 @@
-import { Pomodoro } from "./ui/Pomodoro.tsx"
+import { PomodoroPage } from "./ui/PomodoroPage.tsx"
 
-export {Pomodoro}
+export {PomodoroPage}

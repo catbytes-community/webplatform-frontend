@@ -5,7 +5,7 @@ import { AboutPage } from "../../../pages/AboutPage";
 import { MentorsPage } from "../../../pages/MentorsPage";
 import { AllProjectsPage } from "../../../pages/AllProjectsPage";
 import { StudyBuddyPage } from "../../../pages/StudyBuddyPage";
-import { Pomodoro } from "../../../pages/Pomodoro";
+import { PomodoroPage } from "../../../pages/Pomodoro";
 import { ApplicationsPage } from "../../../pages/ApplicationsPage";
 import { LoginPage } from "../../../pages/LoginPage";
 
@@ -60,7 +60,7 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   },
   [AppRoutes.POMODORO]: {
     path: RoutePath.pomodoro,
-    element: <Pomodoro />,
+    element: <PomodoroPage />,
   },
   [AppRoutes.APPLICATIONS]: {
     path: RoutePath.applications,
