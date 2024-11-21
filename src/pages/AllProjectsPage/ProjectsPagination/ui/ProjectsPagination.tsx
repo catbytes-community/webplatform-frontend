@@ -1,6 +1,8 @@
 import { usePagination, DOTS} from "../../../../shared/lib/customHooks/pagination.ts";
-import "./projectsPagination.scss"
+import s from "./ProjectsPagination.module.css"
 import {usePaginationParams} from "../../../../shared/lib/customHooks/pagination.ts";
+import PaginationLeftIcon from "../../../../shared/ui/icons/PaginationLeftIcon.tsx";
+import PaginationRightIcon from "../../../../shared/ui/icons/PaginationRightIcon.tsx";
 
 interface ProjectsPaginationParams extends usePaginationParams{
     onPageChange(pageNumber: number): void;
@@ -30,39 +32,39 @@ const ProjectsPagination = ({onPageChange, totalCount, siblingCount = 1, current
 
     const lastPage = paginationRange[paginationRange.length - 1];
     return (
-        <ul className='pagination-container'>
+        <div className="flex justify-center align-middle mb-9">
             {/* Left navigation arrow */}
-            <li className={`pagination-item ${currentPage === 1 ? 'disabled' : ''}`}
+            <div className={` ${currentPage === 1 ? 'disabled' : ''}`}
                 onClick={onPrevious}
             >
-                <div className="arrow left" />
-            </li>
+                <PaginationLeftIcon/>
+            </div>
             {paginationRange.map((pageNumber, index) => {
 
                 // If the pageItem is a DOT, render the DOTS unicode character
                 if (pageNumber === DOTS) {
-                    return <li key={index} className="pagination-item dots">&#8230;</li>;
+                    return <div key={index} className={` dots`}>&#8230;</div>;
                 }
 
                 // Render our Page Pills
                 return (
-                    <li
-                        className={`pagination-item ${pageNumber === currentPage ? 'selected' : ''}`}
+                    <div
+                        className={`${s.paginationItem} ${pageNumber === currentPage ? s.selected : ''}`}
                         key={index}
                         onClick={() => onPageChange(pageNumber)}
                     >
-                        {pageNumber}
-                    </li>
+                        {/*{pageNumber}*/}
+                    </div>
                 );
             })}
             {/*  Right Navigation arrow */}
-            <li
+            <div
                 className={`pagination-item ${currentPage === lastPage ? 'disabled' : ''}`}
                 onClick={onNext}
             >
-                <div className="arrow right" />
-            </li>
-        </ul>
+                <PaginationRightIcon/>
+            </div>
+        </div>
     );
 };
 
