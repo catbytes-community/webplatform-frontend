@@ -1,0 +1,30 @@
+.label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    color: rgb(17 24 39);
+}
+
+.input {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: rgb(17 24 39);
+    border-width: 2px;
+    border-color: rgb(55 65 81);
+    border-radius: 0.5rem;
+    background-color: rgb(249 250 251);
+}
+
+.input:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    --tw-ring-color: rgb(59 130 246);
+    border-color: rgb(59 130 246);
+    border-width: 2px;
+}
