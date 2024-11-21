@@ -18,3 +18,14 @@ export interface Mentor extends User {
     description: string,
     links: mentorLinks
 }
+
+export interface Project {
+    title: string,
+    status: string,
+    duration: string,
+    period: string,
+    manager: string,
+    image: string,
+    description: string,
+    directions: Direction[],
+}
