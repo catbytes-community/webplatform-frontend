@@ -5,6 +5,7 @@ import {useEffect, useMemo, useState} from "react";
 import ProjectsPagination from "../ProjectsPagination/ui/ProjectsPagination.tsx";
 import {SearchInput} from "../../../shared/ui";
 import {Project} from "../../../app/types/global";
+import FilterIcon from "../../../shared/ui/icons/FilterIcon.tsx";
 
 const PageSize = 5;
 
@@ -38,7 +39,12 @@ export const AllProjectsPage = () => {
     return <div className={s.container}>
         <div className="flex align-middle justify-between">
             <h1 className={`font-montserrat text-black ${s.header}`} >Collaboration and projects</h1>
-            <SearchInput setValue={setSearchString}/>
+            <div className="flex gap-4">
+                <SearchInput setValue={setSearchString}/>
+                <div className="mt-5 cursor-pointer">
+                    <FilterIcon/>
+                </div>
+            </div>
         </div>
         <div className={s.divider}></div>
         {projects.length > 0 ? <><div className="mb-8">
