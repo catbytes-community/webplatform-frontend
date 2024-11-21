@@ -29,51 +29,65 @@ export default function Filters({
       element.current.style.display = "block";
     }
   }
-  function filter(filterGroup: string) {
-    let checkboxes = document.getElementsByName(filterGroup);
-    let checked: string[] = [];
-    for (let checkbox of checkboxes) {
-      if (checkbox.checked) checked.push(checkbox.value);
-    }
-    let filtered: IAd[] = [];
-    if (checked.length) {
-      switch (filterGroup) {
-        case "level": {
-          filtered = ads.filter((ad) => checked.includes(ad.level));
-          break;
-        }
-        case "days": {
-          filtered = ads.filter((ad) =>
-            checked.some((check) => ad.studyTime.has(check))
-          );
-          break;
-        }
-        case "times": {
-          const morning = ["06.00", "07.00", "08.00", "09.00", "10.00", "11.00"];
-          const day = ["12.00", "13.00", "14.00", "15.00", "16.00", "17.00"];
-          const evening = ["18.00", "19.00", "20.00", "21.00", "22.00", "23.00"];
-          filtered = ads.filter((ad) => {
-            return Array.from(ad.studyTime.values()).some((time) => {
-              const isMorning = checked.includes("Morning") && morning.includes(time.from);
-              const isDay = checked.includes("Day") && day.includes(time.from);
-              const isEvening = checked.includes("Evening") && evening.includes(time.from);
-              return isMorning || isDay || isEvening;
-            });
-          });
-          break;
-        }
-      }
+
+  function filter() {
+    const levelCheckboxes = document.getElementsByName('level');
+    const dayCheckboxes = document.getElementsByName('days');
+    const timeCheckboxes = document.getElementsByName('times');
+    
+    const checkedLevels: string[] = [];
+    const checkedDays: string[] = [];
+    const checkedTimes: string[] = [];
+
+    for (let checkbox of levelCheckboxes)
+      if (checkbox.checked) checkedLevels.push(checkbox.value);
+    
+    for (let checkbox of dayCheckboxes)
+      if (checkbox.checked) checkedDays.push(checkbox.value);
+    
+    for (let checkbox of timeCheckboxes)
+      if (checkbox.checked) checkedTimes.push(checkbox.value)
+    
+    const morning = ["06.00", "07.00", "08.00", "09.00", "10.00", "11.00"];
+    const day = ["12.00", "13.00", "14.00", "15.00", "16.00", "17.00"];
+    const evening = ["18.00", "19.00", "20.00", "21.00", "22.00", "23.00"];
+    
+    const filtered = ads.filter((ad) => {
+      const matchesLevel = !checkedLevels.length || checkedLevels.includes(ad.level);
+      const matchesDay = !checkedDays.length || checkedDays.some((check) => ad.studyTime.has(check));
+      const matchesTime = !checkedTimes.length || Array.from(ad.studyTime.values()).some((time) => {
+      const isMorning = checkedTimes.includes("Morning") && morning.includes(time.from);
+      const isDay = checkedTimes.includes("Day") && day.includes(time.from);
+      const isEvening = checkedTimes.includes("Evening") && evening.includes(time.from);
+      return isMorning || isDay || isEvening;
+    });
+    return matchesLevel && matchesDay && matchesTime;
+  });
       setFilteredAds(filtered);
       isEmptyFilter(!Boolean(filtered.length));
-    } else {
-      setFilteredAds([]);
-      isEmptyFilter(false);
-    }
+  }
+
+  function cancelFilters(){
+    setFilteredAds(ads);
+    isEmptyFilter(false);
+    
+    const levelCheckboxes = document.getElementsByName('level');
+    const dayCheckboxes = document.getElementsByName('days');
+    const timeCheckboxes = document.getElementsByName('times');
+    
+    for(let checkbox of levelCheckboxes)
+      checkbox.checked=false;
+    
+    for(let checkbox of dayCheckboxes)
+      checkbox.checked=false;
+    
+    for(let checkbox of timeCheckboxes)
+      checkbox.checked=false;
   }
 
   return (
     <div className="relative flex gap-2 my-4">
-      <button className={`${style.filterButton_active} ${style.filterButton}`}>
+      <button onClick={cancelFilters} className={`${style.filterButton_active} ${style.filterButton}`}>
         All
       </button>
       <button className={style.filterButton}>Study topic ▼</button>
@@ -89,7 +103,7 @@ export default function Filters({
       >
         <div className="flex gap-2">
           <input
-            onChange={() => filter("level")}
+            onChange={filter}
             type="checkbox"
             id="Zero experience"
             name="level"
@@ -99,7 +113,7 @@ export default function Filters({
         </div>
         <div className="flex gap-2">
           <input
-            onChange={() => filter("level")}
+            onChange={filter}
             type="checkbox"
             id="Beginner"
             name="level"
@@ -109,7 +123,7 @@ export default function Filters({
         </div>
         <div className="flex gap-2">
           <input
-            onChange={() => filter("level")}
+            onChange={filter}
             type="checkbox"
             id="Medium"
             name="level"
@@ -119,7 +133,7 @@ export default function Filters({
         </div>
         <div className="flex gap-2">
           <input
-            onChange={() => filter("level")}
+            onChange={filter}
             type="checkbox"
             id="High"
             name="level"
@@ -140,7 +154,7 @@ export default function Filters({
       >
         <div className="flex gap-2">
           <input
-            onChange={() => filter("days")}
+            onChange={filter}
             type="checkbox"
             id="Monday"
             name="days"
@@ -150,7 +164,7 @@ export default function Filters({
         </div>
         <div className="flex gap-2">
           <input
-            onChange={() => filter("days")}
+            onChange={filter}
             type="checkbox"
             id="Tuesday"
             name="days"
@@ -160,7 +174,7 @@ export default function Filters({
         </div>
         <div className="flex gap-2">
           <input
-            onChange={() => filter("days")}
+            onChange={filter}
             type="checkbox"
             id="Wednesday"
             name="days"
@@ -170,7 +184,7 @@ export default function Filters({
         </div>
         <div className="flex gap-2">
           <input
-            onChange={() => filter("days")}
+            onChange={filter}
             type="checkbox"
             id="Thursday"
             name="days"
@@ -180,7 +194,7 @@ export default function Filters({
         </div>
         <div className="flex gap-2">
           <input
-            onChange={() => filter("days")}
+            onChange={filter}
             type="checkbox"
             id="Friday"
             name="days"
@@ -190,7 +204,7 @@ export default function Filters({
         </div>
         <div className="flex gap-2">
           <input
-            onChange={() => filter("days")}
+            onChange={filter}
             type="checkbox"
             id="Saturday"
             name="days"
@@ -200,7 +214,7 @@ export default function Filters({
         </div>
         <div className="flex gap-2">
           <input
-            onChange={() => filter("days")}
+            onChange={filter}
             type="checkbox"
             id="Sunday"
             name="days"
@@ -221,7 +235,7 @@ export default function Filters({
       >
         <div className="flex gap-2">
           <input
-            onChange={() => filter("times")}
+            onChange={filter}
             type="checkbox"
             id="Morning"
             name="times"
@@ -231,7 +245,7 @@ export default function Filters({
         </div>
         <div className="flex gap-2">
           <input
-            onChange={() => filter("times")}
+            onChange={filter}
             type="checkbox"
             id="Day"
             name="times"
@@ -241,7 +255,7 @@ export default function Filters({
         </div>
         <div className="flex gap-2">
           <input
-            onChange={() => filter("times")}
+            onChange={filter}
             type="checkbox"
             id="Evening"
             name="times"
