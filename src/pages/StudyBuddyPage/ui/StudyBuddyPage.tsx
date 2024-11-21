@@ -3,6 +3,7 @@ import Ad from "../components/Ad/Ad";
 import Button, { ButtonsEnum } from "../../../shared/ui/Button/Button";
 import Filters from "../components/Ad/Filters/Filters";
 import { useEffect, useState } from "react";
+import CreateAd from "../components/CreateAd/CreateAd";
 
 export interface IAd {
   id: number;
@@ -172,6 +173,7 @@ export const StudyBuddyPage = () => {
           ))
         )}
       </div>
+      <CreateAd/>
     </div>
   );
 };

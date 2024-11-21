@@ -1,0 +1,32 @@
+.createAd {
+  position: absolute;
+  z-index: 100;
+  background-color: white;
+  border-radius: 20px;
+  border: 1px solid black;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.innerInfo {
+  padding: 50px 150px;
+}
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+.checkboxContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.daysContainer{
+  display: flex;
+  flex-direction: column;
+
+}
+.timesContainer{
+  display: flex;
+  flex-direction: row;
+
+}
