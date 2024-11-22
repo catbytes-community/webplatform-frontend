@@ -35,13 +35,22 @@ export const AllProjectsPage = () => {
         setProjects(allProjects.filter(project => project.title.toLowerCase().includes(searchString)));
     }, [allProjects, searchString]);
 
+    const sortByDate = () => {
+        const sortedProjects = [...projects].sort((a, b) => {
+            const dateA = Date.parse(a.startDate);
+            const dateB = Date.parse(b.startDate);
+            return dateA - dateB;
+        });
+        setProjects(sortedProjects);
+    }
+
 
     return <div className={s.container}>
         <div className="flex align-middle justify-between">
             <h1 className={`font-montserrat text-black ${s.header}`} >Collaboration and projects</h1>
             <div className="flex gap-4">
                 <SearchInput setValue={setSearchString}/>
-                <div className="mt-5 cursor-pointer">
+                <div className="mt-5 cursor-pointer" onClick={sortByDate}>
                     <FilterIcon/>
                 </div>
             </div>

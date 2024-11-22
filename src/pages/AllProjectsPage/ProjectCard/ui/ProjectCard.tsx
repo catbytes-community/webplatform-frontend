@@ -22,7 +22,7 @@ export const ProjectCard = ({project}:ProjectCardProps) => {
                 <div className="flex gap-24 font-montserrat">
                     <p>Project status: {project?.status}</p>
                     <p>Project duration: {project?.duration}</p>
-                    <p>Project period: {project?.period}</p>
+                    <p>Project period: {project && project.startDate.slice(0, 6)} - {project && project.endDate.slice(0, 6)}</p>
                 </div>
                 <p className="font-montserrat">Project manager: <span className="underline font-bold">{project?.manager}</span></p>
                 <p className="font-montserrat">{project?.description}</p>
