@@ -1,24 +1,23 @@
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
-import { createReduxStore } from "../config/store";
-import { StateSchema } from "../config/StateSchema";
+import {store, persistor} from "../config/store.ts";
+import {PersistGate} from "redux-persist/integration/react";
 
 interface StoreProviderProps {
     children?: ReactNode;
-    initialState?: StateSchema;
 }
 
 export const StoreProvider = (props: StoreProviderProps) => {
     const {
-        children,
-        initialState,
+        children
     } = props;
 
-    const store = createReduxStore(initialState as StateSchema);
 
     return (
         <Provider store={store}>
-            {children}
+            <PersistGate loading={null} persistor={persistor}>
+                {children}
+            </PersistGate>
         </Provider>
     );
 };

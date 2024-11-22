@@ -1,14 +1,30 @@
-import { configureStore, ReducersMapObject } from '@reduxjs/toolkit';
-import { StateSchema } from './StateSchema';
-import { userReducer } from "../../../../entities";
+import { configureStore } from '@reduxjs/toolkit';
+import {userReducer, authReducer, projectReducer} from "../../../../entities";
+import { combineReducers } from '@reduxjs/toolkit';
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 
-export function createReduxStore(initialState?: StateSchema) {
-    const rootReducers: ReducersMapObject<StateSchema> = {
-        user: userReducer,
-    };
+const rootReducer = combineReducers({
+    user: userReducer,
+    auth: authReducer,
+    project: projectReducer,
+})
 
-    return configureStore<StateSchema>({
-        reducer: rootReducers,
-        preloadedState: initialState,
-    });
+const persistConfig = {
+    key: 'root',
+    storage,
 }
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+export const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(
+        {
+            serializableCheck: false
+        }),
+})
+export const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;
+
