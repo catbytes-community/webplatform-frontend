@@ -5,8 +5,8 @@ import { AboutPage } from "../../../pages/AboutPage";
 import { MentorsPage } from "../../../pages/MentorsPage";
 import { AllProjectsPage } from "../../../pages/AllProjectsPage";
 import { StudyBuddyPage } from "../../../pages/StudyBuddyPage";
-import { PomodoroPage } from "../../../pages/Pomodoro";
 import { ApplicationsPage } from "../../../pages/ApplicationsPage";
+import { PomodoroPage } from "../../../pages/Pomodoro";
 import { LoginPage } from "../../../pages/LoginPage";
 
 export enum AppRoutes {
