@@ -2,23 +2,26 @@ import axios from 'axios'
 import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-const backendURL = 'http://127.0.0.1:5000'
+const backendURL = 'http://127.0.0.1:8080'
 
 type registerUserProps = {
     firstName: string,
+    lastName: string,
+    username: string,
+    about: string,
+    languages: string[],
     email: string,
     password: string
 }
 
 type loginUserProps = {
-    firstName: string,
     email: string,
     password: string
 }
 
 export const registerUser = createAsyncThunk(
     'auth/register',
-    async ({ firstName, email, password }:registerUserProps, { rejectWithValue }) => {
+    async ({ firstName, lastName, username, about, languages, email, password }:registerUserProps, { rejectWithValue }) => {
         try {
             const config = {
                 headers: {
@@ -26,8 +29,8 @@ export const registerUser = createAsyncThunk(
                 },
             }
             await axios.post(
-                `${backendURL}/api/user/register`,
-                { firstName, email, password },
+                `${backendURL}/users`,
+                { firstName, lastName, username, about, languages, email, password },
                 config
             )
         } catch (error: unknown) {
@@ -54,7 +57,7 @@ export const userLogin = createAsyncThunk(
                 },
             }
             const { data } = await axios.post(
-                `${backendURL}/api/user/login`,
+                `${backendURL}/users/login`,
                 { email, password },
                 config
             )

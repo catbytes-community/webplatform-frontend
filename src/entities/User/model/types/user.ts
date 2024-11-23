@@ -1,10 +1,12 @@
 export interface User {
     id: number;
-    name: string;
+    firstName: string;
+    lastName: string
     email: string;
     about: string;
     languages: string[];
-    photo: string;
+    role: string;
+    photo?: string;
     userToken?: string;
 }
 
