@@ -9,14 +9,17 @@
   transform: translateX(-50%);
   display: none;
 }
-.createAdActive{
+.createAdActive {
   display: block;
 }
-.createAd input:not(input[type='time']),.createAd select,.createAd textarea{
+.createAd input:not(input[type="time"]),
+.createAd select,
+.createAd textarea {
   border: 1px solid black;
   border-radius: 5px;
 }
-.asterisk{
+.asterisk,
+.warning {
   color: brown;
   font-size: 0.8em;
   vertical-align: top;
@@ -34,12 +37,11 @@
   flex-direction: row;
   gap: 8px;
 }
-.daysContainer{
+.daysContainer {
   display: flex;
   flex-direction: column;
-
 }
-.timesContainer{
+.timesContainer {
   display: none;
   flex-direction: row;
 }

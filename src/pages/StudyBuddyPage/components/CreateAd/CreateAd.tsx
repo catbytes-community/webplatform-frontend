@@ -162,7 +162,8 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
         )}
         <div className={style.inputContainer}>
           <p>
-            Week days<span className={style.asterisk}>*</span>
+            Week days<span className={style.asterisk}>*</span><br/>
+            <span className={style.warning}>required timezone: UTC</span>
           </p>
           <div className={style.daysContainer}>
             <div className={style.checkboxContainer}>
