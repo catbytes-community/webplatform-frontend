@@ -61,6 +61,7 @@ export const StudyBuddyPage = () => {
   const [ads, setAds] = useState<IAd[]>([]);
   const [filteredAds, setFilteredAds] = useState<IAd[]>([]);
   const [isEmptyFilter, setIsEmptyFilter] = useState(false);
+  const [isModalShown, setIsModalShown] = useState(false);
 
   useEffect(() => {
     setAds(adsDummy);
@@ -119,12 +120,20 @@ export const StudyBuddyPage = () => {
     const timesDiff = times.map((time) => getTimeDifference(time[0], time[1]));
     return getTimeSum(timesDiff);
   }
-  const handleFilteredAds = (filtered: IAd[]) => {
+  function handleFilteredAds(filtered: IAd[]) {
     setFilteredAds(filtered);
-  };
-  const handleEmptyAds = (filtered: boolean) => {
+  }
+  function handleEmptyAds(filtered: boolean) {
     setIsEmptyFilter(filtered);
-  };
+  }
+
+  function showModal() {
+    setIsModalShown(true);
+  }
+
+  function handleShowModal(shown: boolean) {
+    setIsModalShown(shown);
+  }
 
   return (
     <div className={style.studyBuddyContainer}>
@@ -133,7 +142,7 @@ export const StudyBuddyPage = () => {
         <Button
           label="+ Create Study Group"
           btnType={ButtonsEnum.PRIMARY}
-          onClick={() => {}}
+          onClick={showModal}
         />
       </div>
       <Filters
@@ -173,7 +182,7 @@ export const StudyBuddyPage = () => {
           ))
         )}
       </div>
-      <CreateAd/>
+      {isModalShown && <CreateAd setIsActive={handleShowModal}/>}
     </div>
   );
 };
