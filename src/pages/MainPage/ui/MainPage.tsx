@@ -1,3 +1,9 @@
+import { Page1 } from "./Page1";
+
 export const MainPage = () => {
-  return <div className="text-teal-500">Main Page</div>;
+  return (
+    <>
+    <Page1/>
+    </>
+  );
 };
