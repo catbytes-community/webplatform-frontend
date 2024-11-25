@@ -1,9 +1,11 @@
-import { Page1 } from "./Page1";
+import Navbar from "../../../shared/ui/Navbar/Navbar";
+import { HomeSection } from "./HomeSection";
 
 export const MainPage = () => {
   return (
     <>
-    <Page1/>
+      <Navbar />
+      <HomeSection />
     </>
   );
 };
