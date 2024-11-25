@@ -19,6 +19,7 @@ export enum AppRoutes {
   STUDY_BUDDY = "study_groups",
   NOT_FOUND = "not_found",
   POMODORO = "pomodoro",
+
   APPLICATIONS = "applications",
   LOGIN = "login",
   COMMUNITY_RESOURCES = "community_resources",
