@@ -1,0 +1,31 @@
+.main {
+  background-color: black;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 0.25fr 0.25fr 0.5fr;
+  grid-template-rows: 0.75fr 0.25fr;
+  height: 100vh;
+  grid-template-areas:
+    "div1 div2 div3"
+    "div4 div4 div3";
+  gap: 20px;
+}
+.container {
+  border-radius: 10px;
+}
+.div1 {
+  background-color: pink;
+  grid-area: div1;
+}
+.div2 {
+  background-color: coral;
+  grid-area: div2;
+}
+.div3 {
+  background-color: lightblue;
+  grid-area: div3;
+}
+.div4 {
+  background-color: lightgreen;
+  grid-area: div4;
+}
