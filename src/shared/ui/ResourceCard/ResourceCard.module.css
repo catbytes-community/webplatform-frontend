@@ -1,27 +1,31 @@
 .card {
-  border: 1px solid black;
+    box-sizing: border-box;
+    border: 1px solid black;
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 16px;
     background-color: #fff;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 280px;
+    min-width: 40%;
+    justify-content: space-between;
   }
   
   .title {
-    font-size: 1.5em;
-    margin: 0 0 8px;
-    color: #333;
+    color: #000000;
   }
   
   .description {
-    font-size: 1em;
-    margin: 0 0 16px;
-    color: #555;
+    color: #000000;
   }
   
   .tags {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 16px;
+    gap: 10px;
   }
   
   .tag {
@@ -29,16 +33,13 @@
     border-radius: 4px;
     padding: 4px 8px;
     margin: 0 4px 4px 0;
-    font-size: 0.875em;
-    color: #555;
+    color: #000000;
   }
   
   .link {
-    color: #007bff;
-    text-decoration: none;
-    font-size: 1em;
+    color: #000000;
+    text-decoration: underline;
     display: block;
-    margin-bottom: 8px;
   }
   
   .link:hover {
@@ -46,9 +47,7 @@
   }
   
   .author {
-    font-size: 0.875em;
-    color: #777;
-    margin-bottom: 16px;
+    color: #000000;
   }
   
   .actions {
@@ -63,8 +62,8 @@
     border-radius: 4px;
     padding: 8px 16px;
     cursor: pointer;
-    font-size: 0.875em;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    font-size: 16px;
+    margin: 0 0 0 0;
   }
   
   .likeButton:hover {
@@ -73,7 +72,6 @@
   
   .liked {
     background-color: #f7d2f3; 
-    transform: scale(1.05); 
   }
   
   .likeCount {
