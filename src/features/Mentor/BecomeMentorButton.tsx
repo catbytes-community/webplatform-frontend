@@ -1,12 +1,20 @@
 import { useState } from "react";
+import s from './BecomeMentorButton.module.css';
+import Select, { MultiValue } from 'react-select';
 import { Modal } from "../../shared/ui/Modal/Modal";
 import Button from "../../shared/ui/Button/Button";
-import s from './BecomeMentorButton.module.css';
+import { Fields, Languages } from "./DataOptions";
+import { SelectorsStyles } from "./SelectorStyles";
 
 export const BecomeMentorButton = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [designation, setDesignation] = useState("");
     const [showOption, setShowOption] = useState(false);
+    const [selectedOption, setSelectedOption] = useState<MultiValue<{
+      value: string;
+      label: string;
+    }> | null>(null);
+
 
     const handleOpen = () => {
         setIsModalOpen(true);
@@ -15,6 +23,10 @@ export const BecomeMentorButton = () => {
     const handleClose = () => {
         setIsModalOpen(false);
     };
+
+    // const handleApply = () => {
+    //    handleClose();
+    // }
 
 
     return (<>
@@ -25,18 +37,15 @@ export const BecomeMentorButton = () => {
           <>
             <form className="max-w-md mx-auto">
               <label className={s.label}>Areas of expertise</label>
-              <select className={s.input} 
+              <Select styles={SelectorsStyles}
+                      placeholder="Select an area of expertise" 
                       required
                       onChange={(e) => {
-                        if (e.target.value == "Other") setShowOption(true);
+                        if (e.value == "other") setShowOption(true);
                         else setShowOption(false);
-                      }}>
-                <option value="" selected disabled hidden>Select an area of expertise</option>
-                <option value="QA">QA</option>
-                <option value="Webdev">Webdev</option>
-                <option value="Android">Android development</option>
-                <option value="Other">Other</option>
-              </select>
+                      }}
+                      options={Fields}
+              />
               {
                 showOption && <div>
                   <label className={s.label}>Other area of expertise</label>
@@ -53,11 +62,15 @@ export const BecomeMentorButton = () => {
                 </div>
               }
               <label className={s.label}>Languages</label>
-              <select className={s.input} required>
-                <option value="" selected disabled hidden>Select a language</option>
-                <option value="EN">English</option>
-                <option value="RU">Russian</option>
-              </select>
+              <Select required
+                placeholder="Select a language"
+                closeMenuOnSelect={false}
+                isMulti
+                options={Languages}
+                defaultValue={selectedOption}
+                onChange={() => setSelectedOption}
+                styles={SelectorsStyles}
+              />
               <label className={s.label}>Links to your GitHub/LinkedIn accounts (optional)</label>
               <textarea className={s.input} rows={1}></textarea>
               <label className={s.label}>Describe your experience</label>

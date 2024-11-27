@@ -18,3 +18,8 @@ export interface Mentor extends User {
     description: string,
     links: mentorLinks
 }
+
+export interface Option {
+    value: string,
+    label: string
+}

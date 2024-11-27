@@ -15,7 +15,7 @@
     font-size: 0.875rem;
     line-height: 1.25rem;
     color: rgb(17 24 39);
-    border-width: 2px;
+    border-width: 1px;
     border-color: rgb(55 65 81);
     border-radius: 0.5rem;
     background-color: rgb(249 250 251);
@@ -26,5 +26,12 @@
     outline-offset: 2px;
     --tw-ring-color: rgb(59 130 246);
     border-color: rgb(59 130 246);
-    border-width: 2px;
+    box-shadow: 0 0 0 1px #2684FF;
+}
+
+.input:hover {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    --tw-ring-color: rgb(59 130 246);
+    border-color: rgb(59 130 246);
 }
