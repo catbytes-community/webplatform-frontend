@@ -3,20 +3,13 @@ import s from "./ProjectCard.module.css"
 import {Card} from "../../../../shared/ui";
 //import ArrowRightIcon from "../../../../shared/ui/icons/ArrowRightIcon.tsx";
 import placeholderImage from "../../../../shared/ui/placeholderImages/projectPlaceholderImage.png"
+import moment from 'moment';
 
 export interface ProjectCardProps {
     project: Project | null
 }
 
 export const ProjectCard = ({project}:ProjectCardProps) => {
-
-    const formatDate = (dateString: string): string => {
-        const date = new Date(dateString);
-        const day = date.getDate();
-        const month = date.toLocaleString('default', { month: 'short' }); // e.g., "Nov"
-        return `${day} ${month}`;
-    };
-
 
     return (
         <div className={`flex pb-6 pt-6 gap-5 ${s.container}`}>
@@ -34,7 +27,7 @@ export const ProjectCard = ({project}:ProjectCardProps) => {
                 <div className="flex gap-24 font-montserrat">
                     <p>Project status: {project?.status}</p>
                     <p>Project duration: {project?.duration}</p>
-                    <p>Project period: {project && formatDate(project.startDate)} - {project && formatDate(project.endDate)}</p>
+                    <p>Project period: {project && moment(project.startDate).format("D MMM")} - {project && moment(project.endDate).format("D MMM")}</p>
                 </div>
                 <p className="font-montserrat">Project manager: <span className="underline font-bold">{project?.manager}</span></p>
                 <p className="font-montserrat">{project?.summary}</p>
