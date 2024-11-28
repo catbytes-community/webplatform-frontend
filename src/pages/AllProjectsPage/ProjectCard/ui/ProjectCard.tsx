@@ -1,7 +1,7 @@
 import { Project} from "../../../../app/types/global";
 import s from "./ProjectCard.module.css"
 import {Card} from "../../../../shared/ui";
-import ArrowRightIcon from "../../../../shared/ui/icons/ArrowRightIcon.tsx";
+//import ArrowRightIcon from "../../../../shared/ui/icons/ArrowRightIcon.tsx";
 import placeholderImage from "../../../../shared/ui/placeholderImages/projectPlaceholderImage.png"
 
 export interface ProjectCardProps {
@@ -25,10 +25,11 @@ export const ProjectCard = ({project}:ProjectCardProps) => {
             <div className="flex flex-col w-full gap-3">
             <div className="flex justify-between">
                     <h2 className="text-4xl font-normal font-poppins">{project?.name}</h2>
-                    <div className="flex gap-1 cursor-pointer">
-                        <p className="underline font-bold">SIGN IN <span></span></p>
-                        <ArrowRightIcon/>
-                    </div>
+                    {/*<div className="flex gap-1 cursor-pointer">*/}
+                    {/*    <p className="underline font-bold">SIGN IN <span></span></p>*/}
+                    {/*    <ArrowRightIcon/>*/}
+                    {/*</div>*/}
+                    <Card className={s.detailsCard}>SEE DETAILS</Card>
                 </div>
                 <div className="flex gap-24 font-montserrat">
                     <p>Project status: {project?.status}</p>

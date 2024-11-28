@@ -10,6 +10,17 @@
     flex-shrink: 0;
 }
 
+.detailsCard {
+    border: 1px solid #464646;
+    font-family: "Montserrat", sans-serif;
+    min-width: 170px;
+    border-radius: 20px;
+    padding: 12px 38px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #464646;
+    cursor: pointer;
+}
 
 .direction {
     display: flex;
