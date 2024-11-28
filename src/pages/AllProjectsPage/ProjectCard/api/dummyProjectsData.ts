@@ -10,7 +10,6 @@ export const projectsData: Project[] = [
         duration: "12 months",
         manager: "Alice Johnson",
         status: "In Progress",
-        image: "https://img.freepik.com/premium-photo/futuristic-robot-cat-generative-ai_7023-70434.jpg?w=360",
         tags: ["AI", "Machine Learning", "Predictive Analytics"],
         projectTeam: [
             { level: "Senior", title: "AI Engineer", description: "Designs AI models", status: "Active" },

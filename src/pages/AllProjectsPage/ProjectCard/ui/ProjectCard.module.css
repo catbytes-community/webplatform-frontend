@@ -6,7 +6,10 @@
     width: 170px;
     height: 130px;
     border-radius: 20px;
+    object-fit: contain;
+    flex-shrink: 0;
 }
+
 
 .direction {
     display: flex;

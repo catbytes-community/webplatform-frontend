@@ -40,7 +40,7 @@ export interface Project {
     duration: string,
     manager: string,
     status: string,
-    image: string,
+    image?: string,
     tags: string[],
     projectTeam: TeamMember[],
     documentation: Document[]

@@ -2,6 +2,7 @@ import { Project} from "../../../../app/types/global";
 import s from "./ProjectCard.module.css"
 import {Card} from "../../../../shared/ui";
 import ArrowRightIcon from "../../../../shared/ui/icons/ArrowRightIcon.tsx";
+import placeholderImage from "../../../../shared/ui/placeholderImages/projectPlaceholderImage.png"
 
 export interface ProjectCardProps {
     project: Project | null
@@ -19,9 +20,10 @@ export const ProjectCard = ({project}:ProjectCardProps) => {
 
     return (
         <div className={`flex pb-6 pt-6 gap-5 ${s.container}`}>
-            <img className={s.image} src={project?.image} alt="Project name"/>
+            {project?.image ? <img className={s.image} src={project?.image} alt="Project image"/> :
+                <img className={s.image} src={placeholderImage} alt="Project image"/>}
             <div className="flex flex-col w-full gap-3">
-                <div className="flex justify-between">
+            <div className="flex justify-between">
                     <h2 className="text-4xl font-normal font-poppins">{project?.name}</h2>
                     <div className="flex gap-1 cursor-pointer">
                         <p className="underline font-bold">SIGN IN <span></span></p>
