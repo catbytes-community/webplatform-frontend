@@ -32,7 +32,7 @@ export const AllProjectsPage = () => {
             setProjects(allProjects);
         }
 
-        setProjects(allProjects.filter(project => project.title.toLowerCase().includes(searchString)));
+        setProjects(allProjects.filter(project => project.name.toLowerCase().includes(searchString)));
     }, [allProjects, searchString]);
 
     const sortByDate = () => {
