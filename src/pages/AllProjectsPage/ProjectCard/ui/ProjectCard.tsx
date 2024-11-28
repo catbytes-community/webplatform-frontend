@@ -1,5 +1,5 @@
 import { Project} from "../../../../app/types/global";
-import s from "./ProjectCard.module.css"
+import style from "./ProjectCard.module.css"
 import {Card} from "../../../../shared/ui";
 //import ArrowRightIcon from "../../../../shared/ui/icons/ArrowRightIcon.tsx";
 import placeholderImage from "../../../../shared/ui/placeholderImages/projectPlaceholderImage.png"
@@ -12,9 +12,9 @@ export interface ProjectCardProps {
 export const ProjectCard = ({project}:ProjectCardProps) => {
 
     return (
-        <div className={`flex pb-6 pt-6 gap-5 ${s.container}`}>
-            {project?.image ? <img className={s.image} src={project?.image} alt="Project image"/> :
-                <img className={s.image} src={placeholderImage} alt="Project image"/>}
+        <div className={`flex pb-6 pt-6 gap-5 ${style.container}`}>
+            {project?.image ? <img className={style.image} src={project?.image} alt="Project image"/> :
+                <img className={style.image} src={placeholderImage} alt="Project image"/>}
             <div className="flex flex-col w-full gap-3">
             <div className="flex justify-between">
                     <h2 className="text-4xl font-normal font-poppins">{project?.name}</h2>
@@ -22,7 +22,7 @@ export const ProjectCard = ({project}:ProjectCardProps) => {
                     {/*    <p className="underline font-bold">SIGN IN <span></span></p>*/}
                     {/*    <ArrowRightIcon/>*/}
                     {/*</div>*/}
-                    <Card className={s.detailsCard}>SEE DETAILS</Card>
+                    <Card className={style.detailsCard}>SEE DETAILS</Card>
                 </div>
                 <div className="flex gap-24 font-montserrat">
                     <p>Project status: {project?.status}</p>
@@ -32,7 +32,7 @@ export const ProjectCard = ({project}:ProjectCardProps) => {
                 <p className="font-montserrat">Project manager: <span className="underline font-bold">{project?.manager}</span></p>
                 <p className="font-montserrat">{project?.summary}</p>
                 <div className="flex gap-5">
-                    {project?.tags?.map((tag, index) => <Card key={index} className={s.direction}>{tag}</Card>)}
+                    {project?.tags?.map((tag, index) => <Card key={index} className={style.direction}>{tag}</Card>)}
                 </div>
             </div>
         </div>
