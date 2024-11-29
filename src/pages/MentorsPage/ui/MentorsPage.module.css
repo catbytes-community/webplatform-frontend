@@ -1,7 +1,8 @@
 .mentorsContainer {
     display: flex;
     flex-direction: column;
-    max-width: 660px;
+    max-width: 1120px;
+    padding: 0 40px;
     margin: 0 auto;
 }
 
