@@ -1,0 +1,37 @@
+.container {
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.image {
+    width: 170px;
+    height: 130px;
+    border-radius: 20px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.detailsCard {
+    border: 1px solid #464646;
+    font-family: "Montserrat", sans-serif;
+    min-width: 170px;
+    border-radius: 20px;
+    padding: 12px 38px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #464646;
+    cursor: pointer;
+}
+
+.direction {
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 100px;
+    border: none;
+    background-color: #D9D9D9;
+    margin-top: 4px;
+    width: 170px;
+    font-family: "Montserrat", sans-serif;
+}
