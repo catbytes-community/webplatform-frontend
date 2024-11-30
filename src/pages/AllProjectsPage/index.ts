@@ -1,3 +1,3 @@
-import { AllProjectsPage } from "./ui/AllProjectsPage";
+import {AllProjectsPage} from "./ui/AllProjectsPage.tsx";
 
-export { AllProjectsPage };
+export {AllProjectsPage};
