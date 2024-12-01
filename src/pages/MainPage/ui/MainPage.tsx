@@ -1,3 +1,11 @@
+import Navbar from "../../../shared/ui/Navbar/Navbar";
+import { HomeSection } from "./HomeSection";
+
 export const MainPage = () => {
-  return <div className="text-teal-500">Main Page</div>;
+  return (
+    <>
+      <Navbar />
+      <HomeSection />
+    </>
+  );
 };
