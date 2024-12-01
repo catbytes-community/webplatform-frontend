@@ -2,8 +2,8 @@ export const HomeSection = () => {
   return (
     <>
       <div className="grid cols-2">
-        <div>
-          <div className="p-5 border-solid border-2 rounded-lg bg-[#170103] w-740px h-508px t-159px l-40px r-30px">
+        <div className="bg-gradient-to-r from-[#FFA6AD] to-[#FFFFFF]">
+          <div className="p-5 border-solid border-2 rounded-lg w-740px h-508px t-159px l-40px r-30px">
             <h1 className="font-poppins w-700 size-48px line-height-57.6px">
               Become a part of CatBytes
             </h1>
@@ -17,19 +17,20 @@ export const HomeSection = () => {
               confident IT professional.
             </p>
 
-            <div className="border-solid border-2 border-black rounded-lg">
-              <p>JOIN US</p>
+            <div className="w-180 h-51 radius-20 pt-16 pr-56 pb-16 pl-56 gap-10 size-xl rounded-lg bg-gradient-to-r from-[#FF377F] to-[#FFD482]">
+              <button>JOIN US</button>
             </div>
           </div>
 
           <div>
-            <div className="p-5 border-solid border-2 border-black rounded-lg bg-[#FFA6AD]">
+            <div className="p-5 border-solid border-2 border-black rounded-lg bg-gradient-to-r from-[#FFFFFF] to-[#FFA6AD]">
               <div>
                 <p>Become a mentor</p>
               </div>
 
               <div>
-                <p>VIEW NOW</p>
+                <p className="underline">VIEW NOW</p>
+                <span className="mx-2 text-gray-700">&rarr;</span>
               </div>
 
               <div></div>
@@ -38,16 +39,18 @@ export const HomeSection = () => {
           </div>
         </div>
 
-        <div className="p-5 border-solid border-2 border-black rounded-lg bg-pink">
+        <div className="p-5 border-solid border-2 bg-gradient-to-r from-[#FFFFFF] to-[#FFA6AD] layer-blur-30 rounded-lg bg-pink">
           <p>Take part in projects and collaboration</p>
 
-          <p className="text-green">LEARN MORE</p>
+          <p className="underline">LEARN MORE</p>
+          <span className="mx-2 text-gray-700">&rarr;</span>
         </div>
 
-        <div className="p-5 border-solid border-2 border-black rounded-lg">
+        <div className="p-5 bg-gradient-to-r from-[#FFFFFF] to-[#FFA6AD] rounded-lg">
           <p>Find a study buddy to grow together</p>
 
-          <p>SEARCH NOW</p>
+          <p className="underline">SEARCH NOW</p>
+          <span className="mx-2 text-gray-700">&rarr;</span>
         </div>
       </div>
     </>
@@ -58,16 +61,14 @@ export const Page2 = () => {
   return (
     <>
       <div className="bg-green">
-        <div>
-          <header className="flex items-center justify-between w-full w-fixed-1200px h-Hug-41px t-28px pr-40px pl-40px">
-            <div className="w-75px h-21px font-Inter w-600 size-26px line-height-24px letter-(-1%) color-[#000000]">
-              About us
-            </div>
+        <div className="flex items-center justify-between w-full w-fixed-1200px h-Hug-41px t-28px pr-40px pl-40px">
+          <div className="w-75px h-21px font-Inter w-600 size-26px line-height-24px letter-(-1%) color-[#000000]">
+            About us
+          </div>
 
-            <div>
-              <h1>Lorem Ipsum</h1>
-            </div>
-          </header>
+          <div>
+            <h1>Lorem Ipsum</h1>
+          </div>
         </div>
 
         <div className="p-5 border-solid border-2 border-l-rose-600 rounded-lg bg-pink-400">
@@ -81,12 +82,10 @@ export const Page2 = () => {
         </div>
 
         <div className="p-5 border-solid border-2 border-black rounded-lg bg-pink-400">
-          <div>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
-            </p>
-          </div>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry.
+          </p>
         </div>
 
         <div>
@@ -99,6 +98,7 @@ export const Page2 = () => {
         </div>
 
         <div className="p-5 border-solid border-2 border-black rounded-lg bg-pink">
+          <span className="mx-2 text-gray-700">&gt;</span>
           <p>1000+ members</p>
         </div>
 
