@@ -34,7 +34,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.ABOUT]: "/about",
   [AppRoutes.MENTORS]: "/mentors",
   [AppRoutes.ALL_PROJECTS]: "/projects",
-  [AppRoutes.PROJECT]: "/project",
+  [AppRoutes.PROJECT]: "/project/:id",
   [AppRoutes.ADD_PROJECT]: "/add_project",
   [AppRoutes.STUDY_BUDDY]: "/study_groups",
   [AppRoutes.NOT_FOUND]: "*",

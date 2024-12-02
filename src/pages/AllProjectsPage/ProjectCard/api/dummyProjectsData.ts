@@ -2,6 +2,7 @@ import { Project} from "../../../../app/types/global";
 
 export const projectsData: Project[] = [
     {
+        id: 1,
         name: "Project Alpha",
         summary: "An innovative AI-driven project.",
         description: "Developing a cutting-edge AI platform for predictive analytics.",
@@ -21,9 +22,12 @@ export const projectsData: Project[] = [
         ]
     },
     {
+        id: 2,
         name: "Project Beta",
         summary: "A blockchain-based supply chain solution.",
-        description: "Building a transparent and secure supply chain management system using blockchain.",
+        description: "LLorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non massa eu nisi tincidunt bibendum. Ut fringilla id ex ac faucibus. Maecenas eu ex pretium, dictum mauris a, sollicitudin nunc. Nullam sagittis interdum neque, eu porta eros pellentesque vitae. Nulla quis nibh maximus libero ultrices auctor tincidunt et leo. Cras pretium mauris a dictum cursus. Sed interdum at odio id dignissim. Proin et purus porttitor, cursus purus et, rhoncus arcu. Nunc et magna in eros fermentum facilisis. Aliquam erat volutpat.\n" +
+            "Aliquam euismod, ante condimentum auctor pretium, leo magna congue elit, eget tempor purus diam vitae lectus. Suspendisse sed neque dolor. Nulla facilisi. Ut facilisis iaculis bibendum. Nam lobortis ultricies turpis, id bibendum leo tristique in. Donec congue arcu at eleifend fringilla. Nam a velit imperdiet, ultrices tortor iaculis, laoreet sapien. Curabitur ac dui nec justo consectetur euismod. Morbi ac condimentum mauris. Sed eu ultricies lorem, non ultrices elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin sit amet turpis nulla. Curabitur consectetur, libero a dictum scelerisque, purus ipsum euismod ante, ac vehicula ex turpis in nisl.\n" +
+            "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nullam tortor nibh, ultrices ut tempus a, congue et elit. In ultrices metus ac mi maximus ultricies. Donec efficitur ullamcorper tortor vel tristique. Curabitur est risus, placerat non sagittis vitae, luctus eget dui. Etiam lobortis, massa sed sollicitudin semper, augue tellus bibendum lectus, auctor ultrices urna enim non quam. Pellentesque gravida at tellus id finibus. Quisque fermentum lacus urna, at convallis quam sodales et. Duis porttitor nisl et condimentum viverra. Suspendisse et mollis tellus, et consequat libero. Aliquam faucibus purus nisl, non pharetra est consequat nec. Nullam vel mattis quam, in pulvinar sapien. Suspendisse et vulputate nisi, eu rutrum odio. Etiam id.",
         startDate: "2023-06-01",
         endDate: "2024-05-31",
         duration: "12 months",
