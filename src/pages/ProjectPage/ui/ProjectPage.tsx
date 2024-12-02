@@ -33,7 +33,7 @@ export const ProjectPage = () => {
                 <p className={style.about}>About project</p>
                 <p className="mt-2">{project?.description}</p>
             </div>
-            <p className="text-4xl">Required project team:</p>
+            <p className="text-4xl mt-9">Required project team:</p>
         </div>
     </div>)
 };

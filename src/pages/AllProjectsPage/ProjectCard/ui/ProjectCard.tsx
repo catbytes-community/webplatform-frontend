@@ -19,7 +19,7 @@ export const ProjectCard = ({project, isPage=false}:ProjectCardProps) => {
                 <img className={style.image} src={placeholderImage} alt="Project image"/>)}
             <div className="flex flex-col w-full gap-3">
             <div className="flex justify-between">
-                    <h2 className={`${isPage ? "text-5xl" : "text-4xl"} font-normal font-poppins`}>{project?.name}</h2>
+                    <h2 className={`${isPage ? "text-5xl mb-4" : "text-4xl"} font-normal font-poppins`}>{project?.name}</h2>
                     {/*<div className="flex gap-1 cursor-pointer">*/}
                     {/*    <p className="underline font-bold">SIGN IN <span></span></p>*/}
                     {/*    <ArrowRightIcon/>*/}
