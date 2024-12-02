@@ -16,3 +16,16 @@
     min-width: 360px;
     font-size: 36px;
 }
+
+.docCard {
+    border-radius: 30px;
+    padding: 24px;
+}
+
+.docLink {
+    min-width: 360px;
+    margin-right: 20px;
+    text-decoration: underline;
+    font-weight: 600;
+    word-wrap: break-word;
+}

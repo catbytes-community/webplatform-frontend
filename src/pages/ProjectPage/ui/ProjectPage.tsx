@@ -7,6 +7,7 @@ import placeholderImage from "../../../shared/ui/placeholderImages/projectPlaceh
 import style from "./ProjectPage.module.css"
 import {ProjectCard} from "../../AllProjectsPage/ProjectCard/ui/ProjectCard.tsx";
 import {RoleCard} from "./RoleCard/RoleCard.tsx";
+import {Card} from "../../../shared/ui";
 
 export const ProjectPage = () => {
     const [project, setProject] = useState<Project | null>(null);
@@ -28,7 +29,7 @@ export const ProjectPage = () => {
                     {project?.image ? <img className={style.image} src={project?.image} alt="Project image"/> :
                         <img className={style.image} src={placeholderImage} alt="Project image"/>}
                 </div>
-                <ProjectCard project={project} isPage={true} />
+                <ProjectCard project={project} isPage={true}/>
             </div>
             <div className="flex gap-5 mt-12">
                 <p className={style.about}>About project</p>
@@ -37,6 +38,15 @@ export const ProjectPage = () => {
             <p className="text-4xl mt-9">Required project team:</p>
             <div className="flex flex-col gap-5 mt-10 mb-16">
                 {project?.roles?.map((role, ind) => (<RoleCard key={ind} role={role}/>))}
+            </div>
+            <p className="text-4xl">Project links:</p>
+            <div className="flex flex-col gap-5 mt-10 mb-28">
+                {project?.documentation?.map((doc, ind) => (<Card className={style.docCard} key={ind}>
+                    <div className="flex gap-11 font-montserrat">
+                        <p className={style.docLink}>{doc?.link.toUpperCase()}</p>
+                        <p>{doc?.description}</p>
+                    </div>
+                </Card>))}
             </div>
         </div>
     </div>)

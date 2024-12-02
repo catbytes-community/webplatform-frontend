@@ -40,7 +40,7 @@ export const projectsData: Project[] = [
             { level: "Mid-Level", title: "UI/UX Designer", description: "Designs user interfaces", status: "Open" }
         ],
         documentation: [
-            { link: "https://example.com/doc3", description: "Final project report" },
+            { link: "link.loremIpsuloremIpsumissimplydummyloremI.com", description: "Description: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley the 1500s, when an unknown printer took a galley the 1500s, when an unknown printer took a galley the 1500s, " },
             { link: "https://example.com/doc4", description: "Blockchain architecture" }
         ]
     },

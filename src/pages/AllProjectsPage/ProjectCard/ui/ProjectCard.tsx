@@ -17,7 +17,7 @@ export const ProjectCard = ({project, isPage=false}:ProjectCardProps) => {
 
             {!isPage && (project?.image ? <img className={style.image} src={project?.image} alt="Project image"/> :
                 <img className={style.image} src={placeholderImage} alt="Project image"/>)}
-            <div className="flex flex-col w-full gap-3">
+            <div className="flex flex-col gap-3">
             <div className="flex justify-between">
                     <h2 className={`${isPage ? "text-5xl mb-4" : "text-4xl"} font-normal font-poppins`}>{project?.name}</h2>
                     {/*<div className="flex gap-1 cursor-pointer">*/}
@@ -26,7 +26,7 @@ export const ProjectCard = ({project, isPage=false}:ProjectCardProps) => {
                     {/*</div>*/}
                     {!isPage && <Card className={style.detailsCard}>SEE DETAILS</Card>}
                 </div>
-                <div className="flex gap-24 font-montserrat text-sm">
+                <div className="flex font-montserrat text-sm gap-12">
                     <p>Project status: {project?.status}</p>
                     <p>Project duration: {project?.duration}</p>
                     <p>Project period: {project && moment(project.startDate).format("D MMM")} - {project && moment(project.endDate).format("D MMM")}</p>
