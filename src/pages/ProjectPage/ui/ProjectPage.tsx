@@ -6,6 +6,7 @@ import {Project} from "../../../app/types/global";
 import placeholderImage from "../../../shared/ui/placeholderImages/projectPlaceholderImage.png";
 import style from "./ProjectPage.module.css"
 import {ProjectCard} from "../../AllProjectsPage/ProjectCard/ui/ProjectCard.tsx";
+import {RoleCard} from "./RoleCard/RoleCard.tsx";
 
 export const ProjectPage = () => {
     const [project, setProject] = useState<Project | null>(null);
@@ -34,6 +35,9 @@ export const ProjectPage = () => {
                 <p className="mt-2">{project?.description}</p>
             </div>
             <p className="text-4xl mt-9">Required project team:</p>
+            <div className="flex flex-col gap-5 mt-10 mb-16">
+                {project?.roles?.map((role, ind) => (<RoleCard key={ind} role={role}/>))}
+            </div>
         </div>
     </div>)
 };
