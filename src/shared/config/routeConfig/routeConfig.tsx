@@ -11,12 +11,14 @@ import { CreateResourcePage } from "../../../pages/CreateResourcePage";
 import { ApplicationsPage } from "../../../pages/ApplicationsPage";
 import { LoginPage } from "../../../pages/LoginPage";
 import {AllProjectsPage} from "../../../pages/AllProjectsPage";
+import {ProjectPage} from "../../../pages/ProjectPage";
 
 export enum AppRoutes {
   MAIN = "main",
   ABOUT = "about",
   MENTORS = "mentors",
   ALL_PROJECTS = "projects",
+  PROJECT = "project",
   ADD_PROJECT = "add_project",
   STUDY_BUDDY = "study_groups",
   NOT_FOUND = "not_found",
@@ -32,6 +34,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.ABOUT]: "/about",
   [AppRoutes.MENTORS]: "/mentors",
   [AppRoutes.ALL_PROJECTS]: "/projects",
+  [AppRoutes.PROJECT]: "/project",
   [AppRoutes.ADD_PROJECT]: "/add_project",
   [AppRoutes.STUDY_BUDDY]: "/study_groups",
   [AppRoutes.NOT_FOUND]: "*",
@@ -54,6 +57,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.ALL_PROJECTS]: {
     path: RoutePath.projects,
     element: <AllProjectsPage />,
+  },
+  [AppRoutes.PROJECT]: {
+    path: RoutePath.project,
+    element: <ProjectPage />,
   },
   [AppRoutes.ADD_PROJECT]: {
     path: RoutePath.add_project,
