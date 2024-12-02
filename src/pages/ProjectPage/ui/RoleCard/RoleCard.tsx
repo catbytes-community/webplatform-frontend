@@ -14,7 +14,7 @@ export const RoleCard = ({role}:RoleCardProps) => {
                     <p className={style.level}>{role?.level}</p>
                     <div className="mr-16">
                         <p className="text-2xl font-normal mb-5">{role?.title}</p>
-                        <p>{role?.description}</p>
+                        <p className="font-montserrat">{role?.description}</p>
                     </div>
                 </div>
                 <button disabled={role?.status === "Closed"}><Card className={role?.status === "Closed" ? style.buttonCardDisabled : style.buttonCard}>{role?.status.toUpperCase()}</Card></button>
