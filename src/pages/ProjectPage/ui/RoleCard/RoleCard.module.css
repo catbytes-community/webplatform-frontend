@@ -1,0 +1,38 @@
+.card {
+    border-radius: 30px;
+    padding: 24px;
+}
+
+.level {
+    min-width: 170px;
+    margin-right: 20px;
+    font-size: 24px;
+}
+
+.buttonCard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: "Montserrat", sans-serif;
+    min-width: 170px;
+}
+
+.buttonCardDisabled {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: "Montserrat", sans-serif;
+    min-width: 170px;
+    color: #2222224D;
+    border-color: #2222224D;
+    cursor: not-allowed;
+}
+

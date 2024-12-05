@@ -2,6 +2,7 @@ import { Project} from "../../../../app/types/global";
 
 export const projectsData: Project[] = [
     {
+        id: 1,
         name: "Project Alpha",
         summary: "An innovative AI-driven project.",
         description: "Developing a cutting-edge AI platform for predictive analytics.",
@@ -11,9 +12,9 @@ export const projectsData: Project[] = [
         manager: "Alice Johnson",
         status: "In Progress",
         tags: ["AI", "Machine Learning", "Predictive Analytics"],
-        projectTeam: [
-            { level: "Senior", title: "AI Engineer", description: "Designs AI models", status: "Active" },
-            { level: "Junior", title: "Data Scientist", description: "Cleans and analyzes data", status: "Active" }
+        roles: [
+            { level: "Senior", title: "AI Engineer", description: "Designs AI models", status: "Open" },
+            { level: "Junior", title: "Data Scientist", description: "Cleans and analyzes data", status: "Closed" }
         ],
         documentation: [
             { link: "https://example.com/doc1", description: "Project overview document" },
@@ -21,9 +22,12 @@ export const projectsData: Project[] = [
         ]
     },
     {
+        id: 2,
         name: "Project Beta",
         summary: "A blockchain-based supply chain solution.",
-        description: "Building a transparent and secure supply chain management system using blockchain.",
+        description: "LLorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non massa eu nisi tincidunt bibendum. Ut fringilla id ex ac faucibus. Maecenas eu ex pretium, dictum mauris a, sollicitudin nunc. Nullam sagittis interdum neque, eu porta eros pellentesque vitae. Nulla quis nibh maximus libero ultrices auctor tincidunt et leo. Cras pretium mauris a dictum cursus. Sed interdum at odio id dignissim. Proin et purus porttitor, cursus purus et, rhoncus arcu. Nunc et magna in eros fermentum facilisis. Aliquam erat volutpat.\n" +
+            "Aliquam euismod, ante condimentum auctor pretium, leo magna congue elit, eget tempor purus diam vitae lectus. Suspendisse sed neque dolor. Nulla facilisi. Ut facilisis iaculis bibendum. Nam lobortis ultricies turpis, id bibendum leo tristique in. Donec congue arcu at eleifend fringilla. Nam a velit imperdiet, ultrices tortor iaculis, laoreet sapien. Curabitur ac dui nec justo consectetur euismod. Morbi ac condimentum mauris. Sed eu ultricies lorem, non ultrices elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin sit amet turpis nulla. Curabitur consectetur, libero a dictum scelerisque, purus ipsum euismod ante, ac vehicula ex turpis in nisl.\n" +
+            "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nullam tortor nibh, ultrices ut tempus a, congue et elit. In ultrices metus ac mi maximus ultricies. Donec efficitur ullamcorper tortor vel tristique. Curabitur est risus, placerat non sagittis vitae, luctus eget dui. Etiam lobortis, massa sed sollicitudin semper, augue tellus bibendum lectus, auctor ultrices urna enim non quam. Pellentesque gravida at tellus id finibus. Quisque fermentum lacus urna, at convallis quam sodales et. Duis porttitor nisl et condimentum viverra. Suspendisse et mollis tellus, et consequat libero. Aliquam faucibus purus nisl, non pharetra est consequat nec. Nullam vel mattis quam, in pulvinar sapien. Suspendisse et vulputate nisi, eu rutrum odio. Etiam id.",
         startDate: "2023-06-01",
         endDate: "2024-05-31",
         duration: "12 months",
@@ -31,12 +35,12 @@ export const projectsData: Project[] = [
         status: "Completed",
         image: "https://img.freepik.com/premium-photo/futuristic-robot-cat-generative-ai_7023-70434.jpg?w=360",
         tags: ["Blockchain", "Supply Chain"],
-        projectTeam: [
-            { level: "Senior", title: "Blockchain Developer", description: "Implements smart contracts", status: "Completed" },
-            { level: "Mid-Level", title: "UI/UX Designer", description: "Designs user interfaces", status: "Completed" }
+        roles: [
+            { level: "Senior", title: "Blockchain Developer", description: "What to do: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley the 1500s, when an unknown printer took a galley the 1500s, when an unknown printer took a galley the 1500s, when an unknown printer took a galley the 1500s, when an unknown printer", status: "Closed" },
+            { level: "Mid-Level", title: "UI/UX Designer", description: "Designs user interfaces", status: "Open" }
         ],
         documentation: [
-            { link: "https://example.com/doc3", description: "Final project report" },
+            { link: "link.loremIpsuloremIpsumissimplydummyloremI.com", description: "Description: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley the 1500s, when an unknown printer took a galley the 1500s, when an unknown printer took a galley the 1500s, " },
             { link: "https://example.com/doc4", description: "Blockchain architecture" }
         ]
     },
@@ -51,9 +55,9 @@ export const projectsData: Project[] = [
         status: "In Progress",
         image: "https://img.freepik.com/premium-photo/futuristic-robot-cat-generative-ai_7023-70434.jpg?w=360",
         tags: ["Healthcare", "Mobile App"],
-        projectTeam: [
-            { level: "Senior", title: "Mobile Developer", description: "Builds app features", status: "Active" },
-            { level: "Junior", title: "QA Engineer", description: "Ensures app quality", status: "Active" }
+        roles: [
+            { level: "Senior", title: "Mobile Developer", description: "Builds app features", status: "Open" },
+            { level: "Junior", title: "QA Engineer", description: "Ensures app quality", status: "Open" }
         ],
         documentation: [
             { link: "https://example.com/doc5", description: "App requirements" },
@@ -71,9 +75,9 @@ export const projectsData: Project[] = [
         status: "Completed",
         image: "https://img.freepik.com/premium-photo/futuristic-robot-cat-generative-ai_7023-70434.jpg?w=360",
         tags: ["Energy", "Sustainability"],
-        projectTeam: [
-            { level: "Lead", title: "Energy Consultant", description: "Oversees energy solutions", status: "Completed" },
-            { level: "Mid-Level", title: "Data Analyst", description: "Analyzes energy data", status: "Completed" }
+        roles: [
+            { level: "Lead", title: "Energy Consultant", description: "Oversees energy solutions", status: "Closed" },
+            { level: "Mid-Level", title: "Data Analyst", description: "Analyzes energy data", status: "Closed" }
         ],
         documentation: [
             { link: "https://example.com/doc7", description: "Project outcomes" },
@@ -91,9 +95,9 @@ export const projectsData: Project[] = [
         status: "In Progress",
         image: "https://img.freepik.com/premium-photo/futuristic-robot-cat-generative-ai_7023-70434.jpg?w=360",
         tags: ["E-commerce", "Personalization", "AI"],
-        projectTeam: [
-            { level: "Senior", title: "Backend Developer", description: "Develops APIs", status: "Active" },
-            { level: "Mid-Level", title: "Data Engineer", description: "Handles data pipelines", status: "Active" }
+        roles: [
+            { level: "Senior", title: "Backend Developer", description: "Develops APIs", status: "Open" },
+            { level: "Mid-Level", title: "Data Engineer", description: "Handles data pipelines", status: "Open" }
         ],
         documentation: [
             { link: "https://example.com/doc9", description: "Backend architecture" },
@@ -111,9 +115,9 @@ export const projectsData: Project[] = [
         status: "In Progress",
         image: "https://img.freepik.com/premium-photo/futuristic-robot-cat-generative-ai_7023-70434.jpg?w=360",
         tags: ["IoT", "Smart Home"],
-        projectTeam: [
-            { level: "Lead", title: "IoT Specialist", description: "Coordinates device integrations", status: "Active" },
-            { level: "Junior", title: "Firmware Developer", description: "Builds device software", status: "Active" }
+        roles: [
+            { level: "Lead", title: "IoT Specialist", description: "Coordinates device integrations", status: "Open" },
+            { level: "Junior", title: "Firmware Developer", description: "Builds device software", status: "Open" }
         ],
         documentation: [
             { link: "https://example.com/doc11", description: "System architecture" },
@@ -128,12 +132,12 @@ export const projectsData: Project[] = [
         endDate: "2023-09-01",
         duration: "6 months",
         manager: "Grace Williams",
-        status: "Completed",
+        status: "Closed",
         image: "https://img.freepik.com/premium-photo/futuristic-robot-cat-generative-ai_7023-70434.jpg?w=360",
         tags: ["Cloud", "Optimization"],
-        projectTeam: [
-            { level: "Senior", title: "Cloud Architect", description: "Designs cloud solutions", status: "Completed" },
-            { level: "Mid-Level", title: "Performance Engineer", description: "Improves performance metrics", status: "Completed" }
+        roles: [
+            { level: "Senior", title: "Cloud Architect", description: "Designs cloud solutions", status: "Closed" },
+            { level: "Mid-Level", title: "Performance Engineer", description: "Improves performance metrics", status: "Closed" }
         ],
         documentation: [
             { link: "https://example.com/doc13", description: "Optimization techniques" },
@@ -151,9 +155,9 @@ export const projectsData: Project[] = [
         status: "Planned",
         image: "https://img.freepik.com/premium-photo/futuristic-robot-cat-generative-ai_7023-70434.jpg?w=360",
         tags: ["Marketing", "Analytics"],
-        projectTeam: [
-            { level: "Lead", title: "Marketing Analyst", description: "Defines metrics", status: "Planned" },
-            { level: "Junior", title: "Frontend Developer", description: "Develops UI", status: "Planned" }
+        roles: [
+            { level: "Lead", title: "Marketing Analyst", description: "Defines metrics", status: "Open" },
+            { level: "Junior", title: "Frontend Developer", description: "Develops UI", status: "Closed" }
         ],
         documentation: [
             { link: "https://example.com/doc15", description: "Dashboard wireframes" },
@@ -171,9 +175,9 @@ export const projectsData: Project[] = [
         status: "Planned",
         image: "https://img.freepik.com/premium-photo/futuristic-robot-cat-generative-ai_7023-70434.jpg?w=360",
         tags: ["Language", "API"],
-        projectTeam: [
-            { level: "Senior", title: "API Developer", description: "Develops translation API", status: "Planned" },
-            { level: "Mid-Level", title: "Linguist", description: "Provides language expertise", status: "Planned" }
+        roles: [
+            { level: "Senior", title: "API Developer", description: "Develops translation API", status: "Closed" },
+            { level: "Mid-Level", title: "Linguist", description: "Provides language expertise", status: "Closed" }
         ],
         documentation: [
             { link: "https://example.com/doc17", description: "API design document" },
@@ -191,9 +195,9 @@ export const projectsData: Project[] = [
         status: "In Progress",
         image: "https://img.freepik.com/premium-photo/futuristic-robot-cat-generative-ai_7023-70434.jpg?w=360",
         tags: ["Robotics", "Autonomous Systems"],
-        projectTeam: [
-            { level: "Lead", title: "Robotics Engineer", description: "Develops robot control systems", status: "Active" },
-            { level: "Mid-Level", title: "System Analyst", description: "Analyzes system performance", status: "Active" }
+        roles: [
+            { level: "Lead", title: "Robotics Engineer", description: "Develops robot control systems", status: "Open" },
+            { level: "Mid-Level", title: "System Analyst", description: "Analyzes system performance", status: "Open" }
         ],
         documentation: [
             { link: "https://example.com/doc19", description: "Robot specifications" },

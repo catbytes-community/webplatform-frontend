@@ -19,19 +19,20 @@ export interface Mentor extends User {
     links: mentorLinks
 }
 
-export type TeamMember = {
+export type ProjectRole = {
     level: string,
     title: string,
     description: string,
-    status: string
+    status: "Open" | "Closed" | "Applied",
 }
 
-export type Document = {
+export type Documentation = {
     link: string,
     description: string
 }
 
 export interface Project {
+    id?: number,
     name: string,
     summary: string,
     description: string,
@@ -42,6 +43,6 @@ export interface Project {
     status: string,
     image?: string,
     tags: string[],
-    projectTeam: TeamMember[],
-    documentation: Document[]
+    roles: ProjectRole[],
+    documentation: Documentation[],
 }
