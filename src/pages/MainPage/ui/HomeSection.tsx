@@ -1,3 +1,5 @@
+import { BecomeMentorButton } from "../../../features/Mentor/BecomeMentorButton";
+
 export const HomeSection = () => {
   return (
     <>
@@ -29,7 +31,7 @@ export const HomeSection = () => {
               </div>
 
               <div>
-                <p className="underline">VIEW NOW</p>
+                <BecomeMentorButton />
                 <span className="mx-2 text-gray-700">&rarr;</span>
               </div>
 

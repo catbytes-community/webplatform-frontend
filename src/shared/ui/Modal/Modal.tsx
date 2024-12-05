@@ -34,9 +34,9 @@ export const Modal: React.FC<ModalProps> = (props) => {
                 </div>
                 {/*body*/}
                 <div className="relative p-4 flex-auto">
-                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                  <div className="my-4 text-blueGray-500 text-lg leading-relaxed">
                     {props.children}
-                  </p>
+                  </div>
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-center p-4 rounded-b">

@@ -49,3 +49,11 @@ export interface Project {
     projectTeam: TeamMember[],
     documentation: Document[]
 }
+
+export interface BecomeMentorForm {
+    expertiseArea: Option[],
+    otherArea?: string,
+    language: Option[],
+    link: string,
+    experience: string
+}
