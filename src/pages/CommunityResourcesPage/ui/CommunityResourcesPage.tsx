@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ResourceCard from "../../../shared/ui/ResourceCard/ResourceCard";
 import { resources } from "./constants";
 import styles from "./CommunityResourcesPage.module.css";
-import Button from "../../Pomodoro/components/Button/Button";
+// import Button from "../../Pomodoro/components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import CrossIcon from "../../../shared/ui/icons/CrossIcon";
 
@@ -58,7 +58,7 @@ const CommunityResources: React.FC = () => {
       <div className={styles.filter}>
         <div className={styles.tags}>
           {displayedTags.map((tag) => (
-            <Button
+            <button
               key={tag}
               title={tag}
               activeClass={`${styles.tag} ${
