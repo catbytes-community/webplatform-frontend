@@ -3,6 +3,7 @@ import Button from "../../../shared/ui/Button/Button.tsx";
 import paw from "../../../shared/ui/images/mdi_paw 1.svg"
 import announcement from "../../../shared/ui/images/Light-Orange-24.png"
 import cat from "../../../shared/ui/images/cat.svg"
+import ArrowRightIcon from "../../../shared/ui/icons/ArrowRightIcon.tsx";
 
 function testFunction() {
   console.log("user click join us");
@@ -26,7 +27,13 @@ export const HomeSection = () => {
             <div
                 className={`${style.cardShadow} ${style.announcementContainer} rounded-3xl  mt-12 absolute right-5 -bottom-28`}>
               <p className="font-semibold text-2xl font-poppins w-44">View last announcements</p>
-              <img className="relative z-30" src={announcement} alt="Announcement"/>
+              <div className="flex items-end justify-between">
+                <img className="relative z-30" src={announcement} alt="Announcement"/>
+                <div className="flex gap-2 mb-8">
+                  <p className="underline font-montserrat font-bold text-gray-700">VIEW NOW</p>
+                  <ArrowRightIcon/>
+                </div>
+              </div>
               <img src={cat} alt="Cat" className={style.cat}/>
               <div className={style.blur}></div>
             </div>
