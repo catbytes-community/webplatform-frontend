@@ -4,6 +4,9 @@ import paw from "../../../shared/ui/images/mdi_paw 1.svg"
 import announcement from "../../../shared/ui/images/Light-Orange-24.png"
 import cat from "../../../shared/ui/images/cat.svg"
 import ArrowRightIcon from "../../../shared/ui/icons/ArrowRightIcon.tsx";
+import homeGroup from  "../../../shared/ui/images/home_group.png"
+import  home_study_buddy from "../../../shared/ui/images/home_study_buddy.png";
+import {Link} from "react-router-dom";
 
 function testFunction() {
   console.log("user click join us");
@@ -11,9 +14,9 @@ function testFunction() {
 
 export const HomeSection = () => {
   return (
-      <div className="px-10 py-3.5">
-        <div className="grid grid-cols-[1.7fr_1fr] gap-5">
-          <div className={`${style.cardShadow} ${style.leftContainer}  py-20 px-9 rounded-3xl mt-12 relative`}>
+      <div className="flex justify-center px-10 py-3.5">
+        <div className={`${style.main} grid grid-cols-[1.6fr_0.8fr] gap-5`}>
+          <div className={`${style.cardShadow} ${style.container} ${style.left}  py-20 px-9 rounded-3xl mt-12 relative`}>
             <div className="mb-12">
               <p className="text-5xl font-bold">Become a part of CatBytes</p>
               <p className="text-2xl font-montserrat font-medium mt-5">A woman’s community to grow together in IT
@@ -29,21 +32,39 @@ export const HomeSection = () => {
               <p className="font-semibold text-2xl font-poppins w-44">View last announcements</p>
               <div className="flex items-end justify-between">
                 <img className="relative z-30" src={announcement} alt="Announcement"/>
-                <div className="flex gap-2 mb-8">
-                  <p className="underline font-montserrat font-bold text-gray-700">VIEW NOW</p>
-                  <ArrowRightIcon/>
-                </div>
+                <Link className="z-50" to="/">
+                  <div className="flex gap-2 mb-8">
+                    <p className="underline font-montserrat font-bold text-gray-600">VIEW NOW</p>
+                    <ArrowRightIcon/>
+                  </div>
+                </Link>
               </div>
               <img src={cat} alt="Cat" className={style.cat}/>
               <div className={style.blur}></div>
             </div>
           </div>
 
-          <div className="p-5 bg-gradient-to-r from-[#FFFFFF] to-[#FFA6AD] rounded-lg">
-            <p>Find a study buddy to grow together</p>
-
-            <p className="underline">SEARCH NOW</p>
-            <span className="mx-2 text-gray-700">&rarr;</span>
+          <div className="flex flex-col gap-4">
+            <div className={`${style.cardShadow} ${style.container} flex flex-col p-6 rounded-3xl relative`}>
+              <p className="text-2xl font-semibold w-64 mb-6">Take part in projects and collaboration</p>
+              <img className="w-56" src={homeGroup} alt="Projects"/>
+              <Link className="self-end" to="/projects">
+                <div className="flex gap-2 mb-2">
+                  <p className="underline font-montserrat font-bold text-gray-500">LEARN MORE</p>
+                  <ArrowRightIcon/>
+                </div>
+              </Link>
+            </div>
+            <div className={`${style.cardShadow} ${style.container} flex flex-col p-6 rounded-3xl relative`}>
+              <p className="text-2xl font-semibold w-64 mb-2">Take part in projects and collaboration</p>
+              <img className="w-48 self-center" src={home_study_buddy} alt="Studdy Buddy"/>
+              <Link className="self-end" to="/study_groups">
+                <div className="flex gap-2 mb-2">
+                  <p className="underline font-montserrat font-bold text-gray-500">SEARCH NOW</p>
+                  <ArrowRightIcon/>
+                </div>
+              </Link>
+            </div>
           </div>
 
         </div>
