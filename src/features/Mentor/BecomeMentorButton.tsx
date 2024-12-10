@@ -1,26 +1,30 @@
-import { useEffect, useState } from "react";
-import s from "./BecomeMentorButton.module.css";
-import Select from "react-select";
+import { useState } from "react";
+// import s from "./BecomeMentorButton.module.css";
+// import Select from "react-select";
 import { Modal } from "../../shared/ui/Modal/Modal";
 import Button from "../../shared/ui/Button/Button";
-import { Fields, Languages } from "./DataOptions";
-import { SelectorsStyles } from "./SelectorStyles";
-import { Controller, useForm } from "react-hook-form";
-import { BecomeMentorForm, Option } from "../../app/types/global";
-import { ErrorMessage } from "@hookform/error-message";
+// import { Fields, Languages } from "./DataOptions";
+// import { SelectorsStyles } from "./SelectorStyles";
+import { useForm } from "react-hook-form";
+import { BecomeMentorForm } from "../../app/types/global";
+import { MentorForm } from "./MentorForm";
+// import { ErrorMessage } from "@hookform/error-message";
+
 
 export const BecomeMentorButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
-    register,
-    watch,
+    // register,
+    // watch,
     // reset,
-    control,
+    // control,
     handleSubmit,
-    formState: { errors },
-  } = useForm<BecomeMentorForm>();
+    // formState: { errors },
+  } = useForm<BecomeMentorForm>({
+    criteriaMode: "all",
+  });
 
-  const expertiseArea = watch("expertiseArea", []);
+  // const expertiseArea = watch("expertiseArea", []);
 
   const handleOpen = () => {
     setIsModalOpen(true);
@@ -39,9 +43,9 @@ export const BecomeMentorButton = () => {
   //   reset();
   // }, [reset])
 
-  const isOtherExpertiseAreaSelected = (option: Option): boolean => {
-    return option.value === "other";
-  };
+  // const isOtherExpertiseAreaSelected = (option: Option): boolean => {
+  //   return option.value === "other";
+  // };
 
   return (
     <>
@@ -59,7 +63,8 @@ export const BecomeMentorButton = () => {
             onClose={handleClose}
             children={
               <>
-                <form className="max-w-md mx-auto">
+              <MentorForm />
+                {/* <form className="max-w-md mx-auto">
                   <label className={s.label}>Areas of expertise</label>
                   <Controller
                     name="expertiseArea"
@@ -116,12 +121,12 @@ export const BecomeMentorButton = () => {
                     })}
                     className={s.input}
                   ></textarea>
-                  <ErrorMessage errors={errors} name="singleErrorInput" />
-
-                  {/* {errors.experience && (
-                    <p role="alert">{errors.experience?.message}</p>
-                  )} */}
-                </form>
+                  <ErrorMessage
+                    as="p"
+                    errors={errors}
+                    name="experience"
+                  />
+                </form> */}
               </>
             }
           />
