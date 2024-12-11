@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ResourceCard from "../../../shared/ui/ResourceCard/ResourceCard";
 import { resources } from "./constants";
 import styles from "./CommunityResourcesPage.module.css";
-// import Button from "../../Pomodoro/components/Button/Button";
+import Button from "../../../shared/ui/Button/Button.tsx";
 import { useNavigate } from "react-router-dom";
 import CrossIcon from "../../../shared/ui/icons/CrossIcon";
 
