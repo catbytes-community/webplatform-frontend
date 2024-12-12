@@ -1,0 +1,81 @@
+.card {
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 123px;
+    min-width: 408px;
+    justify-content: space-between;
+  }
+  
+  .title {
+    color: #000000;   
+    font-size: 16px;
+  }
+  
+  .description {
+    color: #000000;
+    font-size: 12px;
+
+  }
+  
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .tag {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin: 0 4px 4px 0;
+    color: #000000;
+  }
+  
+  .link {
+    color: #000000;
+    text-decoration: underline;
+    display: block;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
+  }
+  
+  .author {
+    color: #000000;
+  }
+  
+  .actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .likeButton {
+    background-color: #ffffff; 
+    color: #000000;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 0 0 0;
+  }
+  
+  .likeButton:hover {
+    background-color: #f7d2f3; 
+  }
+  
+  .liked {
+    background-color: #f7d2f3; 
+  }
+  
+  .likeCount {
+    margin-left: 10px;
+  }

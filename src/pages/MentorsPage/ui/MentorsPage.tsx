@@ -19,7 +19,7 @@ export const MentorsPage = () => {
 
     return (
         <div className={s.mentorsContainer}>
-            <h1 className="text-black text-xl my-10">Our Mentors</h1>
+            <h1 className="text-black font-montserrat text-xl my-10">Our Mentors</h1>
             <FilterMentors mentors={mentors} setFilteredMentors={setFilteredMentors} />
             <MentorsList mentors={filteredMentors ? filteredMentors : mentors} />
         </div>

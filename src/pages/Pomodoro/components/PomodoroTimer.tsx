@@ -1,11 +1,11 @@
 // import React from "react";
 import {CountdownCircleTimer} from "react-countdown-circle-timer";
-import {children} from "../../Logic/Settings.tsx";
+import {children} from "../lib/Settings.tsx";
 
 // animate is true or false
 // children is the animation in center of the circle
 
-const MainAnimation = ({timer, animate}: {timer:number, animate:boolean}) => {
+const PomodoroTimer = ({timer, animate}: {timer:number, animate:boolean}) => {
     return (
         <CountdownCircleTimer
             isPlaying={animate}
@@ -25,4 +25,4 @@ const MainAnimation = ({timer, animate}: {timer:number, animate:boolean}) => {
     )
 }
 
-export {MainAnimation};
+export {PomodoroTimer};
