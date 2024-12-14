@@ -12,6 +12,7 @@ export default function Filters({
   isEmptyFilter: any;
 }) {
   const [filteredAds, setFilteredAds] = useState<IAd[]>(ads);
+  const TopicDropdownRef = useRef<HTMLDivElement | null>(null);
   const LevelDropdownRef = useRef<HTMLDivElement | null>(null);
   const DaysDropdownRef = useRef<HTMLDivElement | null>(null);
   const TimesDropdownRef = useRef<HTMLDivElement | null>(null);
@@ -31,13 +32,18 @@ export default function Filters({
   }
 
   function filter() {
+    const topicCheckboxes = document.getElementsByName('topic');
     const levelCheckboxes = document.getElementsByName('level');
     const dayCheckboxes = document.getElementsByName('days');
     const timeCheckboxes = document.getElementsByName('times');
     
+    const checkedTopics: string[] = [];
     const checkedLevels: string[] = [];
     const checkedDays: string[] = [];
     const checkedTimes: string[] = [];
+
+    for (let checkbox of topicCheckboxes)
+      if (checkbox.checked) checkedTopics.push(checkbox.value);
 
     for (let checkbox of levelCheckboxes)
       if (checkbox.checked) checkedLevels.push(checkbox.value);
@@ -47,12 +53,13 @@ export default function Filters({
     
     for (let checkbox of timeCheckboxes)
       if (checkbox.checked) checkedTimes.push(checkbox.value)
-    
+    console.log(checkedTopics)
     const morning = ["06.00", "07.00", "08.00", "09.00", "10.00", "11.00"];
     const day = ["12.00", "13.00", "14.00", "15.00", "16.00", "17.00"];
     const evening = ["18.00", "19.00", "20.00", "21.00", "22.00", "23.00"];
     
     const filtered = ads.filter((ad) => {
+      const matchesTopics = !checkedTopics.length || checkedTopics.includes(ad.studyTopic);
       const matchesLevel = !checkedLevels.length || checkedLevels.includes(ad.level);
       const matchesDay = !checkedDays.length || checkedDays.some((check) => ad.studyTime.has(check));
       const matchesTime = !checkedTimes.length || Array.from(ad.studyTime.values()).some((time) => {
@@ -61,7 +68,7 @@ export default function Filters({
       const isEvening = checkedTimes.includes("Evening") && evening.includes(time.from);
       return isMorning || isDay || isEvening;
     });
-    return matchesLevel && matchesDay && matchesTime;
+    return matchesTopics && matchesLevel && matchesDay && matchesTime;
   });
       setFilteredAds(filtered);
       isEmptyFilter(!Boolean(filtered.length));
@@ -90,10 +97,97 @@ export default function Filters({
       <button onClick={cancelFilters} className={`${style.filterButton_active} ${style.filterButton}`}>
         All
       </button>
-      <button className={style.filterButton}>Study topic ▼</button>
+      <button
+        onClick={() => toggleDropdown(TopicDropdownRef)}
+        className={`${style.filterButton} ${style.filterTopicButton}`}>Study topic ▼</button>
+      <div
+        ref={TopicDropdownRef}
+        className={`${style.filterDropdown} ${style.filterTopicDropdown}`}
+      >
+        <div className="flex gap-2">
+          <input
+            onChange={filter}
+            type="checkbox"
+            id="Webdev"
+            name="topic"
+            value="Web development"
+          />
+          <label htmlFor="Webdev">Web development</label>
+        </div>
+        <div className="flex gap-2">
+          <input
+            onChange={filter}
+            type="checkbox"
+            id="Gamedev"
+            name="topic"
+            value="Game development"
+          />
+          <label htmlFor="Gamedev">Game development</label>
+        </div>
+        <div className="flex gap-2">
+          <input
+            onChange={filter}
+            type="checkbox"
+            id="Mobiledev"
+            name="topic"
+            value="Mobile development"
+          />
+          <label htmlFor="Mobiledev">Mobile development</label>
+        </div>
+        <div className="flex gap-2">
+          <input
+            onChange={filter}
+            type="checkbox"
+            id="Frontend"
+            name="topic"
+            value="Frontend"
+          />
+          <label htmlFor="Frontend">Frontend</label>
+        </div>
+        <div className="flex gap-2">
+          <input
+            onChange={filter}
+            type="checkbox"
+            id="Backend"
+            name="topic"
+            value="Backend"
+          />
+          <label htmlFor="Backend">Backend</label>
+        </div>
+        <div className="flex gap-2">
+          <input
+            onChange={filter}
+            type="checkbox"
+            id="Design"
+            name="topic"
+            value="Web design"
+          />
+          <label htmlFor="Design">Web design</label>
+        </div>
+        <div className="flex gap-2">
+          <input
+            onChange={filter}
+            type="checkbox"
+            id="Testing"
+            name="topic"
+            value="Software testing"
+          />
+          <label htmlFor="Testing">Software testing</label>
+        </div>
+        <div className="flex gap-2">
+          <input
+            onChange={filter}
+            type="checkbox"
+            id="Other"
+            name="topic"
+            value="Other"
+          />
+          <label htmlFor="Other">Other</label>
+        </div>
+      </div>
       <button
         onClick={() => toggleDropdown(LevelDropdownRef)}
-        className={style.filterButton}
+        className={`${style.filterButton} ${style.filterLevelButton}`}
       >
         Level ▼
       </button>
@@ -144,7 +238,7 @@ export default function Filters({
       </div>
       <button
         onClick={() => toggleDropdown(DaysDropdownRef)}
-        className={style.filterButton}
+        className={`${style.filterButton} ${style.filterDaysButton}`}
       >
         Study days ▼
       </button>
@@ -225,7 +319,7 @@ export default function Filters({
       </div>
       <button
         onClick={() => toggleDropdown(TimesDropdownRef)}
-        className={style.filterButton}
+        className={`${style.filterButton} ${style.filterTimesButton}`}
       >
         Study times ▼
       </button>

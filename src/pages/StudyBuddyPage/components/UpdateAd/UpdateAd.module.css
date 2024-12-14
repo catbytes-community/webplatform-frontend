@@ -1,4 +1,4 @@
-.createAd {
+.updateAd {
   position: absolute;
   z-index: 100;
   background-color: white;
@@ -9,12 +9,12 @@
   transform: translateX(-50%);
   display: none;
 }
-.createAdActive {
+.updateAdActive {
   display: block;
 }
-.createAd input:not(input[type="time"]),
-.createAd select,
-.createAd textarea {
+.updateAd input:not(input[type="time"]),
+.updateAd select,
+.updateAd textarea {
   border: 1px solid black;
   border-radius: 5px;
 }

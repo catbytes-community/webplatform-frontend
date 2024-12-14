@@ -21,7 +21,7 @@ export const StudyBuddyPage = () => {
     {
       id: 1,
       author: "Jane Doe",
-      studyTopic: "JavaScript",
+      studyTopic: "Backend",
       level: "Beginner",
       description: "I want to study js together",
       studyPeriodFrom: "2024-12-01",
@@ -34,11 +34,12 @@ export const StudyBuddyPage = () => {
     {
       id: 2,
       author: "Ivan Ivanov",
-      studyTopic: "Machine Learning with Python",
+      studyTopic: "Other",
       level: "Medium",
-      description: "Medium level, can do basic models",
+      description:
+        "Machine Learning with Python. Medium level, can do basic models",
       studyPeriodFrom: "2024-10-28",
-      studyPeriodTo: "2024-12-15",
+      studyPeriodTo: "2024-12-25",
       studyTime: new Map([["Saturday", { from: "13.00", to: "15.00" }]]),
     },
     {
@@ -61,65 +62,12 @@ export const StudyBuddyPage = () => {
   const [ads, setAds] = useState<IAd[]>([]);
   const [filteredAds, setFilteredAds] = useState<IAd[]>([]);
   const [isEmptyFilter, setIsEmptyFilter] = useState(false);
-  const [isModalShown, setIsModalShown] = useState(false);
+  const [isCreateAdShown, setIsCreateAdShown] = useState(false);
 
   useEffect(() => {
     setAds(adsDummy);
   }, []);
 
-  function getTimeDifference(startTime: string, endTime: string) {
-    const [startHours, startMinutes] = startTime.split(".").map(Number);
-    const [endHours, endMinutes] = endTime.split(".").map(Number);
-    const start = new Date();
-    start.setHours(startHours, startMinutes, 0);
-    const end = new Date();
-    end.setHours(endHours, endMinutes, 0);
-    let diff = (end.getTime() - start.getTime()) / 1000;
-    const hours = Math.floor(diff / 3600);
-    diff %= 3600;
-    const minutes = Math.floor(diff / 60);
-    return minutes !== 0 ? `${hours}.${minutes}` : `${hours}.00`;
-  }
-
-  function getTimeSum(times: string[]) {
-    let timesInMs = times.map((time) => {
-      let [hours, minutes] = time.split(".").map(Number);
-      const milliseconds = [hours * 3600 * 1000, minutes * 60 * 1000];
-      return milliseconds;
-    });
-    const totalMilliseconds = timesInMs
-      .reduce((acc, current) => {
-        return acc.map((num, id) => num + current[id]);
-      })
-      .map((value) => value / 1000);
-    let formattedHours = totalMilliseconds[0] / 3600;
-    let formattedMins = totalMilliseconds[1] / 60;
-    if (formattedMins >= 60) {
-      formattedHours += Math.floor(formattedMins / 60);
-      formattedMins -= 60 * Math.floor(formattedMins / 60);
-    }
-    return formattedMins !== 0
-      ? `${formattedHours}.${
-          formattedMins < 10 ? `0${formattedMins}` : formattedMins
-        }`
-      : `${formattedHours}`;
-  }
-
-  function getDaysDifference(startDay: Date, endDay: Date) {
-    const diffInTime = startDay.getTime() - endDay.getTime();
-    return Math.floor(diffInTime / (1000 * 3600 * 24));
-  }
-
-  function formatDate(date: string) {
-    const [year, month, day] = date.split("-");
-    return `${day}.${month}.${year}`;
-  }
-
-  function getSchedule(schedule: any[]) {
-    const times = schedule.map(([day, time]) => [time.from, time.to]);
-    const timesDiff = times.map((time) => getTimeDifference(time[0], time[1]));
-    return getTimeSum(timesDiff);
-  }
   function handleFilteredAds(filtered: IAd[]) {
     setFilteredAds(filtered);
   }
@@ -127,12 +75,12 @@ export const StudyBuddyPage = () => {
     setIsEmptyFilter(filtered);
   }
 
-  function showModal() {
-    setIsModalShown(true);
+  function showCreateModal() {
+    setIsCreateAdShown(true);
   }
 
-  function handleShowModal(shown: boolean) {
-    setIsModalShown(shown);
+  function handleShowCreateAd(shown: boolean) {
+    setIsCreateAdShown(shown);
   }
 
   return (
@@ -142,7 +90,7 @@ export const StudyBuddyPage = () => {
         <Button
           label="+ Create Study Group"
           btnType={ButtonsEnum.PRIMARY}
-          onClick={showModal}
+          onClick={showCreateModal}
         />
       </div>
       <Filters
@@ -154,35 +102,10 @@ export const StudyBuddyPage = () => {
         {isEmptyFilter ? (
           <div className="text-center text-xl">No ads were found :(</div>
         ) : (
-          (filteredAds.length ? filteredAds : ads).map((ad) => (
-            <Ad
-              key={ad.id}
-              id={ad.id}
-              author={ad.author}
-              studyTopic={ad.studyTopic}
-              level={ad.level}
-              description={ad.description}
-              studyPeriodFrom={formatDate(ad.studyPeriodFrom)}
-              studyPeriodTo={formatDate(ad.studyPeriodTo)}
-              daysLeft={getDaysDifference(
-                new Date(ad.studyPeriodTo),
-                new Date()
-              )}
-              studySchedule={getSchedule(Array.from(ad.studyTime.entries()))}
-              studyTime={Array.from(ad.studyTime.entries()).map(
-                ([day, time]) => (
-                  <div key={day}>
-                    <div>{`${day}`}</div>
-                    <div>|</div>
-                    <div>{` ${time.from} –  ${time.to}`}</div>
-                  </div>
-                )
-              )}
-            />
-          ))
+          (filteredAds.length ? filteredAds : ads).map((ad) => <Ad key={ad.id} ad={ad} />)
         )}
       </div>
-      {isModalShown && <CreateAd setIsActive={handleShowModal}/>}
+      {isCreateAdShown && <CreateAd setIsActive={handleShowCreateAd} />}
     </div>
   );
 };

@@ -3,6 +3,7 @@
   border-radius: 10px;
   padding: 15px 20px;
   font-size: 12px;
+  position: relative;
 }
 .buttons button{
     height: 35px;
@@ -14,4 +15,35 @@
 .studyTime > div {
   display: grid;
   grid-template-columns: 65px 15px 100px;
+}
+
+.additionalMenu{
+  position: absolute;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 8px;
+  anchor-name: --addMenu;
+}
+
+.circle{
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 100px;
+  background-color: rgb(89, 89, 89);
+}
+.ownerManage{
+  position: absolute;
+  display: none;
+  position-anchor: --addMenu;
+  left: anchor(right);
+  top: anchor(top);
+  transform: translateY(-25%);
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 8px 20px 8px 8px;
+  gap: 5px;
 }

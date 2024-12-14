@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button, { ButtonsEnum } from "../../../../shared/ui/Button/Button";
-import style from "./CreateAd.module.css";
+import style from "./UpdateAd.module.css";
 import ConfirmModal from "../../../../shared/ui/ConfirmModal/ConfirmModal";
+import { IAd } from "../../ui/StudyBuddyPage";
+import moment from "moment";
 
-export default function CreateAd({ setIsActive }: { setIsActive: any }) {
+export default function UpdateAd({
+  setIsActive,
+  ad,
+}: {
+  setIsActive: any;
+  ad: IAd;
+}) {
   const today = new Date().toISOString().slice(0, 10);
   const shortSchedule = {
     Monday: "mon",
@@ -23,15 +31,61 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
     "Saturday",
     "Sunday",
   ];
-  const [studyTopic, setStudyTopic] = useState("Web development");
-  const [description, setDescription] = useState("");
-  const [level, setLevel] = useState("Zero experience");
-  const [isStudyPeriodContinuous, setStudyPeriodContinuous] = useState(false);
-  const [studyPeriodFrom, setStudyPeriodFrom] = useState("");
-  const [studyPeriodTo, setStudyPeriodTo] = useState("");
-  const [schedule, setSchedule] = useState<Map<string, object>>(new Map([]));
+  const [studyTopic, setStudyTopic] = useState(ad.studyTopic);
+  const [description, setDescription] = useState(ad.description);
+  const [level, setLevel] = useState(ad.level);
+  const [studyPeriodFrom, setStudyPeriodFrom] = useState(ad.studyPeriodFrom);
+  const [studyPeriodTo, setStudyPeriodTo] = useState(ad.studyPeriodTo);
+  const [isStudyPeriodContinuous, setStudyPeriodContinuous] = useState(
+    !Boolean(ad.studyPeriodTo)
+  );
+  const [schedule, setSchedule] = useState<Map<string, object>>(ad.studyTime);
   const [isActive, setActive] = useState(true);
   const [isConfirmShown, setIsConfirmShown] = useState(false);
+  const weekdaysRef = useRef<HTMLElement[]>([]);
+
+  useEffect(() => {
+    setStudyTopic(ad.studyTopic);
+    setDescription(ad.description);
+    setLevel(ad.level);
+    setStudyPeriodFrom(ad.studyPeriodFrom);
+    setStudyPeriodTo(ad.studyPeriodTo);
+    setStudyPeriodContinuous(!Boolean(ad.studyPeriodTo));
+    setSchedule(ad.studyTime);
+    weekdaysRef.current = Array.from(document.getElementsByName("weekday"));
+  }, [
+    ad.studyTopic,
+    ad.description,
+    ad.level,
+    ad.studyPeriodFrom,
+    ad.studyPeriodTo,
+    ad.studyTime,
+  ]);
+
+  useEffect(() => {
+    weekdaysRef.current.forEach((weekday) => {
+      if (weekday.checked) {
+        const shortForm = shortSchedule[weekday.value];
+        const dayTimeContainer = document.getElementById(shortForm);
+        if (dayTimeContainer) {
+          dayTimeContainer.style.display = "flex";
+          const times = dayTimeContainer.getElementsByTagName("input");
+          if (times[0]) {
+            times[0].value = moment(
+              ad.studyTime.get(weekday.value)?.from,
+              "HH.mm"
+            ).format("HH:mm");
+          }
+          if (times[1]) {
+            times[1].value = moment(
+              ad.studyTime.get(weekday.value)?.to,
+              "HH.mm"
+            ).format("HH:mm");
+          }
+        }
+      }
+    });
+  }, [ad.studyTime]);
 
   function handleCancel(e: MouseEvent) {
     e.preventDefault();
@@ -44,6 +98,12 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
       setIsActive(false);
       setActive(false);
     } else setIsConfirmShown(false);
+  }
+
+  function handleUpdate(e: MouseEvent) {
+    e.preventDefault();
+    setIsActive(false);
+    setActive(false);
   }
 
   function handleOnChangeStudyTopic(topic: string) {
@@ -86,14 +146,13 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
       dayTimeContainer.style.display = "none";
     }
   }
-
   function handleOnChangeTimeFrom(timeFrom: HTMLInputElement) {
     const dayShort = timeFrom.id.replace("From", "");
     const day: string =
       Object.keys(shortSchedule).find(
         (key) => shortSchedule[key] === dayShort
       ) || "";
-    setSchedule((prevSchedule = new Map()) => {
+    setSchedule((prevSchedule) => {
       const newSchedule = new Map(prevSchedule);
       if (newSchedule.has(day)) {
         newSchedule.set(day, { from: timeFrom.value, to: "" });
@@ -101,14 +160,13 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
       return newSchedule;
     });
   }
-
   function handleOnChangeTimeTo(timeTo: HTMLInputElement) {
     const dayShort = timeTo.id.replace("To", "");
     const day: string =
       Object.keys(shortSchedule).find(
         (key) => shortSchedule[key] === dayShort
       ) || "";
-    setSchedule((prevSchedule = new Map()) => {
+    setSchedule((prevSchedule) => {
       const newSchedule = new Map(prevSchedule);
       if (newSchedule.has(day)) {
         const time = newSchedule.get(day);
@@ -119,7 +177,10 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
   }
 
   return (
-    <div className={`${style.createAd} ${isActive && style.createAdActive}`}>
+    <div
+      id="updateAd"
+      className={`${style.updateAd} ${isActive && style.updateAdActive}`}
+    >
       {isConfirmShown && (
         <ConfirmModal
           getConfirmation={confirm}
@@ -136,6 +197,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
             id="studyTopic"
             required
             onChange={(e) => handleOnChangeStudyTopic(e.target.value)}
+            value={ad.studyTopic}
           >
             <option value="Web development">Web development</option>
             <option value="Game development">Game development</option>
@@ -152,6 +214,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
           <textarea
             id="description"
             onChange={(e) => handleOnChangeDescription(e.target.value)}
+            value={ad.description}
           ></textarea>
         </div>
         <div className="flex flex-col">
@@ -162,6 +225,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
             id="level"
             required
             onChange={(e) => handleOnChangeLevel(e.target.value)}
+            value={ad.level}
           >
             <option value="Zero experience">Zero experience</option>
             <option value="Beginner">Beginner</option>
@@ -180,6 +244,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
             required
             min={today}
             onChange={(e) => handleOnChangeStudyPeriodFrom(e.target.value)}
+            value={ad.studyPeriodFrom}
           />
         </div>
         {!isStudyPeriodContinuous && (
@@ -193,6 +258,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
               required
               min={today}
               onChange={(e) => handleOnChangeStudyPeriodTo(e.target.value)}
+              value={studyPeriodTo}
             />
           </div>
         )}
@@ -204,6 +270,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
             onChange={(e) =>
               handleOnChangeStudyPeriodContinuous(e.target.checked)
             }
+            checked={isStudyPeriodContinuous}
           />
           <label htmlFor="continuous">Continuous</label>
         </div>
@@ -221,6 +288,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                   value="Monday"
                   id="monday"
                   onChange={(e) => handleOnChangeSchedule(e.target)}
+                  checked={schedule.has("Monday")}
                 />
                 <label htmlFor="monday">Monday</label>
               </div>
@@ -242,7 +310,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                     id="monTo"
                     min={
                       document.getElementById("monFrom") &&
-                      document.getElementById("monFrom").value
+                      document.getElementById("monFrom")?.value
                     }
                     onChange={(e) => handleOnChangeTimeTo(e.target)}
                   />
@@ -257,6 +325,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                   value="Tuesday"
                   id="tuesday"
                   onChange={(e) => handleOnChangeSchedule(e.target)}
+                  checked={schedule.has("Tuesday")}
                 />
                 <label htmlFor="tuesday">Tuesday</label>
               </div>
@@ -278,7 +347,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                     id="tueTo"
                     min={
                       document.getElementById("tueFrom") &&
-                      document.getElementById("tueFrom").value
+                      document.getElementById("tueFrom")?.value
                     }
                     onChange={(e) => handleOnChangeTimeTo(e.target)}
                   />
@@ -293,6 +362,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                   value="Wednesday"
                   id="wednesday"
                   onChange={(e) => handleOnChangeSchedule(e.target)}
+                  checked={schedule.has("Wednesday")}
                 />
                 <label htmlFor="wednesday">Wednesday</label>
               </div>
@@ -314,7 +384,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                     id="wedTo"
                     min={
                       document.getElementById("wedFrom") &&
-                      document.getElementById("wedFrom").value
+                      document.getElementById("wedFrom")?.value
                     }
                     onChange={(e) => handleOnChangeTimeTo(e.target)}
                   />
@@ -329,6 +399,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                   value="Thursday"
                   id="thursday"
                   onChange={(e) => handleOnChangeSchedule(e.target)}
+                  checked={schedule.has("Thursday")}
                 />
                 <label htmlFor="thursday">Thursday</label>
               </div>
@@ -350,7 +421,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                     id="thurTo"
                     min={
                       document.getElementById("thurTo") &&
-                      document.getElementById("thurTo").value
+                      document.getElementById("thurTo")?.value
                     }
                     onChange={(e) => handleOnChangeTimeTo(e.target)}
                   />
@@ -365,6 +436,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                   value="Friday"
                   id="friday"
                   onChange={(e) => handleOnChangeSchedule(e.target)}
+                  checked={schedule.has("Friday")}
                 />
                 <label htmlFor="friday">Friday</label>
               </div>
@@ -386,7 +458,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                     id="friTo"
                     min={
                       document.getElementById("friFrom") &&
-                      document.getElementById("friFrom").value
+                      document.getElementById("friFrom")?.value
                     }
                     onChange={(e) => handleOnChangeTimeTo(e.target)}
                   />
@@ -401,6 +473,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                   value="Saturday"
                   id="saturday"
                   onChange={(e) => handleOnChangeSchedule(e.target)}
+                  checked={schedule.has("Saturday")}
                 />
                 <label htmlFor="saturday">Saturday</label>
               </div>
@@ -422,7 +495,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                     id="satTo"
                     min={
                       document.getElementById("satFrom") &&
-                      document.getElementById("satFrom").value
+                      document.getElementById("satFrom")?.value
                     }
                     onChange={(e) => handleOnChangeTimeTo(e.target)}
                   />
@@ -437,6 +510,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                   value="Sunday"
                   id="sunday"
                   onChange={(e) => handleOnChangeSchedule(e.target)}
+                  checked={schedule.has("Sunday")}
                 />
                 <label htmlFor="sunday">Sunday</label>
               </div>
@@ -458,7 +532,7 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
                     id="sunTo"
                     min={
                       document.getElementById("sunFrom") &&
-                      document.getElementById("sunFrom").value
+                      document.getElementById("sunFrom")?.value
                     }
                     onChange={(e) => handleOnChangeTimeTo(e.target)}
                   />
@@ -471,13 +545,13 @@ export default function CreateAd({ setIsActive }: { setIsActive: any }) {
         <div className="mt-2 flex gap-2">
           <Button
             btnType={ButtonsEnum.SECONDARY}
-            onClick={(e: MouseEvent) => handleCancel(e)}
+            onClick={(e) => handleCancel(e)}
             label="Cancel"
           />
           <Button
             btnType={ButtonsEnum.PRIMARY}
-            onClick={() => {}}
-            label="Create"
+            onClick={(e) => handleUpdate(e)}
+            label="Update"
           />
         </div>
       </form>
