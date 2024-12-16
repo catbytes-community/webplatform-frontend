@@ -18,6 +18,7 @@ class ErrorBoundary
     static getDerivedStateFromError(error: Error) {
         // Update state so the next render will show the fallback UI.
 		// Обновить состояние с тем, чтобы следующий рендер показал запасной UI.
+        console.log(error);
         return { hasError: true };
     }
 
