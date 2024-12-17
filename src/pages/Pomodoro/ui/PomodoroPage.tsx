@@ -75,4 +75,5 @@ export const PomodoroPage = () => {
 
         </div>
     );
+
 }
