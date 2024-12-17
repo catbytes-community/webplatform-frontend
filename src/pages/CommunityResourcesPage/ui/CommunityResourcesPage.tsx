@@ -60,11 +60,11 @@ const CommunityResources: React.FC = () => {
           {displayedTags.map((tag) => (
             <Button
               key={tag}
-              title={tag}
-              activeClass={`${styles.tag} ${
-                selectedTags.includes(tag) ? styles.selected : ""
+              label={tag}
+              btnType={`${
+                selectedTags.includes(tag) ? "primary_btn" : "secondary_btn"
               }`}
-              _callback={() => handleTagClick(tag)}
+              onClick={() => handleTagClick(tag)}
             />
           ))}
         </div>
