@@ -7,7 +7,7 @@ import { AddProjectPage } from "../../../pages/AddProjectPage";
 import { StudyBuddyPage } from "../../../pages/StudyBuddyPage";
 import { ApplicationsPage } from "../../../pages/ApplicationsPage";
 import { LoginPage } from "../../../pages/LoginPage";
-import {PomodoroPage} from "../../../pages/Pomodoro";
+import {Pomodoro} from "../../../pages/Pomodoro";
 import {CreateResourcePage} from "../../../pages/CreateResourcePage";
 import {CommunityResources} from "../../../pages/CommunityResourcesPage";
 import {AllProjectsPage} from "../../../pages/AllProjectsPage";
@@ -80,7 +80,7 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   },
   [AppRoutes.POMODORO]: {
     path: RoutePath.pomodoro,
-    element: <PomodoroPage />,
+    element: <Pomodoro />,
   },
   [AppRoutes.COMMUNITY_RESOURCES]: {
     path: RoutePath.community_resources,
