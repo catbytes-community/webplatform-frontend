@@ -58,7 +58,7 @@ const CommunityResources: React.FC = () => {
       <div className={styles.filter}>
         <div className={styles.tags}>
           {displayedTags.map((tag) => (
-            <Button
+            <button
               key={tag}
               label={tag}
               btnType={`${
