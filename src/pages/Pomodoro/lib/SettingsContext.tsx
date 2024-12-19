@@ -1,12 +1,11 @@
 import {createContext, useState} from "react";
-// import style from "../Logic/Settings.module.css";
 
-export const SettingContext = createContext({});
+export const SettingContext = createContext();
 
 const SettingsContextProvider = (props) => {
 
     const [pomodoro, setPomodoro] = useState(0);
-    // this if from the settings page
+    // this is from the settings page
     const [executing, setExecuting] = useState({});
     const [startAnimate, setStartAnimate] = useState(false);
 
@@ -23,24 +22,24 @@ const SettingsContextProvider = (props) => {
     }
 
     function restartTimer() {
-
-        //NOT WORKING
-
-        const initialTime = pomodoro
-        console.log(initialTime)
-
-        setPomodoro(initialTime);
-        setCurrentTimer(initialTime)
-
+        if (!executing.active) {
+            console.warn("No active state defined to restart the timer!");
+            return;
+        }
+        const currentActive = executing.active;
+        updateExecute({ ...executing, active: null }); // temporary reset
+        setTimeout(() => {
+            updateExecute({ ...executing, active: currentActive });
+            setStartAnimate(false);
+        }, 0);
     }
-
 
     const SettingBtn = () => {
         setExecuting({});
         setPomodoro(0);
     }
 
-    const updateExecute = (updatedSettings) => {
+    const updateExecute = updatedSettings => {
         setExecuting(updatedSettings);
         setTimerTime(updatedSettings);
     }
@@ -54,7 +53,7 @@ const SettingsContextProvider = (props) => {
     }
 
     const setTimerTime = evaluate => {
-        // active is from SettingsPomodoro
+        // active is from Settings
         switch (evaluate.active){
             case "work":
                 setPomodoro(evaluate.work);
@@ -95,7 +94,6 @@ const SettingsContextProvider = (props) => {
             {props.children}
         </SettingContext.Provider>
     )
-
 }
 
 export default SettingsContextProvider;
