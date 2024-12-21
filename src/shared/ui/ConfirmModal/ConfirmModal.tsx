@@ -5,7 +5,7 @@ export default function ConfirmModal({
   getConfirmation,
   text,
 }: {
-  getConfirmation: any;
+  getConfirmation: (value: boolean) => void;
   text: string;
 }) {
   return (
