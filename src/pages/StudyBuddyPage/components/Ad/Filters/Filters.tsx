@@ -5,11 +5,11 @@ import { IAd } from "../../../ui/StudyBuddyPage";
 export default function Filters({
   ads,
   onFilter,
-  isEmptyFilter,
+  isAdsFound,
 }: {
   ads: IAd[];
-  onFilter: any;
-  isEmptyFilter: any;
+  onFilter: (value: IAd[]) => void;
+  isAdsFound: (value: boolean) => void;
 }) {
   const [filteredAds, setFilteredAds] = useState<IAd[]>(ads);
   const TopicDropdownRef = useRef<HTMLDivElement | null>(null);
@@ -32,11 +32,11 @@ export default function Filters({
   }
 
   function filter() {
-    const topicCheckboxes = document.getElementsByName('topic');
-    const levelCheckboxes = document.getElementsByName('level');
-    const dayCheckboxes = document.getElementsByName('days');
-    const timeCheckboxes = document.getElementsByName('times');
-    
+    const topicCheckboxes = document.getElementsByName("topic");
+    const levelCheckboxes = document.getElementsByName("level");
+    const dayCheckboxes = document.getElementsByName("days");
+    const timeCheckboxes = document.getElementsByName("times");
+
     const checkedTopics: string[] = [];
     const checkedLevels: string[] = [];
     const checkedDays: string[] = [];
@@ -47,59 +47,70 @@ export default function Filters({
 
     for (let checkbox of levelCheckboxes)
       if (checkbox.checked) checkedLevels.push(checkbox.value);
-    
+
     for (let checkbox of dayCheckboxes)
       if (checkbox.checked) checkedDays.push(checkbox.value);
-    
+
     for (let checkbox of timeCheckboxes)
-      if (checkbox.checked) checkedTimes.push(checkbox.value)
-    console.log(checkedTopics)
+      if (checkbox.checked) checkedTimes.push(checkbox.value);
+    
     const morning = ["06.00", "07.00", "08.00", "09.00", "10.00", "11.00"];
     const day = ["12.00", "13.00", "14.00", "15.00", "16.00", "17.00"];
     const evening = ["18.00", "19.00", "20.00", "21.00", "22.00", "23.00"];
-    
+
     const filtered = ads.filter((ad) => {
-      const matchesTopics = !checkedTopics.length || checkedTopics.includes(ad.studyTopic);
-      const matchesLevel = !checkedLevels.length || checkedLevels.includes(ad.level);
-      const matchesDay = !checkedDays.length || checkedDays.some((check) => ad.studyTime.has(check));
-      const matchesTime = !checkedTimes.length || Array.from(ad.studyTime.values()).some((time) => {
-      const isMorning = checkedTimes.includes("Morning") && morning.includes(time.from);
-      const isDay = checkedTimes.includes("Day") && day.includes(time.from);
-      const isEvening = checkedTimes.includes("Evening") && evening.includes(time.from);
-      return isMorning || isDay || isEvening;
+      const matchesTopics =
+        !checkedTopics.length || checkedTopics.includes(ad.studyTopic);
+      const matchesLevel =
+        !checkedLevels.length || checkedLevels.includes(ad.level);
+      const matchesDay =
+        !checkedDays.length ||
+        checkedDays.some((check) => ad.studyTime.has(check));
+      const matchesTime =
+        !checkedTimes.length ||
+        Array.from(ad.studyTime.values()).some((time) => {
+          const isMorning =
+            checkedTimes.includes("Morning") && morning.includes(time.from);
+          const isDay = checkedTimes.includes("Day") && day.includes(time.from);
+          const isEvening =
+            checkedTimes.includes("Evening") && evening.includes(time.from);
+          return isMorning || isDay || isEvening;
+        });
+      return matchesTopics && matchesLevel && matchesDay && matchesTime;
     });
-    return matchesTopics && matchesLevel && matchesDay && matchesTime;
-  });
-      setFilteredAds(filtered);
-      isEmptyFilter(!Boolean(filtered.length));
+    setFilteredAds(filtered);
+    isAdsFound(!Boolean(filtered.length));
   }
 
-  function cancelFilters(){
+  function cancelFilters() {
     setFilteredAds(ads);
-    isEmptyFilter(false);
-    
-    const levelCheckboxes = document.getElementsByName('level');
-    const dayCheckboxes = document.getElementsByName('days');
-    const timeCheckboxes = document.getElementsByName('times');
-    
-    for(let checkbox of levelCheckboxes)
-      checkbox.checked=false;
-    
-    for(let checkbox of dayCheckboxes)
-      checkbox.checked=false;
-    
-    for(let checkbox of timeCheckboxes)
-      checkbox.checked=false;
+    isAdsFound(false);
+
+    const levelCheckboxes = document.getElementsByName("level");
+    const dayCheckboxes = document.getElementsByName("days");
+    const timeCheckboxes = document.getElementsByName("times");
+
+    for (let checkbox of levelCheckboxes) checkbox.checked = false;
+
+    for (let checkbox of dayCheckboxes) checkbox.checked = false;
+
+    for (let checkbox of timeCheckboxes) checkbox.checked = false;
   }
 
   return (
     <div className="relative flex gap-2 my-4">
-      <button onClick={cancelFilters} className={`${style.filterButton_active} ${style.filterButton}`}>
+      <button
+        onClick={cancelFilters}
+        className={`${style.filterButton_active} ${style.filterButton}`}
+      >
         All
       </button>
       <button
         onClick={() => toggleDropdown(TopicDropdownRef)}
-        className={`${style.filterButton} ${style.filterTopicButton}`}>Study topic ▼</button>
+        className={`${style.filterButton} ${style.filterTopicButton}`}
+      >
+        Study topic ▼
+      </button>
       <div
         ref={TopicDropdownRef}
         className={`${style.filterDropdown} ${style.filterTopicDropdown}`}

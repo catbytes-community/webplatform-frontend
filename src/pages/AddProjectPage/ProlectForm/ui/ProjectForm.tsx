@@ -1,6 +1,6 @@
 import style from "./ProjectForm.module.css";
 import React, {MutableRefObject, useCallback, useRef, useState} from "react";
-import CrossImg from './cross.svg?react'
+import CrossImg from './cross.svg';
 import {ButtonsEnum} from "../../../../shared/ui/Button/Button.tsx";
 
 type ProjectFormProps = {
@@ -27,8 +27,8 @@ export const ProjectForm = (props: ProjectFormProps) => {
   };
 
   const handleImage = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
-    const file: File = event.target.files?.[0];
-    if (file) {
+    const file = event?.target?.files?.[0];
+    if (file instanceof File) {
       const reader: FileReader = new FileReader();
       reader.onload = (e): void => {
         setPreviewSrc(e.target?.result as string);
@@ -40,7 +40,7 @@ export const ProjectForm = (props: ProjectFormProps) => {
   const updateText = (ref: React.MutableRefObject<HTMLSpanElement | null>, value: string, text: string, amount: number)  => {ref.current!.innerHTML = text + (amount - value.length)};
 
   const assignMonth = (ref: React.MutableRefObject<HTMLInputElement | null>) => {
-    const result: number = (projPeriod.current.end - projPeriod.current.start) / 1000 / 60 / 60 / 24 / 30
+    const result: number = ((projPeriod?.current?.end ?? 0) - (projPeriod?.current?.start ?? 0)) / 1000 / 60 / 60 / 24 / 30
       ref.current!.value = String(Math.ceil(result));
   }
 

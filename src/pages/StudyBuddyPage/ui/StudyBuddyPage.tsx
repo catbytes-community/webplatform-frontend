@@ -61,7 +61,7 @@ export const StudyBuddyPage = () => {
   ];
   const [ads, setAds] = useState<IAd[]>([]);
   const [filteredAds, setFilteredAds] = useState<IAd[]>([]);
-  const [isEmptyFilter, setIsEmptyFilter] = useState(false);
+  const [isAdsFound, setIsAdsFound] = useState(false);
   const [isCreateAdShown, setIsCreateAdShown] = useState(false);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export const StudyBuddyPage = () => {
     setFilteredAds(filtered);
   }
   function handleEmptyAds(filtered: boolean) {
-    setIsEmptyFilter(filtered);
+    setIsAdsFound(filtered);
   }
 
   function showCreateModal() {
@@ -96,10 +96,10 @@ export const StudyBuddyPage = () => {
       <Filters
         ads={ads}
         onFilter={handleFilteredAds}
-        isEmptyFilter={handleEmptyAds}
+        isAdsFound={handleEmptyAds}
       />
       <div className="flex flex-col gap-4">
-        {isEmptyFilter ? (
+        {isAdsFound ? (
           <div className="text-center text-xl">No ads were found :(</div>
         ) : (
           (filteredAds.length ? filteredAds : ads).map((ad) => <Ad key={ad.id} ad={ad} />)

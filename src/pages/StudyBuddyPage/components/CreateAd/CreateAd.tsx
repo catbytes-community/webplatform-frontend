@@ -3,7 +3,7 @@ import Button, { ButtonsEnum } from "../../../../shared/ui/Button/Button";
 import style from "./CreateAd.module.css";
 import ConfirmModal from "../../../../shared/ui/ConfirmModal/ConfirmModal";
 
-export default function CreateAd({ setIsActive }: { setIsActive: any }) {
+export default function CreateAd({ setIsActive }: { setIsActive: (value: boolean) => void }) {
   const today = new Date().toISOString().slice(0, 10);
   const shortSchedule = {
     Monday: "mon",
