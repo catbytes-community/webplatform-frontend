@@ -3,7 +3,7 @@ import {useContext} from "react";
 import {SettingContext} from "../lib/SettingsContext";
 import Settings from "../lib/Settings.tsx";
 import Navbar from "../../../shared/ui/Navbar/Navbar.tsx";
-import PomodoroTimer from "../components/PomodoroTimer.tsx";
+import {PomodoroTimer} from "../components/PomodoroTimer.tsx";
 
 export const PomodoroPage = () => {
 
