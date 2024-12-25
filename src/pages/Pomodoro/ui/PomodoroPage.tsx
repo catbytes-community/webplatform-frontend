@@ -1,13 +1,11 @@
-
 import style from "./PomodoroPage.module.css"
 import {useContext} from "react";
 import {SettingContext} from "../lib/SettingsContext";
 import Settings from "../lib/Settings.tsx";
-import {PomodoroTimer} from "../components/PomodoroTimer.tsx";
 import {useState} from "react";
 import Footer from "../../../shared/ui/Footer/Footer.tsx";
 import Navbar from "../../../shared/ui/Navbar/Navbar.tsx";
-
+import {PomodoroTimer} from "../components/PomodoroTimer.tsx";
 
 export const PomodoroPage = () => {
 
@@ -19,14 +17,12 @@ export const PomodoroPage = () => {
         startAnimate,
         startTimer,
         pauseTimer,
-        updateExecute,
         restartTimer
     } = useContext(SettingContext);
 
     return (
         <div>
             <Navbar/>
-
             <div className={style.pomodoro}>
                 <h1>Pomodoro Timer</h1>
 
@@ -70,7 +66,7 @@ export const PomodoroPage = () => {
 
                         <div className="time-container mb-6">
                             <div className={style.timerText}>
-                                <PomodoroTimer timer={pomodoro} animate={startAnimate}>
+                                <PomodoroTimer key={pomodoro} timer={pomodoro} animate={startAnimate}>
                                     {children}
                                 </PomodoroTimer>
                             </div>
@@ -96,8 +92,7 @@ export const PomodoroPage = () => {
                             </button>
 
                             <button
-                                // onClick={restartTimer}
-                                onClick={() => setCurrentTimer('short')}
+                                onClick={(restartTimer)}
                                 className={`bg-[#07072e] text-white py-2 px-4 border-none rounded-md cursor-pointer gap-2 ${
                                     startAnimate ? 'active' : undefined
                                 }`}
@@ -116,9 +111,7 @@ export const PomodoroPage = () => {
                         </div>
                     </div>
                 }
-
             </div>
         </div>
-
     );
 }

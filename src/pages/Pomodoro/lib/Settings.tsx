@@ -17,21 +17,21 @@ const Settings = () => {
         const {name, value} = event.target;
 
         switch (name){
-            case "work":
+            case 'work':
                 setNewTimer({
                     ...newTimer,
                     work: parseInt(value)
                 })
                 break;
 
-            case "short":
+            case 'shortBreak':
                 setNewTimer({
                     ...newTimer,
                     short: parseInt(value)
                 })
                 break;
 
-            case "long":
+            case 'longBreak':
                 setNewTimer({
                     ...newTimer,
                     long: parseInt(value)
@@ -40,7 +40,6 @@ const Settings = () => {
             default:
                 break
         }
-        // console.log(newTimer);
     }
 
     function handleSubmit(event){
@@ -51,7 +50,7 @@ const Settings = () => {
     return (<div className="flex flex-col bg-white items-center p-6">
             <form noValidate className="space-y-4 w-full max-w-sm">
                 <div className="flex flex-col">
-                    <label htmlFor="work" className="text-gray-700 font-medium ">Work Time:</label>
+                    <p className="text-gray-700 font-medium ">Work Time:</p>
                     <input
                         className="border rounded p-2"
                         name="work"
@@ -61,20 +60,20 @@ const Settings = () => {
                 </div>
 
                 <div className="flex flex-col">
-                    <label htmlFor="short" className="text-gray-700 font-medium">Short Break:</label>
+                    <p className="text-gray-700 font-medium">Short Break:</p>
                     <input
                         className="border rounded p-2"
-                        name="short"
+                        name="shortBreak"
                         onChange={handleChange}
                         value={newTimer.short}
                     />
                 </div>
 
                 <div className="flex flex-col">
-                    <label htmlFor="long" className="text-gray-700 font-medium">Long Break:</label>
+                    <p className="text-gray-700 font-medium">Long Break:</p>
                     <input
                         className="border rounded p-2"
-                        name="long"
+                        name="longBreak"
                         onChange={handleChange}
                         value={newTimer.long}
                     />
@@ -85,12 +84,10 @@ const Settings = () => {
                     className="bg-blue-500 text-white rounded p-2 w-full"
                     onClick={handleSubmit}
                 >
-                    Set
+                    Save settings
                 </button>
             </form>
         </div>
-
-
     );
 };
 
