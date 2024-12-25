@@ -19,13 +19,12 @@ const PomodoroTimer =  ({key=1, timer, animate, children}) => {
             strokeWidth={16}
             size={330}
             trailColor={'#151932'}
-            onComplete = {() => {
+            onComplete={() => {
                 stopTimer()
             }}
         >
             {children}
-
         </CountdownCircleTimer>
     )
 }
-export {PomodoroTimer};
+export default PomodoroTimer;

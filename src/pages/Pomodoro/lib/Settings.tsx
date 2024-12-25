@@ -46,6 +46,7 @@ const Settings = () => {
         updateExecute(newTimer);
     }
 
+
     return (
         <div className="flex flex-col text-gray-900 items-center p-6 min-h-screen">
             <form noValidate className="border border-rose-300 space-y-6 bg-rose-50 w-full max-w-sm p-6 rounded-lg shadow-2xl">
