@@ -5,6 +5,7 @@ import styles from "./CommunityResourcesPage.module.css";
 import Button from "../../../shared/ui/Button/Button";
 import { useNavigate } from "react-router-dom";
 import CrossIcon from "../../../shared/ui/icons/CrossIcon";
+import Button from "../../../shared/ui/Button/Button.tsx";
 
 const CommunityResources: React.FC = () => {
   const [resourcesList] = useState(resources);
