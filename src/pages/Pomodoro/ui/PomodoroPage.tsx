@@ -3,8 +3,9 @@ import { useContext, useState } from "react";
 import { SettingContext } from "../lib/SettingsContext";
 import Settings from "../lib/Settings.tsx";
 import Navbar from "../../../shared/ui/Navbar/Navbar.tsx";
-import PomodoroTimer  from "../components/PomodoroTimer.tsx";
+import PomodoroTimer from "../components/PomodoroTimer.tsx";
 import { FaPlay, FaPause, FaCog, FaRedo } from "react-icons/fa";
+
 
 export const PomodoroPage = () => {
     const {
