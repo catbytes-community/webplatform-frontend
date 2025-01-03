@@ -3,13 +3,13 @@ import { useContext, useState } from "react";
 import { SettingContext } from "../lib/SettingsContext";
 import Settings from "../lib/Settings.tsx";
 import Navbar from "../../../shared/ui/Navbar/Navbar.tsx";
-import { PomodoroTimer } from "../components/PomodoroTimer.tsx";
+import PomodoroTimer  from "../components/PomodoroTimer.tsx";
 import { FaPlay, FaPause, FaCog, FaRedo } from "react-icons/fa";
 
 export const PomodoroPage = () => {
     const {
-        pomodoro,
-        executing,
+        counter,
+        activeState,
         setCurrentTimer,
         SettingBtn,
         children,
@@ -38,14 +38,14 @@ export const PomodoroPage = () => {
                     Pomodoro Timer
                 </h1>
 
-                {pomodoro === 0 ? (
+                {counter === 0 ? (
                     <Settings />
                 ) : (
                     <div className="flex flex-col items-center justify-center">
                         <ul className="flex mb-10 space-x-6">
                             <li>
                                 <button
-                                    className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${executing.active === "work" ? "ring-4 ring-pink-600" : ""}`}
+                                    className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${activeState.active === "work" ? "ring-4 ring-pink-600" : ""}`}
                                     onClick={() => setCurrentTimer("work")}
                                 >
                                     Work
@@ -53,7 +53,7 @@ export const PomodoroPage = () => {
                             </li>
                             <li>
                                 <button
-                                    className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${executing.active === "short" ? "ring-4 ring-pink-600" : ""}`}
+                                    className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${activeState.active === "short" ? "ring-4 ring-pink-600" : ""}`}
                                     onClick={() => setCurrentTimer("short")}
                                 >
                                     Break
@@ -61,7 +61,7 @@ export const PomodoroPage = () => {
                             </li>
                             <li>
                                 <button
-                                    className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${executing.active === "long" ? "ring-4 ring-pink-600" : ""}`}
+                                    className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${activeState.active === "long" ? "ring-4 ring-pink-600" : ""}`}
                                     onClick={() => setCurrentTimer("long")}
                                 >
                                     Long Break
@@ -71,7 +71,7 @@ export const PomodoroPage = () => {
 
                         <div className="relative w-96 h-96 flex items-center justify-center rounded-full bg-gradient-to-br from-yellow-300 to-rose-300 shadow-xl mb-6">
                             <div className="absolute flex items-center justify-center text-6xl font-extrabold text-white">
-                                <PomodoroTimer key={pomodoro} timer={pomodoro} animate={startAnimate}>
+                                <PomodoroTimer key={counter} timer={counter} animate={startAnimate}>
                                     {children}
                                 </PomodoroTimer>
                             </div>
