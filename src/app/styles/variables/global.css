@@ -1,8 +1,11 @@
 body {
     font-family: "Poppins", sans-serif;
+    background: linear-gradient(60.15deg, #F8B5BB -15.22%, #FEF3F5 34.68%, #FEF3F5 70.04%, #F8B5BB 111.09%);
+    background-size: cover;
+    min-height: 100vh;
 }
 
-.primary_btn, .secondary_btn, .tertiary_btn {
+.primary_btn, .secondary_btn, .tertiary_btn, .primary_big_btn  {
     margin: 0;
     border: 0;
     min-width: 170px;
@@ -22,10 +25,15 @@ button:hover {
     transform: scale(1.05);
 }
 
-.primary_btn {
+.primary_btn, .primary_big_btn  {
     background: rgb(255,55,127);
     background: linear-gradient(90deg, rgba(255,55,127,1) 0%, rgba(255,212,130,1) 85%);
     box-shadow: 0px 6px 7px 0px #FF868D4A;
+}
+
+.primary_big_btn {
+    padding: 16px 56px;
+    max-height: 51px;
 }
 
 .secondary_btn {

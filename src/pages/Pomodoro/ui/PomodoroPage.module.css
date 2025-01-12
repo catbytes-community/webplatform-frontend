@@ -12,3 +12,9 @@
 li {
   list-style: none;
 }
+
+.timerText {
+  font-size: 48px;
+  color: #8cbae1;
+  font-weight: bold;
+}
