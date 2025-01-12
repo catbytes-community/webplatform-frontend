@@ -1,6 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-import s from "./BecomeMentorButton.module.css";
+import s from "./BecomeMentorForm.module.css";
 import { BecomeMentorForm, Option } from "../../app/types/global";
 import { SelectorsStyles } from "./SelectorStyles";
 import { Fields, Languages } from "./DataOptions";

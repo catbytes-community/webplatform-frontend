@@ -52,7 +52,7 @@ export const BecomeMentorButton = () => {
       <Button
         label="Become a mentor"
         onClick={handleOpen}
-        btnType="primary_btn"
+        btnType="primary_big_btn"
       />
       {isModalOpen ? (
         <MentorForm />

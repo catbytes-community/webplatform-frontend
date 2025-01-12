@@ -1,7 +1,9 @@
 import Button from "../Button/Button";
 import logo from "../../assets/images/logopurple.webp";
+import { BecomeMentorButton } from "../../../features/Mentor/BecomeMentorButton";
 
 export default function Navbar() {
+  const isAuthorized = false;
   function testFunction() {
     console.log("user click join us");
   }
@@ -38,13 +40,23 @@ export default function Navbar() {
       </div>
 
       <div className="flex justify-between gap-10 font-[Monserrat]">
-        <Button label="JOIN US" btnType="primary_btn" onClick={testFunction} />
+        {isAuthorized ? (
+          <BecomeMentorButton />
+        ) : (
+          <>
+            <Button
+              label="JOIN US"
+              btnType="primary_btn"
+              onClick={testFunction}
+            />
 
-        <Button
-          label="SING IN"
-          btnType="secondary_btn"
-          onClick={testFunction}
-        />
+            <Button
+              label="SING IN"
+              btnType="secondary_btn"
+              onClick={testFunction}
+            />
+          </>
+        )}
       </div>
     </div>
   );
