@@ -35,3 +35,15 @@
     --tw-ring-color: rgb(59 130 246);
     border-color: rgb(59 130 246);
 }
+
+.error {
+    color: #bf1650;
+    margin-bottom: 1rem;
+    margin-top: -10px;
+    font-size: 14px
+}
+
+.error::before {
+    display: inline;
+    content: "⚠ ";
+  }

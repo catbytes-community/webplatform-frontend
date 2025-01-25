@@ -2,7 +2,7 @@ import React from "react";
 
 interface ModalProps {
     onClose: React.MouseEventHandler<HTMLButtonElement>;
-    onClick: React.MouseEventHandler<HTMLButtonElement>;
+    onSubmit: React.MouseEventHandler<HTMLButtonElement>;
     children: React.ReactNode;
     modalTitle: string;
     buttonTitle: string;
@@ -43,7 +43,7 @@ export const Modal: React.FC<ModalProps> = (props) => {
                   <button
                     className="text-black border-2 border-solid border-black font-normal uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={props.onClick}
+                    onClick={props.onSubmit}
                   >
                     {props.buttonTitle}
                   </button>
