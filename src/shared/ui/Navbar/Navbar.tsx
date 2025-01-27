@@ -3,7 +3,7 @@ import logo from "../../assets/images/logopurple.webp";
 import { BecomeMentorButton } from "../../../features/Mentor/BecomeMentorButton";
 
 export default function Navbar() {
-  const isAuthorized = true;
+  const isAuthorized = false;
   function testFunction() {
     console.log("user click join us");
   }
