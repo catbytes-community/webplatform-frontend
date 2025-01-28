@@ -1,44 +1,51 @@
-import { RouteProps } from 'react-router-dom';
-import { NotFoundPage } from '../../../pages/NotFoundPage';
-import { MainPage } from '../../../pages/MainPage';
-import { AboutPage } from '../../../pages/AboutPage';
-import { MentorsPage } from '../../../pages/MentorsPage';
-import { AllProjectsPage } from '../../../pages/AllProjectsPage';
-import { StudyBuddyPage } from '../../../pages/StudyBuddyPage';
-import { Pomodoro } from '../../../pages/Pomodoro';
-import { CommunityResources } from '../../../pages/CommunityResourcesPage';
-import { CreateResourcePage } from '../../../pages/CreateResourcePage';
-import { ApplicationsPage } from '../../../pages/ApplicationsPage';
-import { LoginPage } from '../../../pages/LoginPage';
+
+import { RouteProps } from "react-router-dom";
+import { NotFoundPage } from "../../../pages/NotFoundPage";
+import { MainPage } from "../../../pages/MainPage";
+import { AboutPage } from "../../../pages/AboutPage";
+import { MentorsPage } from "../../../pages/MentorsPage";
+import { AddProjectPage } from "../../../pages/AddProjectPage";
+import { StudyBuddyPage } from "../../../pages/StudyBuddyPage";
+import { ApplicationsPage } from "../../../pages/ApplicationsPage";
+import { LoginPage } from "../../../pages/LoginPage";
+import {Pomodoro} from "../../../pages/Pomodoro";
+import {CreateResourcePage} from "../../../pages/CreateResourcePage";
+import {CommunityResources} from "../../../pages/CommunityResourcesPage";
+import {AllProjectsPage} from "../../../pages/AllProjectsPage";
+import {ProjectPage} from "../../../pages/ProjectPage";
 import { CreateApplicationPage } from '../../../pages/CreateApplicationPage';
 
 export enum AppRoutes {
-  MAIN = 'main',
-  ABOUT = 'about',
-  MENTORS = 'mentors',
-  ALL_PROJECTS = 'projects',
-  STUDY_BUDDY = 'study_groups',
-  NOT_FOUND = 'not_found',
-  POMODORO = 'pomodoro',
-  COMMUNITY_RESOURCES = 'community_resources',
-  CREATE_RESOURCE = 'CREATE_RESOURCE',
-  APPLICATIONS = 'applications',
-  LOGIN = 'login',
+  MAIN = "main",
+  ABOUT = "about",
+  MENTORS = "mentors",
+  ALL_PROJECTS = "projects",
+  PROJECT = "project",
+  ADD_PROJECT = "add_project",
+  STUDY_BUDDY = "study_groups",
+  NOT_FOUND = "not_found",
+  POMODORO = "pomodoro",
+  COMMUNITY_RESOURCES = "community_resources",
+  CREATE_RESOURCE = "CREATE_RESOURCE",
+  APPLICATIONS = "applications",
+  LOGIN = "login",
   CREATE_APPLICATION = 'create_application',
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
-  [AppRoutes.MAIN]: '/',
-  [AppRoutes.ABOUT]: '/about',
-  [AppRoutes.MENTORS]: '/mentors',
-  [AppRoutes.ALL_PROJECTS]: '/projects',
-  [AppRoutes.STUDY_BUDDY]: '/study_groups',
-  [AppRoutes.NOT_FOUND]: '*',
-  [AppRoutes.POMODORO]: '/pomodoro',
-  [AppRoutes.COMMUNITY_RESOURCES]: '/community_resources',
-  [AppRoutes.CREATE_RESOURCE]: '/create_resource',
-  [AppRoutes.APPLICATIONS]: '/applications',
-  [AppRoutes.LOGIN]: '/login',
+  [AppRoutes.MAIN]: "/",
+  [AppRoutes.ABOUT]: "/about",
+  [AppRoutes.MENTORS]: "/mentors",
+  [AppRoutes.ALL_PROJECTS]: "/projects",
+  [AppRoutes.PROJECT]: "/project/:id",
+  [AppRoutes.ADD_PROJECT]: "/add_project",
+  [AppRoutes.STUDY_BUDDY]: "/study_groups",
+  [AppRoutes.NOT_FOUND]: "*",
+  [AppRoutes.POMODORO]: "/pomodoro",
+  [AppRoutes.COMMUNITY_RESOURCES]: "/community_resources",
+  [AppRoutes.CREATE_RESOURCE]: "/create_resource",
+  [AppRoutes.APPLICATIONS]: "/applications",
+  [AppRoutes.LOGIN]: "/login",
   [AppRoutes.CREATE_APPLICATION]: '/create_application',
 };
 
@@ -54,6 +61,14 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.ALL_PROJECTS]: {
     path: RoutePath.projects,
     element: <AllProjectsPage />,
+  },
+  [AppRoutes.PROJECT]: {
+    path: RoutePath.project,
+    element: <ProjectPage />,
+  },
+  [AppRoutes.ADD_PROJECT]: {
+    path: RoutePath.add_project,
+    element: <AddProjectPage />,
   },
   [AppRoutes.STUDY_BUDDY]: {
     path: RoutePath.study_groups,

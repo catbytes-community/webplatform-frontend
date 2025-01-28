@@ -1,3 +1,4 @@
 import { Card } from "./Card/Card";
+import {SearchInput} from "./SearchInput/SearchInput.tsx";
 
-export {Card};
+export {Card, SearchInput};
