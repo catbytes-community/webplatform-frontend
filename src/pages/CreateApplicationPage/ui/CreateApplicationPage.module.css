@@ -1,0 +1,10 @@
+.title {
+  color: red;
+  font-size: 25px;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid lightslategray;
+  border-radius: 15px;
+}
