@@ -9,12 +9,73 @@ export const CreateApplicationPage: React.FC = () => {
   const [about, setAbout] = useState<string>('');
   const [link, setLink] = useState<string>('');
   const [discord, setDiscord] = useState<string>('');
+  const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
   //uncommit if need message in ui
   // const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+  // Validation rules
+  const validateField = (field: string, value: string): string => {
+    switch (field) {
+      case 'name':
+        return /^[A-Za-z\s]+$/.test(value)
+          ? ''
+          : 'Name must contain only letters and spaces.';
+      case 'email':
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+          ? ''
+          : "Please enter a valid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'";
+      case 'about':
+        return value.trim().length >= 10
+          ? ''
+          : 'About must be at least 10 characters long.';
+      case 'link':
+        return /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-]*)*$/.test(value)
+          ? ''
+          : 'Invalid video link. Valid link https://example.com';
+      case 'discord':
+        return /^(?=.{2,32}$)[a-zA-Z0-9._]+$/.test(value)
+          ? ''
+          : 'Discord username must be 2-32 characters long and can only contain letters, numbers, dots, and underscores.';
+      default:
+        return '';
+    }
+  };
+
+  // Validate all fields before submission
+  const validateForm = (): boolean => {
+    const newErrors: { [key: string]: string } = {};
+    newErrors.name = validateField('name', name);
+    newErrors.email = validateField('email', email);
+    newErrors.about = validateField('about', about);
+    newErrors.link = validateField('link', link);
+    newErrors.discord = validateField('discord', discord);
+
+    setErrors(newErrors);
+
+    return Object.values(newErrors).every((error) => error === '');
+  };
+
+  const handleBlur = (field: string, value: string): void => {
+    setErrors((prev) => ({
+      ...prev,
+      [field]: validateField(field, value),
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return; // If validation fails, don't proceed
+    }
+
+    if (!agreeToTerms) {
+      setError('You must agree to the Terms and Conditions.');
+      return;
+    }
 
     const data = {
       name,
@@ -22,6 +83,7 @@ export const CreateApplicationPage: React.FC = () => {
       email,
       video_link: link,
       discord_nickname: discord,
+      agreeToTerms,
     };
 
     try {
@@ -30,8 +92,9 @@ export const CreateApplicationPage: React.FC = () => {
       // setSuccessMessage(null);
 
       // send data on server
+
       const response = await axios.post(
-        'https://devapi.catbytes.io/applications',
+        process.env.VITE_LINK_API_APPLICATIONS,
         data,
         {
           headers: {
@@ -42,7 +105,6 @@ export const CreateApplicationPage: React.FC = () => {
 
       // if response server sucsessful
       alert('Application submitted successfully!');
-      console.log('Response:', response.data);
 
       // clean form
       setName('');
@@ -50,6 +112,8 @@ export const CreateApplicationPage: React.FC = () => {
       setAbout('');
       setLink('');
       setDiscord('');
+      setAgreeToTerms(false);
+      setErrors({});
     } catch (error: any) {
       // catch errors
       if (axios.isAxiosError(error)) {
@@ -79,10 +143,15 @@ export const CreateApplicationPage: React.FC = () => {
             type="text"
             placeholder="Name"
             value={name}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setName(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setName(e.target.value);
+              setErrors((prev) => ({
+                ...prev,
+                name: validateField('name', e.target.value),
+              }));
+            }}
           />
+          {errors.name && <p className={style.error}>{errors.name}</p>}
         </div>
         <div>
           <input
@@ -93,7 +162,11 @@ export const CreateApplicationPage: React.FC = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setEmail(e.target.value)
             }
+            onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
+              handleBlur('email', e.target.value)
+            }
           />
+          {errors.email && <p className={style.error}>{errors.email}</p>}
         </div>
         <div>
           <input
@@ -101,10 +174,15 @@ export const CreateApplicationPage: React.FC = () => {
             type="text"
             placeholder="About"
             value={about}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setAbout(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setAbout(e.target.value);
+              setErrors((prev) => ({
+                ...prev,
+                about: validateField('about', e.target.value),
+              }));
+            }}
           />
+          {errors.about && <p className={style.error}>{errors.about}</p>}
         </div>
         <div>
           <input
@@ -115,7 +193,11 @@ export const CreateApplicationPage: React.FC = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setLink(e.target.value)
             }
+            onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
+              handleBlur('link', e.target.value)
+            }
           />
+          {errors.link && <p className={style.error}>{errors.link}</p>}
         </div>
         <div>
           <input
@@ -123,10 +205,30 @@ export const CreateApplicationPage: React.FC = () => {
             type="text"
             placeholder="Discord nickname"
             value={discord}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setDiscord(e.target.value);
+              setErrors((prev) => ({
+                ...prev,
+                discord: validateField('discord', e.target.value),
+              }));
+            }}
+          />
+          {errors.discord && <p className={style.error}>{errors.discord}</p>}
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            checked={agreeToTerms}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setDiscord(e.target.value)
+              setAgreeToTerms(e.target.checked)
             }
           />
+          <label>
+            I agree to the{' '}
+            <a href="/terms" target="_blank">
+              Terms and Conditions
+            </a>
+          </label>
         </div>
         <Button
           label="Submit"

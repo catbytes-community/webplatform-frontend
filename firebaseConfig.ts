@@ -7,8 +7,7 @@ import { getAuth } from 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_API_KEY,
-  // apiKey: 'AIzaSyDz7KWPpsKDMwnh0Ho92m043xfSg9k7Kzk',
+  apiKey: process.env.VITE_API_KEY,
   authDomain: 'catbytes-frontend.firebaseapp.com',
   projectId: 'catbytes-frontend',
   storageBucket: 'catbytes-frontend.firebasestorage.app',
