@@ -4,9 +4,9 @@ export const SettingContext = createContext();
 
 const SettingsContextProvider = (props) => {
 
-    const [pomodoro, setPomodoro] = useState(0);
+    const [counter, setCounter] = useState(0);
     // this is from the settings page
-    const [executing, setExecuting] = useState({});
+    const [activeState, setActiveState] = useState({});
     const [startAnimate, setStartAnimate] = useState(false);
 
     function startTimer(){
@@ -22,50 +22,50 @@ const SettingsContextProvider = (props) => {
     }
 
     function restartTimer() {
-        if (!executing.active) {
+        if (!activeState.active) {
             console.warn("No active state defined to restart the timer!");
             return;
         }
-        const currentActive = executing.active;
-        updateExecute({ ...executing, active: null }); // temporary reset
+        const currentActive = activeState.active;
+        updateExecute({ ...activeState, active: null }); // temporary reset
         setTimeout(() => {
-            updateExecute({ ...executing, active: currentActive });
+            updateExecute({ ...activeState, active: currentActive });
             setStartAnimate(false);
         }, 0);
     }
 
     const SettingBtn = () => {
-        setExecuting({});
-        setPomodoro(0);
+        setActiveState({});
+        setCounter(0);
     }
 
     const updateExecute = updatedSettings => {
-        setExecuting(updatedSettings);
+        setActiveState(updatedSettings);
         setTimerTime(updatedSettings);
     }
 
-    function setCurrentTimer(active_state){
+    function setCurrentTimer(current_state){
         updateExecute({
-            ...executing,
-            active: active_state
+            ...activeState,
+            active: current_state
         })
-        setTimerTime(executing)
+        setTimerTime(activeState)
     }
 
     const setTimerTime = evaluate => {
         // active is from Settings
         switch (evaluate.active){
             case "work":
-                setPomodoro(evaluate.work);
+                setCounter(evaluate.work);
                 break;
             case "short":
-                setPomodoro(evaluate.short);
+                setCounter(evaluate.short);
                 break;
             case "long":
-                setPomodoro(evaluate.long);
+                setCounter(evaluate.long);
                 break;
             default:
-                setPomodoro(0);
+                setCounter(0);
                 break;
         }
     }
@@ -81,8 +81,8 @@ const SettingsContextProvider = (props) => {
         <SettingContext.Provider value={{
             stopTimer,
             updateExecute,
-            pomodoro,
-            executing,
+            counter,
+            activeState,
             startAnimate,
             startTimer,
             pauseTimer,
@@ -95,5 +95,4 @@ const SettingsContextProvider = (props) => {
         </SettingContext.Provider>
     )
 }
-
 export default SettingsContextProvider;

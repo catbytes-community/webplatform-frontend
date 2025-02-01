@@ -1,11 +1,11 @@
 import style from "./MainPage.module.css"
 import Button from "../../../shared/ui/Button/Button.tsx";
-import paw from "../../../shared/ui/images/mdi_paw 1.svg"
-import announcement from "../../../shared/ui/images/Light-Orange-24.png"
-import cat from "../../../shared/ui/images/cat.svg"
+import paw from "../../../shared/assets/images/mdi_paw 1.svg"
+import announcement from "../../../shared/assets/images/Light-Orange-24.png"
+import cat from "../../../shared/assets/images/cat.svg"
 import ArrowRightIcon from "../../../shared/ui/icons/ArrowRightIcon.tsx";
-import homeGroup from  "../../../shared/ui/images/home_group.png"
-import  home_study_buddy from "../../../shared/ui/images/home_study_buddy.png";
+import homeGroup from "../../../shared/assets/images/home_group.png"
+import  home_study_buddy from "../../../shared/assets/images/home_study_buddy.png";
 import {Link} from "react-router-dom";
 
 function testFunction() {

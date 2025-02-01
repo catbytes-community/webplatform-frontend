@@ -1,115 +1,106 @@
-import style from "./PomodoroPage.module.css"
-import {useContext} from "react";
-import {SettingContext} from "../lib/SettingsContext";
+
+import { useContext, useState } from "react";
+import { SettingContext } from "../lib/SettingsContext";
 import Settings from "../lib/Settings.tsx";
 import Navbar from "../../../shared/ui/Navbar/Navbar.tsx";
 import PomodoroTimer from "../components/PomodoroTimer.tsx";
+import { FaPlay, FaPause, FaCog, FaRedo } from "react-icons/fa";
+
 
 export const PomodoroPage = () => {
-
-    const {pomodoro,
-        executing,
+    const {
+        counter,
+        activeState,
         setCurrentTimer,
         SettingBtn,
         children,
         startAnimate,
         startTimer,
         pauseTimer,
-        restartTimer
+        restartTimer,
     } = useContext(SettingContext);
+
+    const [isRunning, setIsRunning] = useState(false);
+
+    const handleButtonClick = () => {
+        if (isRunning) {
+            pauseTimer();
+        } else {
+            startTimer();
+        }
+        setIsRunning(!isRunning); //switch
+    };
 
     return (
         <div>
-            <Navbar/>
-            <div className={style.pomodoro}>
-                <h1>Pomodoro Timer</h1>
+            <Navbar />
+            <div className="bg-gradient-to-r from-yellow-50 to-rose-300 min-h-screen mx-auto px-6 py-12">
+                <h1 className="text-5xl font-extrabold text-center text-pink-800 mb-8 drop-shadow-lg">
+                    Pomodoro Timer
+                </h1>
 
-                {pomodoro === 0 ? <Settings/> :
-
+                {counter === 0 ? (
+                    <Settings />
+                ) : (
                     <div className="flex flex-col items-center justify-center">
-                        <ul className="flex space-x-0 mb-6">
+                        <ul className="flex mb-10 space-x-6">
                             <li>
                                 <button
-                                    className={`bg-[#07072e] text-white py-2 px-4 border-none rounded-md cursor-pointer gap-2 mt-7 mb-2 ${
-                                        executing.active === 'work' ? 'active-label' : ''
-                                    }`}
-                                    onClick={() => setCurrentTimer('work')}
+                                    className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${activeState.active === "work" ? "ring-4 ring-pink-600" : ""}`}
+                                    onClick={() => setCurrentTimer("work")}
                                 >
                                     Work
                                 </button>
                             </li>
-
                             <li>
                                 <button
-                                    className={`bg-[#07072e] text-white py-2 px-4 border-none rounded-md cursor-pointer gap-2 mt-7 mb-2 ${
-                                        executing.active === 'short' ? 'active-label' : ''
-                                    }`}
-                                    onClick={() => setCurrentTimer('short')}
+                                    className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${activeState.active === "short" ? "ring-4 ring-pink-600" : ""}`}
+                                    onClick={() => setCurrentTimer("short")}
                                 >
                                     Break
                                 </button>
                             </li>
-
                             <li>
                                 <button
-                                    className={`bg-[#07072e] text-white py-2 px-4 border-none rounded-md cursor-pointer gap-2 mt-7 mb-2 ${
-                                        executing.active === 'long' ? 'active-label' : ''
-                                    }`}
-                                    onClick={() => setCurrentTimer('long')}
+                                    className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${activeState.active === "long" ? "ring-4 ring-pink-600" : ""}`}
+                                    onClick={() => setCurrentTimer("long")}
                                 >
                                     Long Break
                                 </button>
                             </li>
                         </ul>
 
-                        <div className="time-container mb-6">
-                            <div className={style.timerText}>
-                                <PomodoroTimer key={pomodoro} timer={pomodoro} animate={startAnimate}>
+                        <div className="relative w-96 h-96 flex items-center justify-center rounded-full bg-gradient-to-br from-yellow-300 to-rose-300 shadow-xl mb-6">
+                            <div className="absolute flex items-center justify-center text-6xl font-extrabold text-white">
+                                <PomodoroTimer key={counter} timer={counter} animate={startAnimate}>
                                     {children}
                                 </PomodoroTimer>
                             </div>
                         </div>
 
-                        <div className="flex space-x-0 mb-6">
+                        <div className="flex space-x-6 mt-6">
                             <button
-                                onClick={startTimer}
-                                className={`bg-[#07072e] text-white py-2 px-4 border-none rounded-md cursor-pointer gap-2 ${
-                                    !startAnimate ? 'active' : undefined
-                                }`}
+                                onClick={handleButtonClick}
+                                className="bg-rose-500 text-white p-4 rounded-full shadow-xl transition-transform transform hover:scale-110 focus:ring focus:ring-pink-300 flex items-center justify-center"
                             >
-                                Start
+                                {isRunning ? <FaPause size={28} /> : <FaPlay size={28} />}
                             </button>
-
                             <button
-                                onClick={pauseTimer}
-                                className={`bg-[#07072e] text-white py-2 px-4 border-none rounded-md cursor-pointer gap-2 ${
-                                    startAnimate ? 'active' : undefined
-                                }`}
+                                onClick={restartTimer}
+                                className="bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring focus:ring-pink-300"
                             >
-                                Stop
+                                <FaRedo size={24} />
                             </button>
-
                             <button
-                                onClick={(restartTimer)}
-                                className={`bg-[#07072e] text-white py-2 px-4 border-none rounded-md cursor-pointer gap-2 ${
-                                    startAnimate ? 'active' : undefined
-                                }`}
-                            >
-                                Restart
-                            </button>
-                        </div>
-
-                        <div className="mt-4">
-                            <button
-                                className="bg-[#07072e] text-white py-2 px-4 border-none rounded-md cursor-pointer"
+                                className="bg-rose-600 text-white p-4 rounded-full shadow-xl transition-transform transform hover:scale-110 focus:ring focus:ring-pink-300 flex items-center justify-center"
                                 onClick={SettingBtn}
                             >
-                                Settings
+                                <FaCog size={24} />
                             </button>
                         </div>
                     </div>
-                }
+                )}
             </div>
         </div>
     );
-}
+};
