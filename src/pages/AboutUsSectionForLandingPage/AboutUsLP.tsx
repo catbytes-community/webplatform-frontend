@@ -1,9 +1,9 @@
-import catPic from '../../shared/ui/Images/catImage.png';
-import bookmarkImage from '../../shared/ui/Images/bookmarkImage.png';
-import humanImage from '../../shared/ui/Images/humanImage.png';
-import statsImage from '../../shared/ui/Images/statsImage.png';
-import pawImage from '../../shared/ui/Images/pawImage.png';
-import backgroundPawImage from '../../shared/ui/Images/backgroundPawImage.png';
+import catPic from '../../shared/assets/images/catImage.png';
+import bookmarkImage from '../../shared/assets/images/bookmarkImage.png';
+import humanImage from '../../shared/assets/images/humanImage.png';
+import statsImage from '../../shared/assets/images/statsImage.png';
+import pawImage from '../../shared/assets/images/pawImage.png';
+import backgroundPawImage from '../../shared/assets/images/backgroundPawImage.png';
 
 const AboutUsLP = () => {
     return (
