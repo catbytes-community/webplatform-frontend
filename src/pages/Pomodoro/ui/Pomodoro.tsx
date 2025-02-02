@@ -1,10 +1,10 @@
-import {PomodoroPage} from "./PomodoroPage.tsx";
-import SettingsContextProvider from "../lib/SettingsContext.tsx";
+// import {PomodoroPage} from "./PomodoroPage.tsx";
+// import SettingsContextProvider from "../lib/SettingsContext.tsx";
 
-export const Pomodoro = () => {
-    return (
-        <SettingsContextProvider>
-            <PomodoroPage />
-        </SettingsContextProvider>
-    )
-}
+// export const Pomodoro = () => {
+//     return (
+//         <SettingsContextProvider>
+//             <PomodoroPage />
+//         </SettingsContextProvider>
+//     )
+// }
