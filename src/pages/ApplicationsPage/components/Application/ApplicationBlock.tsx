@@ -12,15 +12,12 @@ export const ApplicationBlock = ({
   const [name, lastName] = application.name.split(" ");
   const [isConfirmRejectShown, setIsConfirmRejectShown] = useState(false);
   const [isConfirmApproveShown, setIsConfirmApproveShown] = useState(false);
-  const [confirmText, setConfirmText] = useState("");
 
   function handleRejectClick() {
-    setConfirmText("Are you sure you want to reject the application?");
     setIsConfirmRejectShown(true);
   }
   
   function handleApproveClick() {
-    setConfirmText("Are you sure you want to approve the application?");
     setIsConfirmApproveShown(true);
   }
   function handleReject(confirm: boolean) {
