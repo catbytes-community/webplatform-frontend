@@ -46,3 +46,13 @@ export interface Project {
     roles: ProjectRole[],
     documentation: Documentation[],
 }
+
+export interface Application {
+    id: number,
+    name: string,
+    about: string,
+    video_link: string,
+    discord_username: string,
+    created_at: string,
+    email: string
+}
