@@ -1,10 +1,11 @@
 import React, { ReactElement } from "react";
-import style from "./Button.module.css";
+//import style from "./Button.module.css";
 import ArrowImg from "./arrow.svg";
 export enum ButtonsEnum {
   PRIMARY = "primary_btn",
   SECONDARY = "secondary_btn",
   TERTIARY = "tertiary_btn",
+  PIMARY_BIG = "primary_big_btn",
 }
 
 interface ButtonProps {
