@@ -10,30 +10,39 @@ export const ApplicationBlock = ({
   application: Application;
 }) => {
   const [name, lastName] = application.name.split(" ");
-  const [isConfirmShown, setIsConfirmShown] = useState(false);
+  const [isConfirmRejectShown, setIsConfirmRejectShown] = useState(false);
+  const [isConfirmApproveShown, setIsConfirmApproveShown] = useState(false);
   const [confirmText, setConfirmText] = useState("");
 
-  function handleReject() {
+  function handleRejectClick() {
     setConfirmText("Are you sure you want to reject the application?");
-    setIsConfirmShown(true);
+    setIsConfirmRejectShown(true);
   }
-
-  function handleApprove() {
+  
+  function handleApproveClick() {
     setConfirmText("Are you sure you want to approve the application?");
-    setIsConfirmShown(true);
+    setIsConfirmApproveShown(true);
   }
-
-  function handleShowConfirm(confirm: boolean) {
+  function handleReject(confirm: boolean) {
     if (confirm) {
-      //code to handle approving or rejecting
+      //code to handle rejecting
     }
-    setIsConfirmShown(false);
+    setIsConfirmRejectShown(false);
+  }
+  function handleApprove(confirm: boolean) {
+    if (confirm) {
+      //code to handle approving
+    }
+    setIsConfirmApproveShown(false);
   }
 
   return (
     <>
-      {isConfirmShown  && (
-        <ConfirmModal getConfirmation={handleShowConfirm} text={confirmText} />
+      {isConfirmRejectShown  && (
+        <ConfirmModal getConfirmation={handleReject} text='Are you sure you want to reject the application?' />
+      )}
+      {isConfirmApproveShown && (
+        <ConfirmModal getConfirmation={handleApprove} text='Are you sure you want to approve the application?' />
       )}
       <div data-id={application.id} className={style.application}>
         <p>Name: {name}</p>
@@ -46,12 +55,12 @@ export const ApplicationBlock = ({
           <Button
             label="Reject"
             btnType={ButtonsEnum.SECONDARY}
-            onClick={handleReject}
+            onClick={handleRejectClick}
           ></Button>
           <Button
             label="Approve"
             btnType={ButtonsEnum.PRIMARY}
-            onClick={handleApprove}
+            onClick={handleApproveClick}
           ></Button>
         </div>
       </div>
