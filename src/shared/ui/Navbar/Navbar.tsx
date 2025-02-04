@@ -1,6 +1,6 @@
 import Button from "../Button/Button";
 import logo from "../../assets/images/logopurple.webp";
-import { BecomeMentorButton } from "../../../features/Mentor/BecomeMentorButton";
+import { BecomeMentorButton } from "../../../features/Mentor/ui/BecomeMentorButton";
 
 export default function Navbar() {
   const isAuthorized = false;

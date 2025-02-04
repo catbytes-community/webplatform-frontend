@@ -1,11 +1,11 @@
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import s from "./BecomeMentorForm.module.css";
-import { BecomeMentorForm, Option } from "../../app/types/global";
+import { BecomeMentorForm, Option } from "../../../app/types/global";
 import { SelectorsStyles } from "./SelectorStyles";
 import { Fields, Languages } from "./DataOptions";
 import { ErrorMessage } from "@hookform/error-message";
-import { Modal } from "../../shared/ui/Modal/Modal";
+import { Modal } from "../../../shared/ui/Modal/Modal";
 import React from "react";
 
 interface MentorModalFormProps {

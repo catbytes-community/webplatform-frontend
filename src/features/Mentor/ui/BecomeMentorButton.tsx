@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "../../shared/ui/Button/Button";
+import Button from "../../../shared/ui/Button/Button";
 import { MentorForm } from "./MentorModalForm";
 
 export const BecomeMentorButton = () => {
