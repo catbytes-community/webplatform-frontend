@@ -3,6 +3,7 @@ import { Application } from "../../../app/types/global";
 import { useEffect, useState } from "react";
 import { ApplicationBlock } from "../components/Application/ApplicationBlock";
 import axios from "axios";
+import Navbar from "../../../shared/ui/Navbar/Navbar";
 
 export const ApplicationsPage = () => {
   const [applications, setApplications] = useState<Application[]>();
@@ -55,6 +56,7 @@ export const ApplicationsPage = () => {
 
   return (
     <>
+      <Navbar />
       <div className={style.applicationsContainer}>
         <h1 className="font-bold">Applications</h1>
         <div className={style.filters}>
