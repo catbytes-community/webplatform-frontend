@@ -59,10 +59,10 @@ export const ApplicationsPage = () => {
       <Navbar />
       <div className={style.applicationsContainer}>
         <h1 className="font-bold">Applications</h1>
-        <div className={style.filters}>
-          <button>All</button>
-          <button>Members</button>
-          <button>Mentors</button>
+        <div className='flex gap-2 mt-5 mb-5'>
+          <button className={style.filterButtons}>All</button>
+          <button className={style.filterButtons}>Members</button>
+          <button className={style.filterButtons}>Mentors</button>
         </div>
         <div className="applications">
           {applications?.map((application) => (

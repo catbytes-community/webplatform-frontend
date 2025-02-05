@@ -5,12 +5,7 @@
   width: 660px;
 }
 
-.filters{
-	margin: 20px 0;
-	display: flex;
-	gap: 10px;
-}
-.filters button{
+.filterButtons{
   border: 1px solid black;
   min-width: fit-content;
   border-radius: 4px;
