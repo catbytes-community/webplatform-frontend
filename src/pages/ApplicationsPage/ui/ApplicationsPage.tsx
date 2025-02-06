@@ -1,11 +1,11 @@
-import style from "./ApplicationsPage.module.css";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import style from './ApplicationsPage.module.css';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   getAuth,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-} from "firebase/auth";
+} from 'firebase/auth';
 // import auth from "../../../../firebaseConfig";
 
 export const ApplicationsPage = () => {
@@ -33,17 +33,17 @@ export const ApplicationsPage = () => {
 
   const login = () => {
     const auth = getAuth();
-    const email = "marina.kim@catbytes.io";
-    const password = "Manushka8$";
+    const email = 'marina.kim@catbytes.io';
+    const password = 'Manushka8$';
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         console.log(user.accessToken);
         let config = {
-          method: "post",
+          method: 'post',
           maxBodyLength: Infinity,
-          url: "https://devapi.catbytes.io/users/login",
+          url: 'https://devapi.catbytes.io/users/login',
           headers: {
             token: user.accessToken,
           },
@@ -75,24 +75,24 @@ export const ApplicationsPage = () => {
     //   });
   };
 
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
 
   const approveApplication = () => {
-    console.log("approved");
+    console.log('approved');
     try {
       let data = JSON.stringify({
-        status: "approved",
+        status: 'approved',
         user_id: user.user.id,
       });
 
       let config = {
-        method: "put",
+        method: 'put',
         maxBodyLength: Infinity,
         url: `${import.meta.env.VITE_DEVAPI}applications/26`,
         headers: {
-          userUID: "P4OUBdaGLHeNVHh16HbD0UFzZCq2",
-          "Content-Type": "application/json",
-          Cookie: "userUID=P4OUBdaGLHeNVHh16HbD0UFzZCq2",
+          userUID: 'P4OUBdaGLHeNVHh16HbD0UFzZCq2',
+          'Content-Type': 'application/json',
+          Cookie: 'userUID=P4OUBdaGLHeNVHh16HbD0UFzZCq2',
         },
         data: data,
       };
@@ -110,22 +110,22 @@ export const ApplicationsPage = () => {
     }
   };
   const rejectApplication = () => {
-    console.log("rejected");
+    console.log('rejected');
     try {
       let data = JSON.stringify({
-        status: "rejected",
+        status: 'rejected',
         comment: comment,
         user_id: user.user.id,
       });
 
       let config = {
-        method: "put",
+        method: 'put',
         maxBodyLength: Infinity,
         url: `${import.meta.env.VITE_DEVAPI}applications/26`,
         headers: {
-          userUID: "P4OUBdaGLHeNVHh16HbD0UFzZCq2",
-          "Content-Type": "application/json",
-          Cookie: "userUID=P4OUBdaGLHeNVHh16HbD0UFzZCq2",
+          userUID: 'P4OUBdaGLHeNVHh16HbD0UFzZCq2',
+          'Content-Type': 'application/json',
+          Cookie: 'userUID=P4OUBdaGLHeNVHh16HbD0UFzZCq2',
         },
         data: data,
       };
