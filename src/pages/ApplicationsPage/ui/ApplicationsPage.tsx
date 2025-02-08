@@ -207,6 +207,9 @@ export const ApplicationsPage = () => {
       >
         Reject
       </button>
+      {/* {applications?.map((application) => (
+            <ApplicationBlock key={application.id} application={application} />
+          ))} */}
     </div>
   );
 };
