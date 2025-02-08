@@ -1,0 +1,54 @@
+.filterButton {
+  border: 1px solid black;
+  min-width: fit-content;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 4px 8px;
+  width: fit-content;
+}
+.filterButton_active {
+  background-color: black;
+  color: white;
+}
+.filterDropdown {
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 12px;
+  display: none;
+  margin-top: 5px;
+  z-index: 1;
+}
+.filterTopicButton {
+  anchor-name: --filterTopicButton;
+}
+.filterLevelButton {
+  anchor-name: --filterLevelButton;
+}
+.filterDaysButton {
+  anchor-name: --filterStudyDaysButton;
+}
+.filterTimesButton {
+  anchor-name: --filterTimesButton;
+}
+.filterTopicDropdown {
+  position-anchor: --filterTopicButton;
+  top: anchor(bottom);
+  left: anchor(left);
+}
+.filterLevelDropdown {
+  position-anchor: --filterLevelButton;
+  top: anchor(bottom);
+  left: anchor(left);
+}
+.filterDaysDropdown {
+  position-anchor: --filterStudyDaysButton;
+  top: anchor(bottom);
+  left: anchor(left);
+}
+.filterTimesDropdown {
+  position-anchor: --filterTimesButton;
+  top: anchor(bottom);
+  left: anchor(left);
+}
