@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+import { PomodoroPage } from "./PomodoroPage.tsx";
+import SettingsContextProvider from "../lib/SettingsContext.tsx";
+
+export const Pomodoro = () => {
+    return (
+        <SettingsContextProvider>
+            <PomodoroPage />
+        </SettingsContextProvider>
+    )
+}
+=======
 // import {PomodoroPage} from "./PomodoroPage.tsx";
 // import SettingsContextProvider from "../lib/SettingsContext.tsx";
 
@@ -8,3 +20,4 @@
 //         </SettingsContextProvider>
 //     )
 // }
+>>>>>>> origin/feat-13-applications-page

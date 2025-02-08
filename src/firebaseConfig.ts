@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -7,8 +7,7 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // apiKey: process.env.VITE_API_KEY,
-  apiKey: "AIzaSyDz7KWPpsKDMwnh0Ho92m043xfSg9k7Kzk",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "catbytes-frontend.firebaseapp.com",
   projectId: "catbytes-frontend",
   storageBucket: "catbytes-frontend.firebasestorage.app",
@@ -17,7 +16,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-export default { app, auth };
+export { app, auth };
