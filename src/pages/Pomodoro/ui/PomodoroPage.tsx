@@ -163,6 +163,7 @@ export const PomodoroPage = () => {
             </div>
         </div>
     );
+<<<<<<< HEAD
 };
 =======
 //                         <div className="flex space-x-6 mt-6">
@@ -192,3 +193,6 @@ export const PomodoroPage = () => {
 //     );
 // };
 >>>>>>> origin/feat-13-applications-page
+=======
+};
+>>>>>>> 35ec07d (WIP)
