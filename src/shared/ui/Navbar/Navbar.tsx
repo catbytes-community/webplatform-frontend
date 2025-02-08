@@ -1,15 +1,20 @@
-import Button from "../Button/Button";
-import logo from "../../assets/images/logopurple.webp";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import Button from '../Button/Button';
+import logo from '../../assets/images/logopurple.webp';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isCreateApplication = location.pathname === '/create_application';
+  const isLogInPage = location.pathname === '/login';
+
   function handleClickJoinUs() {
-    navigate("/create_application");
+    navigate('/create_application');
   }
   function handleClickSignIn() {
-    navigate("/login");
+    navigate('/login');
   }
 
   return (
@@ -30,12 +35,14 @@ export default function Navbar() {
           label="JOIN US"
           btnType="primary_btn"
           onClick={handleClickJoinUs}
+          disabled={isCreateApplication}
         />
 
         <Button
           label="SIGN IN"
           btnType="secondary_btn"
           onClick={handleClickSignIn}
+          disabled={isLogInPage}
         />
       </div>
     </div>
