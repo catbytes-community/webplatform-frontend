@@ -1,11 +1,12 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement } from "react";
 //import style from "./Button.module.css";
-import ArrowImg from './arrow.svg';
+import ArrowImg from "./arrow.svg";
 export enum ButtonsEnum {
-  PRIMARY = 'primary_btn',
-  SECONDARY = 'secondary_btn',
-  TERTIARY = 'tertiary_btn',
-  PIMARY_BIG = 'primary_big_btn',
+  PRIMARY = "primary_btn",
+  SECONDARY = "secondary_btn",
+  TERTIARY = "tertiary_btn",
+  TERTIARY_NO_ARROW = "tertiary_no_arrow_btn",
+  PIMARY_BIG = "primary_big_btn",
 }
 
 interface ButtonProps {
@@ -23,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({
 }): ReactElement => {
   return (
     <button
-      className={`${btnType} ${disabled ? 'cursor-not-allowed' : ''}`}
+      className={`${btnType} ${disabled ? "cursor-not-allowed" : ""}`}
       onClick={!disabled ? onClick : undefined}
       disabled={disabled} // Важно передать в сам <button>
     >
