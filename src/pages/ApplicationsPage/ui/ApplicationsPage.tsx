@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { ApplicationBlock } from "../components/Application/ApplicationBlock";
 import axios from "axios";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
-import { Application } from "../../../app/types/global";
-import { ApplicationBlock } from "../components/Application/ApplicationBlock";
 
 export const ApplicationsPage = () => {
   const [applications, setApplications] = useState<Application[]>([]);
