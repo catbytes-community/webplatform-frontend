@@ -1,5 +1,7 @@
 import style from "./ApplicationsPage.module.css";
-import { useState, useEffect } from "react";
+import { Application } from "../../../app/types/global";
+import { useEffect, useState } from "react";
+import { ApplicationBlock } from "../components/Application/ApplicationBlock";
 import axios from "axios";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
 import { Application } from "../../../app/types/global";
