@@ -1,9 +1,9 @@
 import style from "./ApplicationsPage.module.css";
-import { Application } from "../../../app/types/global";
-import { useEffect, useState } from "react";
-import { ApplicationBlock } from "../components/Application/ApplicationBlock";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
+import { Application } from "../../../app/types/global";
+import { ApplicationBlock } from "../components/Application/ApplicationBlock";
 
 export const ApplicationsPage = () => {
   const [applications, setApplications] = useState<Application[]>([]);
