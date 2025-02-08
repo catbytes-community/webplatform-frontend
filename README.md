@@ -58,3 +58,20 @@ The following are the steps to work with APIs:
 - if firebase token is successfully verified at the backend, it will return a cookie with userUID
 - for this cookie to be set in the browser, the API should be called `withCredentials: true` axios header
 - after cookie is set, all other APIs should be ok to call and will follow normal flow of backend middleware (authentication, verifyRole etc.)
+
+## Deployment
+
+This app is deployed to the AWS EC2 instance.
+There is no CI/CD implemented yet for this project, so the deployment will have to be manual.
+
+In order to deploy updated app to EC2, follow the below steps:
+
+- first make sure that updated code builds without errors `npm run build`
+- make sure you have the .pem key to connect to EC2
+- ssh into EC2 `ssh -i catbytes-frontend-dev-key-pair.pem ec2-user@35.178.140.33`
+- redirect to the app directory `cd /home/ec2-user/webplatform-frontend`
+- pull updated code `git pull origin develop`
+- install updated dependencies if necessary `npm install`
+- build the dist folder `npm run build`
+- restart nginx `sudo systemctl restart nginx`
+- visit `https://dev.catbytes.io` (for dev) to test that updated app is working fine
