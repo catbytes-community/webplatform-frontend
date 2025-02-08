@@ -41,7 +41,9 @@ export const ApplicationsPage = () => {
   useEffect(() => {
     try {
       axios
-        .get("https://devapi.catbytes.io/applications")
+        .get("https://devapi.catbytes.io/applications", {
+          withCredentials: true,
+        })
         .then((res) => {
           setApplications(res.data);
         })
