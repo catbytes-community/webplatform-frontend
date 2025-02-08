@@ -5,42 +5,62 @@ import { Link } from "react-router-dom";
 import { auth } from "../../../firebaseConfig";
 import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 export default function Navbar() {
   const [isAuth, setIsAuth] = useState(false);
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        setIsAuth(true);
-      } else {
-        setIsAuth(false);
-      }
-    });
-  }, []);
   const navigate = useNavigate();
   const location = useLocation();
+  const [isMentor, setIsMentor] = useState(false);
 
   const isCreateApplication = location.pathname === "/create_application";
   const isLogInPage = location.pathname === "/login";
 
+  useEffect(() => {
+    const user = localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user") as string)
+      : null;
+    if (user) {
+      setIsMentor(
+        user.roles.filter(
+          (role: { role_id: number; role_name: string }) =>
+            role.role_name === "mentor"
+        ).length > 0
+      );
+    }
+
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setIsAuth(true); // User is authenticated via Firebase
+      } else {
+        setIsAuth(false); // User is not authenticated via Firebase
+      }
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe();
+  }, []);
+
   function handleClickJoinUs() {
     navigate("/create_application");
   }
+
   function handleClickSignIn() {
     navigate("/login");
   }
 
   function handleClickSignOut() {
-    setTimeout(() => {
-      signOut(auth)
-        .then(() => {
-          setIsAuth(false);
-          navigate("/");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }, 1000);
+    signOut(auth)
+      .then(() => {
+        Cookies.remove("userUID"); // Clear the cookie on sign out
+        setIsAuth(false); // Update the authentication state
+        localStorage.removeItem("user"); // Clear the user data from local storage
+        setIsMentor(false); // Update the mentor state
+        navigate("/"); // Redirect to the home page
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   return (
@@ -55,6 +75,7 @@ export default function Navbar() {
         <nav className="flex items-center gap-6 -ml-96">
           <Link to="/">HOME</Link>
           <Link to="/pomodoro">Tools</Link>
+          {isMentor && <Link to="/applications">Applications</Link>}
         </nav>
       </div>
 

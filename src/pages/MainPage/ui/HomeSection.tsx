@@ -13,6 +13,7 @@ export const HomeSection = () => {
   function handleClickJoinUs() {
     navigate("/create_application");
   }
+
   return (
     <div className="flex justify-center px-10 py-3.5">
       <div className={`${style.main} grid grid-cols-[1.6fr_0.8fr] gap-5`}>
