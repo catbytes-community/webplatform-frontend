@@ -1,15 +1,15 @@
-import style from './CreateApplicationPage.module.css';
-import React, { useState } from 'react';
-import axios from 'axios';
-import Button, { ButtonsEnum } from '../../../shared/ui/Button/Button';
-import Navbar from '../../../shared/ui/Navbar/Navbar';
+import style from "./CreateApplicationPage.module.css";
+import React, { useState } from "react";
+import axios from "axios";
+import Button, { ButtonsEnum } from "../../../shared/ui/Button/Button";
+import Navbar from "../../../shared/ui/Navbar/Navbar";
 
 export const CreateApplicationPage: React.FC = () => {
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [about, setAbout] = useState<string>('');
-  const [link, setLink] = useState<string>('');
-  const [discord, setDiscord] = useState<string>('');
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [about, setAbout] = useState<string>("");
+  const [link, setLink] = useState<string>("");
+  const [discord, setDiscord] = useState<string>("");
   const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -20,43 +20,43 @@ export const CreateApplicationPage: React.FC = () => {
   // Validation rules
   const validateField = (field: string, value: string): string => {
     switch (field) {
-      case 'name':
+      case "name":
         return /^[A-Za-z\s]+$/.test(value)
-          ? ''
-          : 'Name must contain only letters and spaces.';
-      case 'email':
+          ? ""
+          : "Name must contain only letters and spaces.";
+      case "email":
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-          ? ''
+          ? ""
           : "Please enter a valid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'";
-      case 'about':
+      case "about":
         return value.trim().length >= 10
-          ? ''
-          : 'About must be at least 10 characters long.';
-      case 'link':
+          ? ""
+          : "About must be at least 10 characters long.";
+      case "link":
         return /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-]*)*$/.test(value)
-          ? ''
-          : 'Invalid video link. Valid link https://example.com';
-      case 'discord':
+          ? ""
+          : "Invalid video link. Valid link https://example.com";
+      case "discord":
         return /^(?=.{2,32}$)[a-zA-Z0-9._]+$/.test(value)
-          ? ''
-          : 'Discord username must be 2-32 characters long and can only contain letters, numbers, dots, and underscores.';
+          ? ""
+          : "Discord username must be 2-32 characters long and can only contain letters, numbers, dots, and underscores.";
       default:
-        return '';
+        return "";
     }
   };
 
   // Validate all fields before submission
   const validateForm = (): boolean => {
     const newErrors: { [key: string]: string } = {};
-    newErrors.name = validateField('name', name);
-    newErrors.email = validateField('email', email);
-    newErrors.about = validateField('about', about);
-    newErrors.link = validateField('link', link);
-    newErrors.discord = validateField('discord', discord);
+    newErrors.name = validateField("name", name);
+    newErrors.email = validateField("email", email);
+    newErrors.about = validateField("about", about);
+    newErrors.link = validateField("link", link);
+    newErrors.discord = validateField("discord", discord);
 
     setErrors(newErrors);
 
-    return Object.values(newErrors).every((error) => error === '');
+    return Object.values(newErrors).every((error) => error === "");
   };
 
   const handleBlur = (field: string, value: string): void => {
@@ -74,7 +74,7 @@ export const CreateApplicationPage: React.FC = () => {
     }
 
     if (!agreeToTerms) {
-      setError('You must agree to the Terms and Conditions.');
+      setError("You must agree to the Terms and Conditions.");
       return;
     }
 
@@ -94,39 +94,35 @@ export const CreateApplicationPage: React.FC = () => {
 
       // send data on server
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_DEVAPI}applications`,
-        data,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      await axios.post(`${import.meta.env.VITE_DEVAPI}applications`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       // if response server sucsessful
-      alert('Application submitted successfully!');
+      alert("Application submitted successfully!");
 
       // clean form
-      setName('');
-      setEmail('');
-      setAbout('');
-      setLink('');
-      setDiscord('');
+      setName("");
+      setEmail("");
+      setAbout("");
+      setLink("");
+      setDiscord("");
       setAgreeToTerms(false);
       setErrors({});
-    } catch (error: any) {
+    } catch (error) {
       // catch errors
       if (axios.isAxiosError(error)) {
         setError(
           error.response?.data?.error ||
-            'An error occurred while submitting the form.'
+            "An error occurred while submitting the form."
         );
       } else {
-        setError('An unexpected error occurred.');
+        setError("An unexpected error occurred.");
       }
 
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -150,7 +146,7 @@ export const CreateApplicationPage: React.FC = () => {
                 setName(e.target.value);
                 setErrors((prev) => ({
                   ...prev,
-                  name: validateField('name', e.target.value),
+                  name: validateField("name", e.target.value),
                 }));
               }}
             />
@@ -166,7 +162,7 @@ export const CreateApplicationPage: React.FC = () => {
                 setEmail(e.target.value)
               }
               onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
-                handleBlur('email', e.target.value)
+                handleBlur("email", e.target.value)
               }
             />
             {errors.email && <p className={style.error}>{errors.email}</p>}
@@ -181,7 +177,7 @@ export const CreateApplicationPage: React.FC = () => {
                 setAbout(e.target.value);
                 setErrors((prev) => ({
                   ...prev,
-                  about: validateField('about', e.target.value),
+                  about: validateField("about", e.target.value),
                 }));
               }}
             />
@@ -197,7 +193,7 @@ export const CreateApplicationPage: React.FC = () => {
                 setLink(e.target.value)
               }
               onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
-                handleBlur('link', e.target.value)
+                handleBlur("link", e.target.value)
               }
             />
             {errors.link && <p className={style.error}>{errors.link}</p>}
@@ -212,7 +208,7 @@ export const CreateApplicationPage: React.FC = () => {
                 setDiscord(e.target.value);
                 setErrors((prev) => ({
                   ...prev,
-                  discord: validateField('discord', e.target.value),
+                  discord: validateField("discord", e.target.value),
                 }));
               }}
             />
@@ -228,7 +224,7 @@ export const CreateApplicationPage: React.FC = () => {
               className="mr-2"
             />
             <label>
-              I agree to the{' '}
+              I agree to the{" "}
               <a href="/terms" target="_blank">
                 Terms and Conditions
               </a>

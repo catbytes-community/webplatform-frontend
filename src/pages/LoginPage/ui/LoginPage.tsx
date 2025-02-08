@@ -38,11 +38,18 @@ export function LoginPage() {
       const user = userCredential.user;
       const token = await user.getIdToken();
 
-      await axios.post(
+      const loginRes = await axios.post(
         `${import.meta.env.VITE_DEVAPI}users/login`,
         {},
         { headers: { token }, withCredentials: true }
       );
+
+      const userDataRes = await axios.get(
+        `${import.meta.env.VITE_DEVAPI}users/${loginRes?.data?.user?.id}`,
+        { headers: { token }, withCredentials: true }
+      );
+
+      localStorage.setItem("user", JSON.stringify(userDataRes.data));
 
       setEmail("");
       setPassword("");
