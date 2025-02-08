@@ -6,7 +6,8 @@ import { getAuth } from "firebase/auth";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+
+const firebaseConfig_dev = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "catbytes-frontend.firebaseapp.com",
   projectId: "catbytes-frontend",
@@ -14,6 +15,18 @@ const firebaseConfig = {
   messagingSenderId: "221712767543",
   appId: "1:221712767543:web:b0b18f7d4e3af02c3ebdb2",
 };
+
+const firebaseConfig_prod = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY_PROD,
+  authDomain: "catbytes-frontend-prod.firebaseapp.com",
+  projectId: "catbytes-frontend-prod",
+  storageBucket: "catbytes-frontend-prod.firebasestorage.app",
+  messagingSenderId: "2716858011",
+  appId: "1:2716858011:web:af6374e3a74141cd05783e",
+};
+
+const firebaseConfig =
+  import.meta.env.VITE_ENV === "dev" ? firebaseConfig_dev : firebaseConfig_prod;
 
 // Initialize Firebase
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
