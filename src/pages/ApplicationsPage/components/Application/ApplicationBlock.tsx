@@ -13,6 +13,8 @@ export const ApplicationBlock = ({
   const [name, lastName] = application.name.split(" ");
   const [isConfirmRejectShown, setIsConfirmRejectShown] = useState(false);
   const [isConfirmApproveShown, setIsConfirmApproveShown] = useState(false);
+  const [isRejected, setIsRejected] = useState(false);
+  const [comment, setComment] = useState("");
 
   function handleRejectClick() {
     setIsConfirmRejectShown(true);
@@ -21,12 +23,39 @@ export const ApplicationBlock = ({
   function handleApproveClick() {
     setIsConfirmApproveShown(true);
   }
-  function handleReject(confirm: boolean) {
+  const handleReject = async (confirm: boolean) => {
     if (confirm) {
-      //code to handle rejecting
+      const user = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user") as string)
+        : null;
+
+      if (!comment || comment === "") {
+        alert("Please add a comment");
+        return;
+      } else {
+        try {
+          await axios.put(
+            `${import.meta.env.VITE_DEVAPI}applications/${application.id}`,
+            {
+              status: "rejected",
+              comment: comment,
+              user_id: user.id,
+            },
+            {
+              withCredentials: true,
+            }
+          );
+
+          alert("Application rejected");
+          setIsRejected(false);
+          setComment("");
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
     setIsConfirmRejectShown(false);
-  }
+  };
   const handleApprove = async (confirm: boolean) => {
     if (confirm) {
       const user = localStorage.getItem("user")
@@ -77,12 +106,35 @@ export const ApplicationBlock = ({
           Link to video:{" "}
           <a href={application.video_link}>{application.video_link}</a>
         </p>
-        {application.status === "pending" ? (
+        {isRejected && (
+          <div className="mt-5">
+            <input
+              placeholder="Why do you want to reject it?"
+              className="w-full p-3 rounded border-[1px] border-gray-300"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <p className="italic text-xs text-gray-500 mt-1 mb-5">
+              Note: this information will be viewed by the applicant
+            </p>
+            <Button
+              label="Reject"
+              btnType={ButtonsEnum.PRIMARY}
+              onClick={handleRejectClick}
+            ></Button>
+            <Button
+              label="Cancel"
+              btnType={ButtonsEnum.SECONDARY}
+              onClick={() => setIsRejected(false)}
+            ></Button>
+          </div>
+        )}
+        {application.status === "pending" && !isRejected ? (
           <div className={style.buttons}>
             <Button
               label="Reject"
               btnType={ButtonsEnum.SECONDARY}
-              onClick={handleRejectClick}
+              onClick={() => setIsRejected(true)}
             ></Button>
             <Button
               label="Approve"
@@ -90,18 +142,20 @@ export const ApplicationBlock = ({
               onClick={handleApproveClick}
             ></Button>
           </div>
-        ) : application.status === "rejected" ? (
+        ) : application.status === "rejected" && !isRejected ? (
           <div className="flex justify-end">
             <p className="bg-red-500 p-3 rounded w-1/6 text-center font-bold text-white">
               REJECTED
             </p>
           </div>
-        ) : (
+        ) : application.status === "approved" && !isRejected ? (
           <div className="flex justify-end">
             <p className="bg-teal-500 p-3 rounded w-1/6 text-center font-bold text-white">
               APPROVED
             </p>
           </div>
+        ) : (
+          ""
         )}
       </div>
     </>
