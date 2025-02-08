@@ -1,3 +1,3 @@
-import { Pomodoro } from "./ui/Pomodoro.tsx";
+import { Pomodoro } from "./ui/Pomodoro.jsx";
 
 export { Pomodoro };

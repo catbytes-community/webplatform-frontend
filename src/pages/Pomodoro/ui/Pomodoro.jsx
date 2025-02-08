@@ -1,5 +1,5 @@
-import { PomodoroPage } from "./PomodoroPage.tsx";
-import SettingsContextProvider from "../lib/SettingsContext.tsx";
+import { PomodoroPage } from "./PomodoroPage.jsx";
+import SettingsContextProvider from "../lib/SettingsContext.jsx";
 
 export const Pomodoro = () => {
   return (

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { SettingContext } from "./SettingsContext.tsx";
+import { SettingContext } from "./SettingsContext.jsx";
 
 const Settings = () => {
   const { updateExecute } = useContext(SettingContext);

@@ -1,6 +1,6 @@
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useContext } from "react";
-import { SettingContext } from "../lib/SettingsContext.tsx";
+import { SettingContext } from "../lib/SettingsContext.jsx";
 
 // animate is true or false
 // children is the animation in center of the circle
