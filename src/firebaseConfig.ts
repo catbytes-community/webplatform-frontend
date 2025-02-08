@@ -12,9 +12,13 @@ import { getAuth } from 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
+<<<<<<< HEAD
 <<<<<<< HEAD:src/firebaseConfig.ts
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   // apiKey: "AIzaSyDz7KWPpsKDMwnh0Ho92m043xfSg9k7Kzk",
+=======
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+>>>>>>> b169ac9 (completes login and forgot password feature)
   authDomain: "catbytes-frontend.firebaseapp.com",
   projectId: "catbytes-frontend",
   storageBucket: "catbytes-frontend.firebasestorage.app",

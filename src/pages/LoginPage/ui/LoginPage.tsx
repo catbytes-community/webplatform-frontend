@@ -1,26 +1,31 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import firebaseConfig from '../../../../firebaseConfig';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import { auth } from "../../../firebaseConfig";
 
-import Navbar from '../../../shared/ui/Navbar/Navbar';
-import Button, { ButtonsEnum } from '../../../shared/ui/Button/Button';
-import style from './LoginPage.module.css';
-
-const auth = firebaseConfig.auth;
+import Navbar from "../../../shared/ui/Navbar/Navbar";
+import Button, { ButtonsEnum } from "../../../shared/ui/Button/Button";
+import style from "./LoginPage.module.css";
 
 export function LoginPage() {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  // hooks
   const navigate = useNavigate();
+
+  // component state
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [isForgotPassword, setIsForgotPassword] = useState<boolean>(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email || !password) {
-      setError('Please enter both email and password.');
+      setError("Please enter both email and password.");
       return;
     }
 
@@ -33,66 +38,61 @@ export function LoginPage() {
       const user = userCredential.user;
       const token = await user.getIdToken();
 
-      const response = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_DEVAPI}users/login`,
         {},
-        { headers: { token } }
+        { headers: { token }, withCredentials: true }
       );
 
-      localStorage.setItem('user', JSON.stringify(response.data));
-      setError('');
-      navigate('/');
+      setEmail("");
+      setPassword("");
+      setError("");
+      navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(
-          'Axios error details:',
+          "Axios error details:",
           error.response?.data || error.message
         );
-        setError(error.response?.data?.message || 'Login request failed');
+        setError(error.response?.data?.message || "Login request failed");
       } else {
-        console.error('Login error:', error);
+        console.error("Login error:", error);
         setError(
-          error instanceof Error ? error.message : 'An unknown error occurred'
+          error instanceof Error ? error.message : "An unknown error occurred"
         );
       }
     }
   };
 
   const handleForgotPassword = async () => {
+    setIsForgotPassword(true);
     if (!email) {
-      setError('Please enter your email first.');
+      setError("Please enter your email first.");
       return;
     }
 
     // Проверка валидности email
     if (!email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-      setError('Please enter a valid email.');
+      setError("Please enter a valid email.");
       return;
     }
 
     try {
-      console.log(`Simulating password reset email to: ${email}`);
-      // const response = await fetch(
-      //   `${import.meta.env.VITE_DEVAPI}users/forgot-password`,
-      //   {
-      //     method: 'POST',
-      //     credentials: 'include',
-      //     headers: { 'Content-Type': 'application/json' },
-      //     body: JSON.stringify({ email }),
-      //   }
-      // );
-      // if (!response.ok) throw new Error('Error sending reset email.');
-      setError('Password reset email sent!');
+      await sendPasswordResetEmail(auth, email);
+      alert(`Password reset email sent to ${email}`);
     } catch (err) {
-      console.error('Password reset error:', err);
-      setError('Error sending reset email.');
+      console.error("Password reset error:", err);
+      alert(
+        `Error sending reset email. Please try again later. Error: ${JSON.stringify(
+          err
+        )}`
+      );
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center gap-5">
       <Navbar />
-      <h1 className={style.title}>Sign In</h1>
       <form className={style.form} onSubmit={handleLogin}>
         <div>
           <input
@@ -103,32 +103,47 @@ export function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div>
-          <input
-            className={style.input}
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+        {!isForgotPassword && (
+          <div>
+            <input
+              className={style.input}
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+        )}
         {error && <p className={style.error}>{error}</p>}
         <div>
           <Button
-            label="Login"
+            label={isForgotPassword ? "Reset Password" : "Login"}
             btnType={ButtonsEnum.PRIMARY}
-            onClick={() => {}}
+            onClick={isForgotPassword ? handleForgotPassword : handleLogin}
           />
         </div>
       </form>
-      <button onClick={() => navigate('/create_application')}>
+
+      {isForgotPassword ? (
+        <Button
+          label="Cancel"
+          btnType={ButtonsEnum.SECONDARY}
+          onClick={() => {
+            setIsForgotPassword(false);
+            setError("");
+          }}
+        />
+      ) : (
+        <Button
+          label="Forgot Password"
+          btnType={ButtonsEnum.TERTIARY_NO_ARROW}
+          onClick={() => setIsForgotPassword(true)}
+        />
+      )}
+
+      <button onClick={() => navigate("/create_application")}>
         Not a member? Apply here
       </button>
-      <Button
-        label="Forgot Password"
-        btnType={ButtonsEnum.SECONDARY}
-        onClick={handleForgotPassword}
-      />
     </div>
   );
 }
