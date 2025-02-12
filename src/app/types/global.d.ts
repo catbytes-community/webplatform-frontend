@@ -1,22 +1,22 @@
-export type Direction = 'frontend' | 'design' | 'test' | 'backend' | 'QA';
+export type Direction = "frontend" | "design" | "test" | "backend" | "QA";
 type mentorLinks = {
-    telegram?: string,
-    discord: string,
-    email?: string
-}
+  telegram?: string;
+  discord: string;
+  email?: string;
+};
 
 export interface User {
-    id: number,
-    name: string,
-    lastName: string,
-    photo: string
+  id: number;
+  name: string;
+  lastName: string;
+  photo: string;
 }
 
 export interface Mentor extends User {
-    direction: Direction[],
-    experience: number,
-    description: string,
-    links: mentorLinks
+  direction: Direction[];
+  experience: number;
+  description: string;
+  links: mentorLinks;
 }
 
 export interface Option {
@@ -24,31 +24,42 @@ export interface Option {
     label: string
 }
 export type ProjectRole = {
-    level: string,
-    title: string,
-    description: string,
-    status: "Open" | "Closed" | "Applied",
-}
+  level: string;
+  title: string;
+  description: string;
+  status: "Open" | "Closed" | "Applied";
+};
 
 export type Documentation = {
-    link: string,
-    description: string
-}
+  link: string;
+  description: string;
+};
 
 export interface Project {
-    id?: number,
-    name: string,
-    summary: string,
-    description: string,
-    startDate: string,
-    endDate: string,
-    duration: string,
-    manager: string,
-    status: string,
-    image?: string,
-    tags: string[],
-    roles: ProjectRole[],
-    documentation: Documentation[],
+  id?: number;
+  name: string;
+  summary: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  duration: string;
+  manager: string;
+  status: string;
+  image?: string;
+  tags: string[];
+  roles: ProjectRole[];
+  documentation: Documentation[];
+}
+
+export interface Application {
+  id: number;
+  name: string;
+  about: string;
+  video_link: string;
+  discord_username: string;
+  created_at: string;
+  email: string;
+  status: string;
 }
 
 export interface BecomeMentorForm {
