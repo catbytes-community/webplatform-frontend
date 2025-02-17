@@ -16,3 +16,10 @@
   align-items: center;
   gap: 15px;
 }
+
+.error {
+  color: red;
+  font-size: 12px;
+  font-style: italic;
+  width: 300px;
+}

@@ -13,6 +13,7 @@ import { Pomodoro } from "../../../pages/Pomodoro";
 // import {AllProjectsPage} from "../../../pages/AllProjectsPage";
 // import {ProjectPage} from "../../../pages/ProjectPage";
 import { CreateApplicationPage } from "../../../pages/CreateApplicationPage";
+import { UserProfilePage } from "../../../pages/UserProfilePage";
 
 export enum AppRoutes {
   MAIN = "main",
@@ -29,6 +30,7 @@ export enum AppRoutes {
   APPLICATIONS = "applications",
   LOGIN = "login",
   CREATE_APPLICATION = "create_application",
+  USER_PROFILE = "user_profile/:id",
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
@@ -46,6 +48,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.APPLICATIONS]: "/applications",
   [AppRoutes.LOGIN]: "/login",
   [AppRoutes.CREATE_APPLICATION]: "/create_application",
+  [AppRoutes.USER_PROFILE]: "/user_profile/:id",
 };
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
@@ -104,5 +107,9 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.CREATE_APPLICATION]: {
     path: RoutePath.create_application,
     element: <CreateApplicationPage />,
+  },
+  [AppRoutes.USER_PROFILE]: {
+    path: RoutePath[AppRoutes.USER_PROFILE],
+    element: <UserProfilePage />,
   },
 };

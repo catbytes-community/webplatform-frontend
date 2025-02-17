@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
 } from "firebase/auth";
 import { auth } from "../../../firebaseConfig";
 
@@ -17,90 +18,77 @@ export function LoginPage() {
 
   // component state
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [isForgotPassword, setIsForgotPassword] = useState<boolean>(false);
+  const [isLinkSent, setIsLinkSent] = useState<boolean>(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    // Check if the user clicked the email link to sign in
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      let storedEmail = window.localStorage.getItem("emailForSignIn");
 
-    if (!email || !password) {
-      setError("Please enter both email and password.");
-      return;
-    }
+      if (!storedEmail) {
+        storedEmail = prompt("Please enter your email to confirm sign-in");
+      }
 
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      const token = await user.getIdToken();
+      if (storedEmail) {
+        signInWithEmailLink(auth, storedEmail, window.location.href)
+          .then(async (userCredential) => {
+            const user = userCredential.user;
+            const token = await user.getIdToken();
 
-      const loginRes = await axios.post(
-        `${import.meta.env.VITE_DEVAPI}users/login`,
-        {},
-        { headers: { token }, withCredentials: true }
-      );
+            // Send token to backend for authentication
+            const loginRes = await axios.post(
+              `${import.meta.env.VITE_DEVAPI}users/login`,
+              {},
+              { headers: { token }, withCredentials: true }
+            );
 
-      const userDataRes = await axios.get(
-        `${import.meta.env.VITE_DEVAPI}users/${loginRes?.data?.user?.id}`,
-        { headers: { token }, withCredentials: true }
-      );
+            const userDataRes = await axios.get(
+              `${import.meta.env.VITE_DEVAPI}users/${loginRes?.data?.user?.id}`,
+              { headers: { token }, withCredentials: true }
+            );
 
-      localStorage.setItem("user", JSON.stringify(userDataRes.data));
+            localStorage.setItem("user", JSON.stringify(userDataRes.data));
+            window.localStorage.removeItem("emailForSignIn");
 
-      setEmail("");
-      setPassword("");
-      setError("");
-      navigate("/");
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          "Axios error details:",
-          error.response?.data || error.message
-        );
-        setError(error.response?.data?.message || "Login request failed");
-      } else {
-        console.error("Login error:", error);
-        setError(
-          error instanceof Error ? error.message : "An unknown error occurred"
-        );
+            navigate("/");
+          })
+          .catch((error) => {
+            console.error("Sign-in error:", error);
+            setError("Failed to sign in. Please try again.");
+          });
       }
     }
-  };
+  }, [navigate]);
 
-  const handleForgotPassword = async () => {
-    setIsForgotPassword(true);
+  const handleLoginWithEmailLink = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!email) {
-      setError("Please enter your email first.");
-      return;
-    }
-
-    // Проверка валидности email
-    if (!email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-      setError("Please enter a valid email.");
+      setError("Please enter your email.");
       return;
     }
 
     try {
-      await sendPasswordResetEmail(auth, email);
-      alert(`Password reset email sent to ${email}`);
-    } catch (err) {
-      console.error("Password reset error:", err);
-      alert(
-        `Error sending reset email. Please try again later. Error: ${JSON.stringify(
-          err
-        )}`
-      );
+      const actionCodeSettings = {
+        url: "https://dev.catbytes.io/login",
+        handleCodeInApp: true,
+      };
+
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", email);
+      setIsLinkSent(true);
+      setError("");
+    } catch (error) {
+      console.error("Error sending sign-in link:", error);
+      setError("Failed to send sign-in link. Please try again.");
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center gap-5">
-      <Navbar />
-      <form className={style.form} onSubmit={handleLogin}>
+      <Navbar isLogin={true} />
+      <form className={style.form} onSubmit={handleLoginWithEmailLink}>
         <div>
           <input
             className={style.input}
@@ -110,43 +98,15 @@ export function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        {!isForgotPassword && (
-          <div>
-            <input
-              className={style.input}
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-        )}
         {error && <p className={style.error}>{error}</p>}
         <div>
           <Button
-            label={isForgotPassword ? "Reset Password" : "Login"}
+            label={isLinkSent ? "Resend Link" : "Send Login Link"}
             btnType={ButtonsEnum.PRIMARY}
-            onClick={isForgotPassword ? handleForgotPassword : handleLogin}
+            onClick={handleLoginWithEmailLink}
           />
         </div>
       </form>
-
-      {isForgotPassword ? (
-        <Button
-          label="Cancel"
-          btnType={ButtonsEnum.SECONDARY}
-          onClick={() => {
-            setIsForgotPassword(false);
-            setError("");
-          }}
-        />
-      ) : (
-        <Button
-          label="Forgot Password"
-          btnType={ButtonsEnum.TERTIARY_NO_ARROW}
-          onClick={() => setIsForgotPassword(true)}
-        />
-      )}
 
       <button onClick={() => navigate("/create_application")}>
         Not a member? Apply here

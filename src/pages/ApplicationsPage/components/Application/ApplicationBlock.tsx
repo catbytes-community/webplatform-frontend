@@ -1,20 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Application } from "../../../../app/types/global";
 import Button, { ButtonsEnum } from "../../../../shared/ui/Button/Button";
 import style from "./ApplicationBlock.module.css";
 import ConfirmModal from "../../../../shared/ui/ConfirmModal/ConfirmModal";
 import axios from "axios";
+import { auth } from "../../../../firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  sendSignInLinkToEmail,
+} from "firebase/auth";
+import { Link } from "react-router-dom";
 
 export const ApplicationBlock = ({
   application,
 }: {
   application: Application;
 }) => {
-  const [name, lastName] = application.name.split(" ");
   const [isConfirmRejectShown, setIsConfirmRejectShown] = useState(false);
   const [isConfirmApproveShown, setIsConfirmApproveShown] = useState(false);
   const [isRejected, setIsRejected] = useState(false);
   const [comment, setComment] = useState("");
+
+  type User = {
+    id: string;
+    name: string;
+  };
+
+  const [mentorUser, setMentorUser] = useState<User | null>(null);
+
+  const getProfileLink = async (userId: string) => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_DEVAPI}users/${userId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  };
+
+  useEffect(() => {
+    if (application.modified_by) {
+      getProfileLink(application.modified_by).then((data) => {
+        setMentorUser({
+          id: data.id,
+          name: data.name,
+        });
+      });
+    }
+  }, [application.modified_by]);
 
   function handleRejectClick() {
     setIsConfirmRejectShown(true);
@@ -56,14 +89,28 @@ export const ApplicationBlock = ({
     }
     setIsConfirmRejectShown(false);
   };
+
+  function generatePassword() {
+    const length = 8;
+    const charset =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let retVal = "";
+
+    for (let i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+  }
+
   const handleApprove = async (confirm: boolean) => {
     if (confirm) {
       const user = localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user") as string)
         : null;
 
+      console.log("Approve application user: ", application.id, user.id);
       try {
-        await axios.put(
+        const response = await axios.put(
           `${import.meta.env.VITE_DEVAPI}applications/${application.id}`,
           {
             status: "approved",
@@ -73,6 +120,33 @@ export const ApplicationBlock = ({
             withCredentials: true,
           }
         );
+
+        console.log("Approve application response: ", response);
+        const tempPassword = generatePassword();
+        createUserWithEmailAndPassword(auth, response.data.email, tempPassword)
+          // TODO: implement flow in case there will be firebase error when creating user
+          .then((userCredential) => {
+            // Signed up
+            const user = userCredential.user;
+            console.log("User created: ", user);
+
+            const actionCodeSettings = {
+              url: "https://dev.catbytes.io/",
+              handleCodeInApp: true,
+            };
+            sendSignInLinkToEmail(auth, response.data.email, actionCodeSettings)
+              .then(() => {
+                console.log("Email sent");
+              })
+              .catch((error) => {
+                console.log("Error sending email: ", error);
+              });
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log("Error creating user: ", errorCode, errorMessage);
+          });
 
         alert("Application approved");
       } catch (error) {
@@ -97,15 +171,31 @@ export const ApplicationBlock = ({
         />
       )}
       <div data-id={application.id} className={style.application}>
-        <p>Name: {name}</p>
-        <p>Last name: {lastName}</p>
-        <p>Email: {application.email}</p>
-        <p>Discord: {application.discord_username}</p>
+        <p>Name: {application.name}</p>
+        <p>Discord: {application.discord_nickname}</p>
         <p>About: {application.about}</p>
         <p>
           Link to video:{" "}
           <a href={application.video_link}>{application.video_link}</a>
         </p>
+        {application.status !== "pending" && (
+          <div>
+            <p>
+              Modified by:{" "}
+              <Link
+                to={`/user_profile/${mentorUser?.id}`}
+                className="underline text-blue-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {mentorUser?.name}
+              </Link>
+            </p>
+          </div>
+        )}
+        {application.status === "rejected" && (
+          <p>Comment: {application.comment}</p>
+        )}
         {isRejected && (
           <div className="mt-5">
             <input
