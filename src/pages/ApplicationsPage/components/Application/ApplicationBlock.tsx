@@ -1,25 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Application } from "../../../../app/types/global";
 import Button, { ButtonsEnum } from "../../../../shared/ui/Button/Button";
 import style from "./ApplicationBlock.module.css";
 import ConfirmModal from "../../../../shared/ui/ConfirmModal/ConfirmModal";
 import axios from "axios";
 import { auth } from "../../../../firebaseConfig";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Link } from "react-router-dom";
 
 export const ApplicationBlock = ({
   application,
 }: {
   application: Application;
 }) => {
-  const [name, lastName] = application.name.split(" ");
   const [isConfirmRejectShown, setIsConfirmRejectShown] = useState(false);
   const [isConfirmApproveShown, setIsConfirmApproveShown] = useState(false);
   const [isRejected, setIsRejected] = useState(false);
   const [comment, setComment] = useState("");
+
+  type User = {
+    id: string;
+    name: string;
+  };
+
+  const [mentorUser, setMentorUser] = useState<User | null>(null);
+
+  const getProfileLink = async (userId: string) => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_DEVAPI}users/${userId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    console.log("getProfileLink response: ", response);
+    return response.data;
+  };
+
+  useEffect(() => {
+    if (application.modified_by) {
+      getProfileLink(application.modified_by).then((data) => {
+        setMentorUser({
+          id: data.id,
+          name: data.name,
+        });
+      });
+    }
+  }, [application.modified_by]);
 
   function handleRejectClick() {
     setIsConfirmRejectShown(true);
@@ -103,23 +129,7 @@ export const ApplicationBlock = ({
             console.log("User created: ", user);
 
             if (auth.currentUser) {
-              sendEmailVerification(auth.currentUser).then(() => {
-                alert("Email verification email is sent to the user");
-
-                // send random password to backend to include into email
-                // or we ask them to reset password on first login
-                axios.put(
-                  `${import.meta.env.VITE_DEVAPI}applications/${
-                    application.id
-                  }`,
-                  {
-                    tempPassword: tempPassword,
-                  },
-                  {
-                    withCredentials: true,
-                  }
-                );
-              });
+              // TODO: send passwordless sign in link
             } else {
               console.error("No current user to send email verification");
             }
@@ -153,15 +163,31 @@ export const ApplicationBlock = ({
         />
       )}
       <div data-id={application.id} className={style.application}>
-        <p>Name: {name}</p>
-        <p>Last name: {lastName}</p>
-        <p>Email: {application.email}</p>
-        <p>Discord: {application.discord_username}</p>
+        <p>Name: {application.name}</p>
+        <p>Discord: {application.discord_nickname}</p>
         <p>About: {application.about}</p>
         <p>
           Link to video:{" "}
           <a href={application.video_link}>{application.video_link}</a>
         </p>
+        {application.status !== "pending" && (
+          <div>
+            <p>
+              Modified by:{" "}
+              <Link
+                to={`/user_profile/${mentorUser?.id}`}
+                className="underline text-blue-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {mentorUser?.name}
+              </Link>
+            </p>
+          </div>
+        )}
+        {application.status === "rejected" && (
+          <p>Comment: {application.comment}</p>
+        )}
         {isRejected && (
           <div className="mt-5">
             <input

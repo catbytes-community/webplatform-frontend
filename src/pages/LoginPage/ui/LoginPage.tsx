@@ -37,7 +37,6 @@ export function LoginPage() {
       );
       const user = userCredential.user;
       const token = await user.getIdToken();
-      console.log("Token:", token);
 
       const loginRes = await axios.post(
         `${import.meta.env.VITE_DEVAPI}users/login`,

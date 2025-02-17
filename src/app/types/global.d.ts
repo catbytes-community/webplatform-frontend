@@ -11,7 +11,6 @@ export interface User {
   lastName: string;
   photo: string;
 }
-
 export interface Mentor extends User {
   direction: Direction[];
   experience: number;
@@ -52,8 +51,10 @@ export interface Application {
   name: string;
   about: string;
   video_link: string;
-  discord_username: string;
+  discord_nickname: string;
   created_at: string;
   email: string;
   status: string;
+  comment: string;
+  modified_by: string;
 }
