@@ -129,7 +129,7 @@ export const CreateApplicationPage: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex flex-col items-center justify-center gap-5">
+      <div className="flex flex-col items-center justify-center gap-5 w-80 m-auto">
         <h1 className={style.title}>JOIN US</h1>
         {error && <p className={style.error}>{error}</p>}
 

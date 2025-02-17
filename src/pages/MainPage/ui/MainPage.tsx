@@ -1,4 +1,5 @@
 import Navbar from "../../../shared/ui/Navbar/Navbar";
+import AboutUsLP from "../../AboutUsSectionForLandingPage/AboutUsLP";
 import { HomeSection } from "./HomeSection";
 
 export const MainPage = () => {
@@ -6,6 +7,7 @@ export const MainPage = () => {
     <>
       <Navbar />
       <HomeSection />
+      <AboutUsLP />
     </>
   );
 };

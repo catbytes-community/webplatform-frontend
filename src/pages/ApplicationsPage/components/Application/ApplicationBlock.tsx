@@ -96,6 +96,7 @@ export const ApplicationBlock = ({
         console.log("Approve application response: ", response);
         const tempPassword = generatePassword();
         createUserWithEmailAndPassword(auth, response.data.email, tempPassword)
+          // TODO: implement flow in case there will be firebase error when creating user
           .then((userCredential) => {
             // Signed up
             const user = userCredential.user;
