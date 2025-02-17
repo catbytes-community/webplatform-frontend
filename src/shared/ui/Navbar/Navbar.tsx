@@ -6,6 +6,7 @@ import { auth } from "../../../firebaseConfig";
 import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { BecomeMentorButton } from "../../../features/Mentor";
 
 export default function Navbar() {
   const [isAuth, setIsAuth] = useState(false);
@@ -63,6 +64,12 @@ export default function Navbar() {
       });
   }
 
+  function ShowingBecomeMentorButton() {
+    if (isAuth && isMentor === false) {
+      return <BecomeMentorButton />;
+    }
+  }
+
   return (
     <div className="flex items-center justify-between w-full p-5 gap-30 pl-10 pr-5 font-[Monserrat]">
       <Link to="/">
@@ -86,6 +93,8 @@ export default function Navbar() {
           onClick={handleClickJoinUs}
           disabled={isCreateApplication}
         />
+
+        <ShowingBecomeMentorButton />
 
         <Button
           label={isAuth ? "SIGN OUT" : "SIGN IN"}
