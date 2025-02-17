@@ -44,6 +44,7 @@ export default function UserProfilePage() {
       <div className="p-10 flex flex-col gap-5">
         <h1 className="font-bold text-xl">User Profile</h1>
         <p>Name: {user.name}</p>
+        <p>Discord nickname: {user.discord_nickname}</p>
         <p>
           Role:{" "}
           {user.roles.filter((role) => role.role_name === "mentor").length > 0

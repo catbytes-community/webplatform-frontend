@@ -17,22 +17,27 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const isLogInPage = location.pathname === "/login";
 
   useEffect(() => {
-    const user = localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user") as string)
-      : null;
-    if (user) {
-      setIsMentor(
-        user?.roles?.filter(
-          (role: { role_id: number; role_name: string }) =>
-            role.role_name === "mentor"
-        ).length > 0
-      );
-    }
+    // const user = localStorage.getItem("user")
+    //   ? JSON.parse(localStorage.getItem("user") as string)
+    //   : null;
+    // if (user) {
+    //   setIsMentor(
+    //     user?.roles?.filter(
+    //       (role: { role_id: number; role_name: string }) =>
+    //         role.role_name === "mentor"
+    //     ).length > 0
+    //   );
+    // }
+
+    // Check if the user is authenticated
+    console.log("current user", auth.currentUser);
 
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
+        console.log("User is authenticated via Firebase");
         setIsAuth(true); // User is authenticated via Firebase
       } else {
+        console.log("User is not authenticated via Firebase");
         setIsAuth(false); // User is not authenticated via Firebase
       }
     });
