@@ -23,11 +23,15 @@ export default function UserProfilePage() {
           withCredentials: true,
         }
       );
-      console.log("getUser response: ", response.data);
+      console.log("get user response", response.data);
       setUser(response.data);
     };
 
-    getUser();
+    try {
+      getUser();
+    } catch (err) {
+      console.error(err);
+    }
   }, [id]);
 
   if (!user) {

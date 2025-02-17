@@ -32,7 +32,6 @@ export const ApplicationBlock = ({
         withCredentials: true,
       }
     );
-    console.log("getProfileLink response: ", response);
     return response.data;
   };
 
