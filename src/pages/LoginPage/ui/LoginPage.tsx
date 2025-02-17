@@ -37,6 +37,7 @@ export function LoginPage() {
       );
       const user = userCredential.user;
       const token = await user.getIdToken();
+      console.log("Token:", token);
 
       const loginRes = await axios.post(
         `${import.meta.env.VITE_DEVAPI}users/login`,
@@ -46,6 +47,7 @@ export function LoginPage() {
 
       const userDataRes = await axios.get(
         `${import.meta.env.VITE_DEVAPI}users/${loginRes?.data?.user?.id}`,
+        // `http://localhost:8080/users/${loginRes?.data?.user?.id}`,
         { headers: { token }, withCredentials: true }
       );
 
@@ -99,7 +101,7 @@ export function LoginPage() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-5">
-      <Navbar />
+      <Navbar isLogin={true} />
       <form className={style.form} onSubmit={handleLogin}>
         <div>
           <input

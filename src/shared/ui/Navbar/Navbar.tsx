@@ -7,7 +7,7 @@ import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-export default function Navbar() {
+export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const [isAuth, setIsAuth] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,7 +22,7 @@ export default function Navbar() {
       : null;
     if (user) {
       setIsMentor(
-        user.roles.filter(
+        user?.roles?.filter(
           (role: { role_id: number; role_name: string }) =>
             role.role_name === "mentor"
         ).length > 0
@@ -80,19 +80,23 @@ export default function Navbar() {
       </div>
 
       <div className="flex justify-between gap-10 font-[Monserrat]">
-        <Button
-          label="JOIN US"
-          btnType="primary_btn"
-          onClick={handleClickJoinUs}
-          disabled={isCreateApplication}
-        />
+        {!isAuth && (
+          <Button
+            label="JOIN US"
+            btnType="primary_btn"
+            onClick={handleClickJoinUs}
+            disabled={isCreateApplication}
+          />
+        )}
 
-        <Button
-          label={isAuth ? "SIGN OUT" : "SIGN IN"}
-          btnType="secondary_btn"
-          onClick={isAuth ? handleClickSignOut : handleClickSignIn}
-          disabled={isLogInPage}
-        />
+        {!isLogin && (
+          <Button
+            label={isAuth ? "SIGN OUT" : "SIGN IN"}
+            btnType="secondary_btn"
+            onClick={isAuth ? handleClickSignOut : handleClickSignIn}
+            disabled={isLogInPage}
+          />
+        )}
       </div>
     </div>
   );
