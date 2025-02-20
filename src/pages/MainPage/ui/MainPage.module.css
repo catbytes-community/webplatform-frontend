@@ -3,12 +3,9 @@
 }
 
 .cardShadow {
-	box-shadow: 0px 6px 10px 0px #FFA6AD66;
+	box-shadow: 0 6px 10px 0 #FFA6AD66;
 }
 
-.left {
-	height: 508px;
-}
 
 .container {
 	background-color: rgb(255, 255, 255, 0.4);
@@ -29,12 +26,10 @@
 }
 
 .announcementContainer {
-	background: rgba(250, 103, 115, 0.15);
-	backdrop-filter: blur(30);
+	background: rgba(250, 103, 115, 0.24);
+	backdrop-filter: blur(50);
 	border-radius: 30px;
 	box-shadow: 0px 6px 10px 0px #FE444440;
-	padding: 27px 29px 2px 52px;
-	min-width: 426px;
 }
 
 
