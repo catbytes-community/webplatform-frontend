@@ -12,6 +12,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMentor, setIsMentor] = useState(false);
+  const [userId, setUserId] = useState("");
 
   const isCreateApplication = location.pathname === "/create_application";
   const isLogInPage = location.pathname === "/login";
@@ -20,6 +21,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
     const user = localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user") as string)
       : null;
+
     if (user) {
       setIsMentor(
         user?.roles?.filter(
@@ -27,11 +29,10 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
             role.role_name === "mentor"
         ).length > 0
       );
+      setUserId(user.id);
     }
 
     // Check if the user is authenticated
-    console.log("current user", auth.currentUser);
-
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         console.log("User is authenticated via Firebase");
@@ -97,12 +98,21 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
         )}
 
         {!isLogin && (
-          <Button
-            label={isAuth ? "SIGN OUT" : "SIGN IN"}
-            btnType="secondary_btn"
-            onClick={isAuth ? handleClickSignOut : handleClickSignIn}
-            disabled={isLogInPage}
-          />
+          <div className="flex gap-5">
+            {isAuth && (
+              <Button
+                label="My Profile"
+                btnType="primary_btn"
+                onClick={() => navigate(`/user_profile/${userId}`)}
+              />
+            )}
+            <Button
+              label={isAuth ? "SIGN OUT" : "SIGN IN"}
+              btnType="secondary_btn"
+              onClick={isAuth ? handleClickSignOut : handleClickSignIn}
+              disabled={isLogInPage}
+            />
+          </div>
         )}
       </div>
     </div>
