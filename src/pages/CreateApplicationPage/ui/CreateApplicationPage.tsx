@@ -82,8 +82,8 @@ export const CreateApplicationPage: React.FC = () => {
       name,
       about,
       email,
-      videoLink: link,
-      discordNickname: discord,
+      video_link: link,
+      discord_nickname: discord,
       agreeToTerms,
     };
 
