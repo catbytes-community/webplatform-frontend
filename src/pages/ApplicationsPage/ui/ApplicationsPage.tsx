@@ -50,7 +50,7 @@ export const ApplicationsPage = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <div
         className={`font-montserrat flex flex-col items-center ${style.container}`}
       >
