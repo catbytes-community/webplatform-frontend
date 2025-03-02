@@ -73,13 +73,13 @@ export function LoginPage() {
 
     try {
       const actionCodeSettings = {
-        url: "http://localhost:5173/login",
-        // url:
-        //   import.meta.env.VITE_ENV === "localhost"
-        //     ? "http://localhost:5173/login"
-        //     : import.meta.env.VITE_ENV === "dev"
-        //     ? "https://dev.catbytes.io/login"
-        //     : "https://catbytes.io/login",
+        // url: "http://localhost:5173/login",
+        url:
+          import.meta.env.VITE_ENV === "localhost"
+            ? "http://localhost:5173/login"
+            : import.meta.env.VITE_ENV === "dev"
+            ? "https://dev.catbytes.io/login"
+            : "https://catbytes.io/login",
         handleCodeInApp: true,
       };
 
