@@ -170,7 +170,10 @@ export const ApplicationBlock = ({
           text="Are you sure you want to approve the application?"
         />
       )}
-      <div data-id={application.id} className={style.application}>
+      <div
+        data-id={application.id}
+        className={`${style.application} w-[320px] sm:w-[500px]`}
+      >
         <p>Name: {application.name}</p>
         <p>Discord: {application.discord_nickname}</p>
         <p>About: {application.about}</p>
@@ -200,7 +203,7 @@ export const ApplicationBlock = ({
           <div className="mt-5">
             <input
               placeholder="Why do you want to reject it?"
-              className="w-full p-3 rounded border-[1px] border-gray-300"
+              className="p-3 rounded border-[1px] border-gray-300"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
@@ -234,13 +237,13 @@ export const ApplicationBlock = ({
           </div>
         ) : application.status === "rejected" && !isRejected ? (
           <div className="flex justify-end">
-            <p className="bg-red-500 p-3 rounded w-1/6 text-center font-bold text-white">
+            <p className="bg-red-500 p-1 rounded text-center font-bold text-white">
               REJECTED
             </p>
           </div>
         ) : application.status === "approved" && !isRejected ? (
           <div className="flex justify-end">
-            <p className="bg-teal-500 p-3 rounded w-1/6 text-center font-bold text-white">
+            <p className="bg-teal-500 p-1 rounded text-center font-bold text-white">
               APPROVED
             </p>
           </div>

@@ -7,6 +7,7 @@ import Navbar from "../../../shared/ui/Navbar/Navbar";
 
 export const ApplicationsPage = () => {
   const [applications, setApplications] = useState<Application[]>([]);
+  const [filter, setFilter] = useState<string>("All");
 
   useEffect(() => {
     try {
@@ -15,7 +16,29 @@ export const ApplicationsPage = () => {
           withCredentials: true,
         })
         .then((res) => {
-          setApplications(res.data.applications || []);
+          if (filter === "All") {
+            setApplications(res.data.applications || []);
+          } else if (filter === "Pending review") {
+            setApplications(
+              res.data.applications.filter(
+                (application: Application) => application.status === "pending"
+              )
+            );
+          } else if (filter === "Approved") {
+            setApplications(
+              res.data.applications.filter(
+                (application: Application) => application.status === "approved"
+              )
+            );
+          } else if (filter === "Rejected") {
+            setApplications(
+              res.data.applications.filter(
+                (application: Application) => application.status === "rejected"
+              )
+            );
+          }
+          //
+          // setApplications(res.data.applications || []);
         })
         .catch((error) => {
           console.error("Error fetching applications:", error);
@@ -23,20 +46,56 @@ export const ApplicationsPage = () => {
     } catch (error) {
       console.error("Unexpected error:", error);
     }
-  }, []);
+  }, [filter]);
 
   return (
     <>
       <Navbar />
-      <div className={style.applicationsContainer}>
-        <h1 className="font-bold mb-5 text-xl">Applications</h1>
+      <div
+        className={`font-montserrat flex flex-col items-center ${style.container}`}
+      >
+        <h1 className="font-bold mb-5 text-xl mt-10">Applications</h1>
         {/* below will be implement in later release
         <div className='flex gap-2 mt-5 mb-5'>
           <button className={style.filterButtons}>All</button>
           <button className={style.filterButtons}>Members</button>
           <button className={style.filterButtons}>Mentors</button>
         </div> */}
-        <div className="applications">
+        <div className="w-full flex justify-center gap-1 sm:gap-5 p-5">
+          <button
+            className={`${style.filterButtons} ${
+              filter === "All" ? "bg-black text-white" : ""
+            }`}
+            onClick={() => setFilter("All")}
+          >
+            All
+          </button>
+          <button
+            className={`${style.filterButtons} ${
+              filter === "Pending review" ? "bg-black text-white" : ""
+            }`}
+            onClick={() => setFilter("Pending review")}
+          >
+            Pending review
+          </button>
+          <button
+            className={`${style.filterButtons} ${
+              filter === "Approved" ? "bg-black text-white" : ""
+            }`}
+            onClick={() => setFilter("Approved")}
+          >
+            Approved
+          </button>
+          <button
+            className={`${style.filterButtons} ${
+              filter === "Rejected" ? "bg-black text-white" : ""
+            }`}
+            onClick={() => setFilter("Rejected")}
+          >
+            Rejected
+          </button>
+        </div>
+        <div className="overflow-y-auto max-h-[70vh] flex flex-col gap-5 p-5">
           {applications?.map((application) => (
             <ApplicationBlock key={application.id} application={application} />
           ))}

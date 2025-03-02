@@ -1,53 +1,52 @@
 .main {
-	max-width: 1300px;
+  max-width: 1300px;
 }
 
 .cardShadow {
-	box-shadow: 0px 6px 10px 0px #FFA6AD66;
+  box-shadow: 0px 6px 10px 0px #ffa6ad66;
 }
 
 .left {
-	height: 508px;
+  height: 508px;
 }
 
 .container {
-	background-color: rgb(255, 255, 255, 0.4);
+  background-color: rgb(255, 255, 255, 0.4);
 }
 
 .paw {
-	height: 64px;
-	width: 64px;
-	position: relative;
-	left: 148px;
-	top: -18px;
+  height: 64px;
+  width: 64px;
+  position: relative;
+  left: 148px;
+  top: -18px;
 }
 
 .cat {
-	position: absolute;
-	right: -80px;
-	bottom: 120px;
+  position: absolute;
+  right: -80px;
+  bottom: 120px;
 }
 
 .announcementContainer {
-	background: rgba(250, 103, 115, 0.15);
-	backdrop-filter: blur(30);
-	border-radius: 30px;
-	box-shadow: 0px 6px 10px 0px #FE444440;
-	padding: 27px 29px 2px 52px;
-	min-width: 426px;
+  background: rgba(250, 103, 115, 0.15);
+  backdrop-filter: blur(30);
+  border-radius: 30px;
+  box-shadow: 0px 6px 10px 0px #fe444440;
+  padding: 27px 29px 2px 52px;
+  min-width: 426px;
 }
 
-
 .blur:before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: rgba(250, 103, 115, 0.2);
-	border-radius: 20px;
-	filter: blur(30px);
-	z-index:11;
-	box-shadow: 0px 6px 10px 0px #FE444440;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(250, 103, 115, 0.2);
+  border-radius: 20px;
+  filter: blur(30px);
+  z-index: 11;
+  box-shadow: 0px 6px 10px 0px #fe444440;
 }
