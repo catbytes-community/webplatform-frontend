@@ -5,6 +5,7 @@ import { auth } from "../../../firebaseConfig";
 import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { BecomeMentorButton } from "../../../features/Mentor";
 import pinkLogo from "../../assets/images/pinkLogo.png";
 
 export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
@@ -69,6 +70,12 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
       });
   }
 
+  function ShowingBecomeMentorButton() {
+    if (isAuth && isMentor === false) {
+      return <BecomeMentorButton />;
+    }
+  }
+
   return (
     <div className="flex items-center justify-between w-full p-5 gap-30 pl-10 pr-5 font-[Monserrat]">
       <div className="flex items-center gap-10">
@@ -88,6 +95,9 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
       </div> */}
 
       <div className="flex justify-between gap-10 font-[Monserrat]">
+
+        <ShowingBecomeMentorButton />
+        
         {!isAuth && (
           <Button
             label="JOIN US"

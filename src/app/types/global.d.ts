@@ -18,6 +18,10 @@ export interface Mentor extends User {
   links: mentorLinks;
 }
 
+export interface Option {
+    value: string,
+    label: string
+}
 export type ProjectRole = {
   level: string;
   title: string;
@@ -57,4 +61,12 @@ export interface Application {
   status: string;
   comment: string;
   modified_by: string;
+}
+
+export interface BecomeMentorForm {
+    expertiseArea: Option[],
+    otherArea?: string,
+    language: Option[],
+    link: string,
+    experience: string
 }
