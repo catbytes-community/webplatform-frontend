@@ -4,17 +4,17 @@
   padding: 15px 20px;
   font-size: 12px;
   position: relative;
-  margin-bottom: 13px;
-  background-color: white;
+  /* width: 80%;
+  margin: auto; */
 }
 
-.buttons{
+.buttons {
   margin-top: 10px;
   display: flex;
   gap: 7px;
   justify-content: flex-end;
 }
-.buttons button{
+.buttons button {
   height: 35px;
   font-size: 12px;
   min-width: 130px;

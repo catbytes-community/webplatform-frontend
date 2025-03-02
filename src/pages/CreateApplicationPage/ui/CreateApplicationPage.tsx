@@ -129,8 +129,10 @@ export const CreateApplicationPage: React.FC = () => {
   return (
     <div>
       <Navbar />
+      <p className="font-bold font-montserrat w-80 m-auto my-10 text-center">
+        Please complete the below form to apply for joining our community
+      </p>
       <div className="flex flex-col items-center justify-center gap-5 w-80 m-auto">
-        <h1 className={style.title}>JOIN US</h1>
         {error && <p className={style.error}>{error}</p>}
 
         {successMessage && <p className={style.success}>{successMessage}</p>}
@@ -196,6 +198,12 @@ export const CreateApplicationPage: React.FC = () => {
                 handleBlur("link", e.target.value)
               }
             />
+            <p className="w-[290px] m-auto italic text-sm ">
+              Please upload a short video introducing yourslef and why you would
+              like to join our community. <br />
+              descYou can upload a video unlisted to YouTube and share the link
+              with us.
+            </p>
             {errors.link && <p className={style.error}>{errors.link}</p>}
           </div>
           <div>
@@ -212,6 +220,10 @@ export const CreateApplicationPage: React.FC = () => {
                 }));
               }}
             />
+            <p className="w-[290px] m-auto italic text-sm ">
+              You need a Discord account to be able to join our private Discord
+              server.
+            </p>
             {errors.discord && <p className={style.error}>{errors.discord}</p>}
           </div>
           <div>

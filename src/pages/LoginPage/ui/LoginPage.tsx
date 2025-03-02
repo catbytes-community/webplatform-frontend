@@ -20,6 +20,7 @@ export function LoginPage() {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isLinkSent, setIsLinkSent] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
     // Check if the user clicked the email link to sign in
@@ -35,6 +36,7 @@ export function LoginPage() {
           .then(async (userCredential) => {
             const user = userCredential.user;
             const token = await user.getIdToken();
+            console.log("token", token);
 
             // Send token to backend for authentication
             const loginRes = await axios.post(
@@ -71,19 +73,20 @@ export function LoginPage() {
 
     try {
       const actionCodeSettings = {
-        // url: "https://dev.catbytes.io/login",
-        url:
-          import.meta.env.VITE_ENV === "localhost"
-            ? "http://localhost:5173/login"
-            : import.meta.env.VITE_ENV === "dev"
-            ? "https://dev.catbytes.io/login"
-            : "https://catbytes.io/login",
+        url: "http://localhost:5173/login",
+        // url:
+        //   import.meta.env.VITE_ENV === "localhost"
+        //     ? "http://localhost:5173/login"
+        //     : import.meta.env.VITE_ENV === "dev"
+        //     ? "https://dev.catbytes.io/login"
+        //     : "https://catbytes.io/login",
         handleCodeInApp: true,
       };
 
       await sendSignInLinkToEmail(auth, email, actionCodeSettings);
       window.localStorage.setItem("emailForSignIn", email);
       setIsLinkSent(true);
+      setMessage("Sign-in link sent. Please check your email.");
       setError("");
     } catch (error) {
       console.error("Error sending sign-in link:", error);
@@ -94,6 +97,7 @@ export function LoginPage() {
   return (
     <div className="flex flex-col items-center justify-center gap-5">
       <Navbar isLogin={true} />
+      {message && <p className={style.message}>{message}</p>}
       <form className={style.form} onSubmit={handleLoginWithEmailLink}>
         <div>
           <input
@@ -101,7 +105,12 @@ export function LoginPage() {
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setError("");
+              setMessage("");
+              setIsLinkSent(false);
+            }}
           />
         </div>
         {error && <p className={style.error}>{error}</p>}
