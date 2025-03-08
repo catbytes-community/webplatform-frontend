@@ -36,7 +36,7 @@ export function LoginPage() {
           .then(async (userCredential) => {
             const user = userCredential.user;
             const token = await user.getIdToken();
-            console.log("token", token);
+            // console.log("token", token);
 
             // Send token to backend for authentication
             const loginRes = await axios.post(

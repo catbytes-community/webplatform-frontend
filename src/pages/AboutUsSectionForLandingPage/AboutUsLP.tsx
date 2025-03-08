@@ -1,18 +1,24 @@
-import catPic from '../../shared/assets/images/catImage.png';
-import bookmarkImage from '../../shared/assets/images/bookmarkImage.png';
-import humanImage from '../../shared/assets/images/humanImage.png';
-import statsImage from '../../shared/assets/images/statsImage.png';
-import pawImage from '../../shared/assets/images/pawImage.png';
-import backgroundPawImage from '../../shared/assets/images/backgroundPawImage.png';
-import membersIcon from '../../shared/assets/images/Group 2771.png';
-import PawImageAboutUs from '../../shared/assets/images/PawImageAboutUs.png';
-import PawImageAboutUs2 from '../../shared/assets/images/PawImageAboutUs2.png';
+import catPic from "../../shared/assets/images/catImage.png";
+import bookmarkImage from "../../shared/assets/images/bookmarkImage.png";
+import humanImage from "../../shared/assets/images/humanImage.png";
+import statsImage from "../../shared/assets/images/statsImage.png";
+import pawImage from "../../shared/assets/images/pawImage.png";
+import backgroundPawImage from "../../shared/assets/images/backgroundPawImage.png";
+import membersIcon from "../../shared/assets/images/Group 2771.png";
+import PawImageAboutUs from "../../shared/assets/images/PawImageAboutUs.png";
+import PawImageAboutUs2 from "../../shared/assets/images/PawImageAboutUs2.png";
+import Footer from "../../shared/ui/Footer/Footer";
 
 const AboutUsLP = () => {
   return (
-    <div className=" p-4 py-16 relative max-w-[1200px] sm:max-w-[640px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] mx-auto">
+    <div className="bg-gradient-to-tr from-[#FACCD0] via-[#fdf2f4] to-[#FBD0D4] p-4 py-16 relative">
       {/*background paw*/}
 
+      <img
+        src={backgroundPawImage}
+        alt="Background Image"
+        className="absolute top-0 left-0 object-cover"
+      />
       <img
         src={backgroundPawImage}
         alt="Background Image"
@@ -27,18 +33,20 @@ const AboutUsLP = () => {
               About us
             </h2>
             <p className="text-gray-600 text-base md:text-lg mb-3">
-              Lorem Ipsum
+              CatBytes Community
             </p>
             <p className="text-gray-500 text-sm">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
+              CatBytes community was created in June 2025 as a private Discord
+              server, where women who want to learn and grow in tech industry
+              and tech professions can gather together and support each other in
+              a comfortable, safe and non-toxic environment
             </p>
           </div>
 
           {/* Central block */}
           <div
             className="relative rounded-3xl shadow-lg shadow-rose-200 p-4 pl-6 md:pl-12 order-3 md:order-2"
-            style={{ backgroundColor: '#fef6f7' }}
+            style={{ backgroundColor: "#fef6f7" }}
           >
             <img
               src={bookmarkImage}
@@ -46,12 +54,12 @@ const AboutUsLP = () => {
               className="absolute top-0 -mt-6 right-4 md:right-8 w-20 md:w-40 h-20 md:h-40"
             />
             <h3 className="text-xl md:text-4xl font-bold text-gray-900 mb-4 pt-12 md:pt-16">
-              Lorem ipsum
+              CatBytes
             </h3>
             <p className="text-gray-600 text-[12px] md:text-xl mr-0 md:mr-24 pb-10">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s.
+              Our community is a place where you will find amazing women,
+              learning resources, mentors for personal and professional
+              development in tech professions. Apply to be a part of CatBytes
             </p>
           </div>
 
@@ -61,7 +69,7 @@ const AboutUsLP = () => {
             <div className="flex justify-end md:block">
               <div
                 className="rounded-3xl shadow-lg p-6 relative md:w-64 w-3/4"
-                style={{ backgroundColor: 'rgba(253, 202, 206, 0.7)' }}
+                style={{ backgroundColor: "rgba(253, 202, 206, 0.7)" }}
               >
                 <div className="absolute -top-14 md:-top-16 -right-4">
                   <img
@@ -70,8 +78,8 @@ const AboutUsLP = () => {
                     className="h-26 md:h-30 w-32 md:w-40"
                   />
                 </div>
-                <p className="text-gray-800 font-bold text-base md:text-lg py-4 md:py-8">
-                  Lorem Ipsum is simply dummy text of the printing
+                <p className="text-gray-800 font-bold text-base md:text-lg py-4 md:py-8 italic">
+                  "Comfortable, safe and non-toxic tech space for women"
                 </p>
               </div>
             </div>
@@ -82,13 +90,13 @@ const AboutUsLP = () => {
                 Our mission
               </h4>
               <p className="text-gray-600 mt-2 text-sm md:text-base">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.
+                Increase the number of female professionals in the tech industry
               </p>
             </div>
           </div>
         </div>
 
+        {/* 3 blocks below */}
         {/* 3 blocks below */}
 
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7">
@@ -97,8 +105,8 @@ const AboutUsLP = () => {
             <div
               className="rounded-3xl md:p-10 p-5 shadow-2xl shadow-rose-300 text-center flex items-center justify-center relative w-3/4 md:w-full"
               style={{
-                backgroundColor: '#fef7f8',
-                boxShadow: '0px 15px 20px rgba(248,112,112, 0.4)',
+                backgroundColor: "#fef7f8",
+                boxShadow: "0px 15px 20px rgba(248,112,112, 0.4)",
               }}
             >
               {/*2 images with people*/}
@@ -120,7 +128,7 @@ const AboutUsLP = () => {
                 />
                 <div className="ml-4">
                   <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-yellow-400 to-pink-400 bg-clip-text text-transparent">
-                    1000+
+                    800+
                   </h3>
                   <p className="text-lg md:text-2xl font-bold bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">
                     members
@@ -131,13 +139,14 @@ const AboutUsLP = () => {
           </div>
 
           {/* mentors */}
+          {/* mentors */}
 
           <div className="flex justify-end">
             <div
               className="rounded-3xl p-5 shadow-2xl shadow-rose-300 text-center flex items-center justify-center relative w-3/4 md:w-full"
               style={{
-                backgroundColor: '#fef7f8',
-                boxShadow: '0px 15px 20px rgba(248,112,112, 0.4)',
+                backgroundColor: "#fef7f8",
+                boxShadow: "0px 15px 20px rgba(248,112,112, 0.4)",
               }}
             >
               <img
@@ -157,7 +166,7 @@ const AboutUsLP = () => {
               />
               <div>
                 <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-yellow-300 to-pink-400 bg-clip-text text-transparent">
-                  100+
+                  20+
                 </h3>
                 <p className="text-lg md:text-2xl font-bold bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">
                   mentors
@@ -167,12 +176,13 @@ const AboutUsLP = () => {
           </div>
 
           {/* areas of study */}
+          {/* areas of study */}
 
           <div
             className="rounded-3xl p-5 text-center flex items-center justify-center relative w-3/4 md:w-full"
             style={{
-              backgroundColor: '#fef7f8',
-              boxShadow: '0px 15px 20px rgba(248,112,112, 0.4)',
+              backgroundColor: "#fef7f8",
+              boxShadow: "0px 15px 20px rgba(248,112,112, 0.4)",
             }}
           >
             <img
@@ -197,6 +207,7 @@ const AboutUsLP = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
