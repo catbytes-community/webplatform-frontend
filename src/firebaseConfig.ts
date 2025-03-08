@@ -26,7 +26,9 @@ const firebaseConfig_prod = {
 };
 
 const firebaseConfig =
-  import.meta.env.VITE_ENV === "dev" ? firebaseConfig_dev : firebaseConfig_prod;
+  import.meta.env.VITE_ENV === "dev" || import.meta.env.VITE_ENV === "localhost"
+    ? firebaseConfig_dev
+    : firebaseConfig_prod;
 
 // Initialize Firebase
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);

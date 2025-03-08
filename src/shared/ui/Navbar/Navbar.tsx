@@ -82,7 +82,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
           <nav
             className={`lg:flex items-center gap-6 ${
               isMenuOpen ? "block" : "hidden"
-            } absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none p-6 lg:p-0 rounded-lg transition-all duration-300`}
+            } absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none p-6 lg:p-0 rounded-lg transition-all duration-300 z-[100]`}
           >
             <Link
               to="/"
@@ -104,9 +104,22 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
                 Applications
               </Link>
             )}
+            {isAuth && (
+              <Link
+                to={`/user_profile/${userId}`}
+                className="block lg:inline text-gray-600 text-sm leading-[1.5] font-montserrat"
+              >
+                My Profile
+              </Link>
+              // <Button
+              //   label="My Profile"
+              //   btnType="primary_btn"
+              //   onClick={() => navigate()}
+              // />
+            )}
           </nav>
         </div>
-        <div className="flex items-center gap-10">
+        <div className="flex items-center sm:gap-10 gap-2">
           <div className="lg:flex gap-5">
             {!isAuth && (
               <button
@@ -120,13 +133,6 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
 
             {!isLogin && (
               <div className="flex gap-5">
-                {isAuth && (
-                  <Button
-                    label="My Profile"
-                    btnType="primary_btn"
-                    onClick={() => navigate(`/user_profile/${userId}`)}
-                  />
-                )}
                 <Button
                   label={isAuth ? "SIGN OUT" : "SIGN IN"}
                   btnType="secondary_btn"
