@@ -1,5 +1,5 @@
 .main {
-  max-width: 1300px;
+  max-width: 1200px;
 }
 
 .cardShadow {
@@ -38,7 +38,7 @@
 }
 
 .blur:before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
