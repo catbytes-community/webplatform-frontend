@@ -26,9 +26,19 @@ export default function UserProfilePage() {
       console.log("get user response", response.data);
       setUser(response.data);
     };
+    const getDiscordLink = async () => {
+      const response = await axios.post(
+        `${import.meta.env.VITE_DEVAPI}generate-invite`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("get discord link response", response);
+    };
 
     try {
       getUser();
+      getDiscordLink();
     } catch (err) {
       console.error(err);
     }

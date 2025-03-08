@@ -1,7 +1,7 @@
 import { RouteProps } from "react-router-dom";
 import { NotFoundPage } from "../../../pages/NotFoundPage";
 import { MainPage } from "../../../pages/MainPage";
-import { AboutPage } from "../../../pages/AboutPage";
+// import { AboutPage } from "../../../pages/AboutPage";
 // import { MentorsPage } from "../../../pages/MentorsPage";
 // import { AddProjectPage } from "../../../pages/AddProjectPage";
 // import { StudyBuddyPage } from "../../../pages/StudyBuddyPage";
@@ -15,10 +15,11 @@ import { Pomodoro } from "../../../pages/Pomodoro";
 import { CreateApplicationPage } from "../../../pages/CreateApplicationPage";
 import { UserProfilePage } from "../../../pages/UserProfilePage";
 import PrivacyPolicy from "../../../pages/PrivacyPolicy";
+import { ProtectedRoute } from "../../../pages/ProtectedRoute";
 
 export enum AppRoutes {
   MAIN = "main",
-  ABOUT = "about",
+  // ABOUT = "about",
   // MENTORS = "mentors",
   // ALL_PROJECTS = "projects",
   // PROJECT = "project",
@@ -37,7 +38,7 @@ export enum AppRoutes {
 
 export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.MAIN]: "/",
-  [AppRoutes.ABOUT]: "/about",
+  // [AppRoutes.ABOUT]: "/about",
   // [AppRoutes.MENTORS]: "/mentors",
   // [AppRoutes.ALL_PROJECTS]: "/projects",
   // [AppRoutes.PROJECT]: "/project/:id",
@@ -59,10 +60,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
     path: RoutePath.main,
     element: <MainPage />,
   },
-  [AppRoutes.ABOUT]: {
-    path: RoutePath.about,
-    element: <AboutPage />,
-  },
+  // [AppRoutes.ABOUT]: {
+  //   path: RoutePath.about,
+  //   element: <AboutPage />,
+  // },
   // [AppRoutes.ALL_PROJECTS]: {
   //   path: RoutePath.projects,
   //   element: <AllProjectsPage />,
@@ -101,7 +102,7 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   // },
   [AppRoutes.APPLICATIONS]: {
     path: RoutePath.applications,
-    element: <ApplicationsPage />,
+    element: <ProtectedRoute element={<ApplicationsPage />} />,
   },
   [AppRoutes.LOGIN]: {
     path: RoutePath.login,

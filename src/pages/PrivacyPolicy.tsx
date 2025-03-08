@@ -150,7 +150,7 @@ export default function PrivacyPolicy() {
               process your information to provide you with the requested service
             </li>
             <li>
-              To respond to user inquiries/offer support to users. We may
+              To respond to user inquiries/offer support to users. We may
               process your information to respond to your inquiries and solve
               any potential issues you might have with the requested service.
             </li>
@@ -267,7 +267,7 @@ export default function PrivacyPolicy() {
           Depending on your state of residence in the US or in some regions,
           such as the European Economic Area (EEA), United Kingdom (UK),
           Switzerland, and Canada, you have rights that allow you greater access
-          to and control over your personal information. You may review, change,
+          to and control over your personal information. You may review, change,
           or terminate your account at any time, depending on your country,
           province, or state of residence.In some regions (like the EEA, UK,
           Switzerland, and Canada), you have certain rights under applicable
@@ -282,10 +282,10 @@ export default function PrivacyPolicy() {
           'HOW CAN YOU CONTACT US ABOUT THIS NOTICE?' below.
           <br />
           We will consider and act upon any request in accordance with
-          applicable data protection laws. If you are located in the EEA or UK
+          applicable data protection laws. If you are located in the EEA or UK
           and you believe we are unlawfully processing your personal
           information, you also have the right to complain to your Member State
-          data protection authority or UK data protection authority.If you are
+          data protection authority or UK data protection authority.If you are
           located in Switzerland, you may contact the Federal Data Protection
           and Information Commissioner.
           <p className="mt-10 mb-5 font-bold text-lg">
@@ -331,7 +331,7 @@ export default function PrivacyPolicy() {
           development and demonstration. This is not considered to be 'selling'
           of your personal information.We have not disclosed, sold, or shared
           any personal information to third parties for a business or commercial
-          purpose in the preceding twelve (12) months. We will not sell or share
+          purpose in the preceding twelve (12) months. We will not sell or share
           personal information in the future belonging to website visitors,
           users, and other consumers.
           <p className="mt-10 mb-5 font-bold text-lg">Your Rights</p>
@@ -344,18 +344,18 @@ export default function PrivacyPolicy() {
             <li>
               Right to know whether or not we are processing your personal data
             </li>
-            <li>Right to access your personal data</li>
-            <li>Right to correct inaccuracies in your personal data</li>
+            <li>Right to access your personal data</li>
+            <li>Right to correct inaccuracies in your personal data</li>
             <li>Right to request the deletion of your personal data</li>
             <li>
-              Right to obtain a copy of the personal data you previously shared
+              Right to obtain a copy of the personal data you previously shared
               with us
             </li>
             <li>Right to non-discrimination for exercising your rights</li>
             <li>
               Right to opt out of the processing of your personal data if it is
               used for targeted advertising (or sharing as defined under
-              California’s privacy law), the sale of personal data, or profiling
+              California's privacy law), the sale of personal data, or profiling
               in furtherance of decisions that produce legal or similarly
               significant effects ('profiling')
             </li>
@@ -380,10 +380,10 @@ export default function PrivacyPolicy() {
             HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
           </p>
           If you have questions or comments about this notice, you may contact
-          our Data Protection Officer (DPO) by email
-          at marina.kim@catbytes.io, by phone at 07407036618, or contact us by
-          post at:CatBytes Data Protection Officer: Surrey Quays Road 29,
-          London, SE16 7FZ, United Kingdom.
+          our Data Protection Officer (DPO)by email at marina.kim@catbytes.io,
+          by phone at 07407036618, or contact us by post at:CatBytes Data
+          Protection Officer: Surrey Quays Road 29, London, SE16 7FZ, United
+          Kingdom.
           <p className="mt-10 mb-5 font-bold text-lg">
             HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
           </p>
