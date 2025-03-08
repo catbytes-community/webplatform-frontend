@@ -26,9 +26,9 @@ const AboutUsLP = () => {
       />
 
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_2.4fr_1fr] gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-[1fr_2.4fr_1fr] gap-6">
           {/* About us block */}
-          <div className="flex flex-col p-6 md:w-72 order-1 md:order-1 w-3/4">
+          <div className="flex flex-col p-6 order-1 md:order-1 w-3/4">
             <h2 className="text-2xl md:text-5xl font-extrabold text-gray-900 mb-4">
               About us
             </h2>
@@ -85,7 +85,7 @@ const AboutUsLP = () => {
             </div>
 
             {/* Mission block */}
-            <div className="rounded-3xl p-6 md:w-64 w-3/4">
+            <div className="rounded-3xl p-6 w-3/4">
               <h4 className="text-lg md:text-2xl font-bold text-gray-900">
                 Our mission
               </h4>
@@ -110,7 +110,7 @@ const AboutUsLP = () => {
               }}
             >
               {/*2 images with people*/}
-              <div className="flex items-center">
+              <div className="flex flex-col lg:flex-row items-center">
                 <img
                   src={membersIcon}
                   alt="Small Mentor Icon"
@@ -143,7 +143,7 @@ const AboutUsLP = () => {
 
           <div className="flex justify-end">
             <div
-              className="rounded-3xl p-5 shadow-2xl shadow-rose-300 text-center flex items-center justify-center relative w-3/4 md:w-full"
+              className="flex-col lg:flex-row rounded-3xl p-5 shadow-2xl shadow-rose-300 text-center flex items-center justify-center relative w-3/4 md:w-full"
               style={{
                 backgroundColor: "#fef7f8",
                 boxShadow: "0px 15px 20px rgba(248,112,112, 0.4)",
@@ -179,7 +179,7 @@ const AboutUsLP = () => {
           {/* areas of study */}
 
           <div
-            className="rounded-3xl p-5 text-center flex items-center justify-center relative w-3/4 md:w-full"
+            className="flex-col lg:flex-row rounded-3xl p-5 text-center flex items-center justify-center relative w-3/4 md:w-full"
             style={{
               backgroundColor: "#fef7f8",
               boxShadow: "0px 15px 20px rgba(248,112,112, 0.4)",

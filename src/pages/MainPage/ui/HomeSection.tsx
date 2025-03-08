@@ -55,7 +55,7 @@ export const HomeSection = () => {
                 isLogged ? "w-44" : ""
               } `}
             >
-              {isLogged ? "View last announcements" : "Become a mentor"}
+              View last announcements
             </p>
             <div className="flex items-end justify-between">
               <img
