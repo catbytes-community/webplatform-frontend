@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
+import Button from "../../../shared/ui/Button/Button";
 
 type User = {
   id: string;
@@ -14,6 +15,7 @@ type User = {
 export default function UserProfilePage() {
   const { id } = useParams();
   const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getUser = async () => {
@@ -26,19 +28,9 @@ export default function UserProfilePage() {
       console.log("get user response", response.data);
       setUser(response.data);
     };
-    const getDiscordLink = async () => {
-      const response = await axios.post(
-        `${import.meta.env.VITE_DEVAPI}generate-invite`,
-        {
-          withCredentials: true,
-        }
-      );
-      console.log("get discord link response", response);
-    };
 
     try {
       getUser();
-      getDiscordLink();
     } catch (err) {
       console.error(err);
     }
@@ -47,6 +39,24 @@ export default function UserProfilePage() {
   if (!user) {
     return <div>Loading...</div>;
   }
+
+  const generateDiscordLink = () => {
+    axios
+      .post(
+        `${import.meta.env.VITE_DEVAPI}generate-invite`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => console.log("res", res))
+      .catch((err) => {
+        console.error(err);
+        if (err?.response?.data?.error) {
+          setError(err.response.data.error);
+        }
+      });
+  };
 
   return (
     <div>
@@ -72,6 +82,12 @@ export default function UserProfilePage() {
           <span className="font-bold font-montserrat">Member since:</span>{" "}
           {new Date(user.created_at).toDateString()}
         </p>
+        {error && <p className="text-red-500 italic">{error}</p>}
+        <Button
+          label="Generate Discord Link"
+          btnType="primary_btn"
+          onClick={generateDiscordLink}
+        />
       </div>
     </div>
   );
