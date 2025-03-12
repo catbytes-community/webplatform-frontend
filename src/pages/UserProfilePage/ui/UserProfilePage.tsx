@@ -3,6 +3,10 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
 import Button from "../../../shared/ui/Button/Button";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../firebaseConfig";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 type User = {
   id: string;
@@ -14,6 +18,7 @@ type User = {
 
 export default function UserProfilePage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [discordLink, setDiscordLink] = useState<string | null>();
@@ -34,6 +39,19 @@ export default function UserProfilePage() {
       getUser();
     } catch (err) {
       console.error(err);
+      if(err) {
+        signOut(auth)
+                .then(() => {
+                  Cookies.remove("userUID"); // Clear the cookie on sign out
+                  localStorage.removeItem("user"); // Clear the user data from local storage
+                  navigate("/"); // Redirect to the home page
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            
+            window.location.href = "/login";
+      }
     }
   }, [id]);
 
