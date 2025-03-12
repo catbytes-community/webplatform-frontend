@@ -16,6 +16,7 @@ export default function UserProfilePage() {
   const { id } = useParams();
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [discordLink, setDiscordLink] = useState<string | null>();
 
   useEffect(() => {
     const getUser = async () => {
@@ -49,7 +50,12 @@ export default function UserProfilePage() {
           withCredentials: true,
         }
       )
-      .then((res) => console.log("res", res))
+      .then((res) => {
+        console.log("res", res);
+        if(res?.data?.invite_link) {
+          setDiscordLink(res.data.invite_link);
+        }
+      })
       .catch((err) => {
         console.error(err);
         if (err?.response?.data?.error) {
@@ -83,11 +89,17 @@ export default function UserProfilePage() {
           {new Date(user.created_at).toDateString()}
         </p>
         {error && <p className="text-red-500 italic">{error}</p>}
-        <Button
+        {discordLink ? (
+          <a href={discordLink} target="_blank" rel="noreferrer" className="underline text-sky-500">
+            {discordLink}
+          </a>
+        ) : (
+          <Button
           label="Generate Discord Link"
           btnType="primary_btn"
           onClick={generateDiscordLink}
         />
+        )}
       </div>
     </div>
   );
