@@ -25,33 +25,35 @@ export default function UserProfilePage() {
 
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get(
-        `${import.meta.env.VITE_DEVAPI}users/${id}`,
-        {
-          withCredentials: true,
-        }
-      );
-      console.log("get user response", response.data);
-      setUser(response.data);
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_DEVAPI}users/${id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log("get user response", response.data);
+        setUser(response.data);
+      } catch(err) {
+        console.error("Get user error", err);
+          signOut(auth)
+                  .then(() => {
+                    Cookies.remove("userUID"); // Clear the cookie on sign out
+                    localStorage.removeItem("user"); // Clear the user data from local storage
+                    navigate("/"); // Redirect to the home page
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              
+              window.location.href = "/login";
+      }
     };
 
     try {
       getUser();
     } catch (err) {
-      console.error(err);
-      if(err) {
-        signOut(auth)
-                .then(() => {
-                  Cookies.remove("userUID"); // Clear the cookie on sign out
-                  localStorage.removeItem("user"); // Clear the user data from local storage
-                  navigate("/"); // Redirect to the home page
-                })
-                .catch((error) => {
-                  console.error(error);
-                });
-            
-            window.location.href = "/login";
-      }
+      console.error("Catch error:", err);
     }
   }, [id]);
 
