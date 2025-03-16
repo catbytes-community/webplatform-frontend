@@ -36,7 +36,9 @@ export function LoginPage() {
           .then(async (userCredential) => {
             const user = userCredential.user;
             const token = await user.getIdToken();
-            console.log("token", token);
+            if (import.meta.env.VITE_ENV === "localhost" || import.meta.env.VITE_ENV === "dev") {
+              console.log("token", token);
+            }
 
             // Send token to backend for authentication
             const loginRes = await axios.post(
