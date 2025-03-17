@@ -13,6 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 export const HomeSection = () => {
   const navigate = useNavigate();
   function handleClickJoinUs() {
+    console.log("here")
     navigate("/create_application");
   }
 
@@ -42,6 +43,7 @@ export const HomeSection = () => {
               label="JOIN US"
               btnType="primary_big_btn"
               onClick={handleClickJoinUs}
+              disabled={false}
             />
             <img className={style.paw} src={paw} alt="Paw" />
           </div>
