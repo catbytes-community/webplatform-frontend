@@ -36,7 +36,10 @@ export function LoginPage() {
           .then(async (userCredential) => {
             const user = userCredential.user;
             const token = await user.getIdToken();
-            if (import.meta.env.VITE_ENV === "localhost" || import.meta.env.VITE_ENV === "dev") {
+            if (
+              import.meta.env.VITE_ENV === "localhost" ||
+              import.meta.env.VITE_ENV === "dev"
+            ) {
               console.log("token", token);
             }
 
@@ -59,7 +62,17 @@ export function LoginPage() {
           })
           .catch((error) => {
             console.error("Sign-in error:", error);
-            setError("Failed to sign in. Please try again.");
+            if (error?.message?.includes("auth/invalid-action-code")) {
+              console.log("Invalid action code", error.message);
+              setError(
+                "The sign-in link is invalid. Please request a new one."
+              );
+            } else {
+              setError(
+                error?.response?.data?.error ||
+                  "Failed to sign in. Please try again."
+              );
+            }
           });
       }
     }
