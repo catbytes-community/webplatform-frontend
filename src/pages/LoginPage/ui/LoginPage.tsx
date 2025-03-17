@@ -63,7 +63,6 @@ export function LoginPage() {
           .catch((error) => {
             console.error("Sign-in error:", error);
             if (error?.message?.includes("auth/invalid-action-code")) {
-              console.log("Invalid action code", error.message);
               setError(
                 "The sign-in link is invalid. Please request a new one."
               );
