@@ -1,3 +1,16 @@
-.main {
-	font-size: xx-large;
+.applicationsContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 80%;
+}
+
+.filterButtons {
+  border: 1px solid black;
+  min-width: fit-content;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 4px 8px;
+  width: 110px;
+  background-color: white;
 }
