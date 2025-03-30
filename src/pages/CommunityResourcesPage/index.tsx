@@ -1,3 +1,3 @@
-// import  CommunityResources  from './ui/CommunityResourcesPage'
+import  CommunityResources  from './ui/CommunityResourcesPage'
 
-// export {CommunityResources}
+export {CommunityResources}

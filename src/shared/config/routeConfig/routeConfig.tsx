@@ -9,7 +9,7 @@ import { ApplicationsPage } from "../../../pages/ApplicationsPage";
 import { LoginPage } from "../../../pages/LoginPage";
 import { Pomodoro } from "../../../pages/Pomodoro";
 // import {CreateResourcePage} from "../../../pages/CreateResourcePage";
-// import {CommunityResources} from "../../../pages/CommunityResourcesPage";
+import {CommunityResources} from "../../../pages/CommunityResourcesPage";
 // import {AllProjectsPage} from "../../../pages/AllProjectsPage";
 // import {ProjectPage} from "../../../pages/ProjectPage";
 import { CreateApplicationPage } from "../../../pages/CreateApplicationPage";
@@ -27,7 +27,7 @@ export enum AppRoutes {
   // STUDY_BUDDY = "study_groups",
   NOT_FOUND = "not_found",
   POMODORO = "pomodoro",
-  // COMMUNITY_RESOURCES = "community_resources",
+  COMMUNITY_RESOURCES = "community_resources",
   // CREATE_RESOURCE = "CREATE_RESOURCE",
   APPLICATIONS = "applications",
   LOGIN = "login",
@@ -46,7 +46,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   // [AppRoutes.STUDY_BUDDY]: "/study_groups",
   [AppRoutes.NOT_FOUND]: "*",
   [AppRoutes.POMODORO]: "/pomodoro",
-  // [AppRoutes.COMMUNITY_RESOURCES]: "/community_resources",
+  [AppRoutes.COMMUNITY_RESOURCES]: "/community_resources",
   // [AppRoutes.CREATE_RESOURCE]: "/create_resource",
   [AppRoutes.APPLICATIONS]: "/applications",
   [AppRoutes.LOGIN]: "/login",
@@ -92,10 +92,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
     path: RoutePath.pomodoro,
     element: <Pomodoro />,
   },
-  // [AppRoutes.COMMUNITY_RESOURCES]: {
-  //   path: RoutePath.community_resources,
-  //   element: <CommunityResources />,
-  // },
+  [AppRoutes.COMMUNITY_RESOURCES]: {
+    path: RoutePath.community_resources,
+    element: <CommunityResources />,
+  },
   // [AppRoutes.CREATE_RESOURCE]: {
   //   path: RoutePath.CREATE_RESOURCE,
   //   element: <CreateResourcePage />,

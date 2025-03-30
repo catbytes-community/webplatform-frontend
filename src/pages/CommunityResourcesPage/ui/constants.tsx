@@ -1,60 +1,91 @@
 export interface Resource {
   id: number;
-  title: string;
+  name: string;
+  createdBy: string;
+  createdWas: string;
   description: string;
   tags: string[];
-  fullInfo?: string;
+  type: "TextArticle" | "LinkMaterials" | "YouTubeMaterials" | "TextAndLinkMaterials";
+  link?: string;
 }
 
 export const resources: Resource[] = [
   {
     id: 1,
-    title: "React Documentation",
-    description: "Official React documentation and guides.",
-    tags: ["Documents"],
-    fullInfo:
-      "Lorem ipsum dolor",
+    name: "React Guide",
+    createdBy: "Facebook",
+    createdWas: "2023-01-15",
+    description: "Официальная документация по React",
+    tags: ["React", "JavaScript"],
+    type: "TextArticle",
   },
   {
     id: 2,
-    title: "YouTube Video Tutorial",
-    description: "Comprehensive tutorial on React basics.",
-    tags: ["Video"],
+    name: "React Tutorial",
+    createdBy: "Tech Channel",
+    createdWas: "2024-03-10",
+    description: "Полный курс по React для начинающих",
+    tags: ["Video", "React"],
+    type: "YouTubeMaterials",
+    link: "https://www.youtube.com/watch?v=xyz123",
   },
   {
     id: 3,
-    title: "MDN Web Docs",
-    description: "Comprehensive resource for web developers.",
-    tags: ["Links"],
+    name: "MDN Web Docs",
+    createdBy: "Mozilla",
+    createdWas: "2022-06-20",
+    description: "Справочник по HTML, CSS, JS",
+    tags: ["HTML", "CSS", "JavaScript"],
+    type: "LinkMaterials",
+    link: "https://developer.mozilla.org/",
   },
   {
     id: 4,
-    title: "CSS Tricks",
-    description: "Tips and tricks for CSS enthusiasts.",
-    tags: ["Posts"],
+    name: "CSS Tricks",
+    createdBy: "Chris Coyier",
+    createdWas: "2021-11-05",
+    description: "Полезные советы по CSS",
+    tags: ["CSS", "Web Design"],
+    type: "TextAndLinkMaterials",
+    link: "https://css-tricks.com/",
   },
   {
     id: 5,
-    title: "JavaScript Info",
-    description: "In-depth JavaScript tutorials and guides.",
-    tags: ["Video"],
+    name: "JavaScript Info",
+    createdBy: "Ilya Kantor",
+    createdWas: "2023-05-25",
+    description: "Глубокое погружение в JavaScript",
+    tags: ["JS", "Guide"],
+    type: "TextArticle",
   },
   {
     id: 6,
-    title: "Frontend Mentor",
-    description: "Improve your coding skills by building projects.",
-    tags: ["Documents"],
+    name: "Frontend Mentor",
+    createdBy: "Community",
+    createdWas: "2023-08-17",
+    description: "Проекты для оттачивания навыков фронтенда",
+    tags: ["Practice"],
+    type: "LinkMaterials",
+    link: "https://www.frontendmentor.io/",
   },
   {
     id: 7,
-    title: "FreeCodeCamp",
-    description: "Learn to code for free with interactive lessons.",
-    tags: ["Links"],
+    name: "FreeCodeCamp",
+    createdBy: "FCC",
+    createdWas: "2020-09-12",
+    description: "Бесплатные интерактивные уроки по программированию",
+    tags: ["Education"],
+    type: "LinkMaterials",
+    link: "https://www.freecodecamp.org/",
   },
   {
     id: 8,
-    title: "Dev.to",
-    description: "Community platform for developers to share ideas.",
-    tags: ["Posts"],
+    name: "Dev.to",
+    createdBy: "Community",
+    createdWas: "2019-02-28",
+    description: "Платформа для общения разработчиков",
+    tags: ["Community"],
+    type: "TextAndLinkMaterials",
+    link: "https://dev.to/",
   },
 ];
