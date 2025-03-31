@@ -3,7 +3,7 @@ import Button from "../../../shared/ui/Button/Button.tsx";
 import paw from "../../../shared/assets/images/mdi_paw 1.svg";
 import landing_mentor_icons from "../../../shared/assets/images/landing_mentor_icons.svg";
 import announcement from "../../../shared/assets/images/Light-Orange-24.png";
-import cat from "../../../shared/assets/images/cat.svg";
+import cat from "../../../shared/assets/images/cat-cropped.svg";
 import ArrowRightIcon from "../../../shared/ui/icons/ArrowRightIcon.tsx";
 import homeGroup from "../../../shared/assets/images/home_group.png";
 import home_study_buddy from "../../../shared/assets/images/home_study_buddy.png";
@@ -13,10 +13,11 @@ import { Link, useNavigate } from "react-router-dom";
 export const HomeSection = () => {
   const navigate = useNavigate();
   function handleClickJoinUs() {
+    console.log("here")
     navigate("/create_application");
   }
 
-  const isLogged = true
+  const isLogged = true;
 
   return (
     <div className="flex justify-center px-10 py-3.5 overflow-hidden">
@@ -27,21 +28,22 @@ export const HomeSection = () => {
             pt-12 lg:py-20 px-9 rounded-3xl mt-12 lg:mb-40 relative`}
           >
             <div className="mb-12">
-              <p className="text-3xl lg:text-5xl font-bold">Become a part of CatBytes</p>
+              <p className="text-3xl lg:text-5xl font-bold">
+                Become a part of CatBytes
+              </p>
               <p className="text-xl lg:text-2xl font-montserrat font-medium mt-5">
-                A woman’s community to grow together in IT professions
+                Community for women in tech
               </p>
               <p className="font-montserrat mt-3.5 text-sm">
-                We bring women together to reach the top in IT. Our community is a
-                place where you will find available knowledge, unimylenics and
-                mentors for personal and professional development. Apply to be a
-                confident IT professional.
+                We bring women together to support each other in achieving our
+                career goals in tech industry. Join our private Discord server
               </p>
             </div>
             <Button
               label="JOIN US"
               btnType="primary_big_btn"
               onClick={handleClickJoinUs}
+              disabled={false}
             />
             <img className={style.paw} src={paw} alt="Paw" />
           </div>
@@ -50,8 +52,12 @@ export const HomeSection = () => {
              xl:min-w-[426px] rounded-3xl p-6 lg:pt-[27px] lg:pr-[29px] lg:pb-[2px] lg:pl-[52px]
              my-12 lg:absolute right-5 -bottom-14 xl:bottom-10`}
           >
-            <p className={`font-semibold text-xl lg:text-2xl font-poppins ${isLogged ? "w-44" : ""} `}>
-              {isLogged ? "View last announcements" : "Become a mentor"}
+            <p
+              className={`font-semibold text-xl lg:text-2xl font-poppins ${
+                isLogged ? "w-44" : ""
+              } `}
+            >
+              View last announcements
             </p>
             <div className="flex items-end justify-between">
               <img
@@ -62,17 +68,22 @@ export const HomeSection = () => {
               <Link className="z-50" to="/">
                 <div className="flex gap-2 mb-8">
                   <p className="underline font-montserrat text-sm lg:text-md font-bold text-gray-600">
-                    VIEW NOW
+                    Coming soon
                   </p>
                   <ArrowRightIcon />
                 </div>
               </Link>
             </div>
             <img
-                src={cat}
-                alt="cat"
-                className={`absolute -right-16  h-[300px] lg:h-[330px]
-                ${isLogged ? "bottom-[128px] lg:bottom-[104px]" : "bottom-[114px] lg:bottom-[88px]"}`} />
+              src={cat}
+              alt="cat"
+              className={`absolute -right-2  h-[130px] lg:h-[160px]
+                ${
+                  isLogged
+                    ? "bottom-[208px] lg:bottom-[198px]"
+                    : "bottom-[114px] lg:bottom-[88px]"
+                }`}
+            />
             <div className={`${style.blur} hidden lg:block`}></div>
           </div>
         </div>
@@ -82,17 +93,17 @@ export const HomeSection = () => {
             className={`${style.cardShadow} ${style.container} flex flex-col p-6 rounded-3xl relative`}
           >
             <p className="text-xl lg:text-2xl font-semibold w-64 mb-6">
-              Take part in projects and collaboration
+              Take part in projects and collaborations
             </p>
             <img
-                className="w-56 self-center lg:self-start"
-                src={isLogged ? landing_projects_logged : homeGroup}
-                alt="Projects"
+              className="w-56 self-center lg:self-start"
+              src={isLogged ? landing_projects_logged : homeGroup}
+              alt="Projects"
             />
-            <Link className="self-end" to="/projects">
+            <Link className="self-end" to="/">
               <div className="flex gap-2 mb-2">
                 <p className="underline text-sm lg:text-md font-montserrat font-bold text-gray-500">
-                  LEARN MORE
+                  Coming soon
                 </p>
                 <ArrowRightIcon />
               </div>
@@ -102,17 +113,17 @@ export const HomeSection = () => {
             className={`${style.cardShadow} ${style.container} flex flex-col p-6 rounded-3xl relative mb-8`}
           >
             <p className="text-xl lg:text-2xl font-semibold w-64 mb-2">
-              Find a study buddy to grow together
+              Find a study buddy to learn together
             </p>
             <img
               className="w-48 self-center"
               src={home_study_buddy}
               alt="Studdy Buddy"
             />
-            <Link className="self-end" to="/study_groups">
+            <Link className="self-end" to="/">
               <div className="flex gap-2 mb-2">
                 <p className="underline text-sm lg:text-md font-montserrat font-bold text-gray-500">
-                  SEARCH NOW
+                  Coming soon
                 </p>
                 <ArrowRightIcon />
               </div>

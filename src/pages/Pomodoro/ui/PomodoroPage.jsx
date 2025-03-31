@@ -32,7 +32,7 @@ export const PomodoroPage = () => {
   return (
     <div>
       <Navbar />
-      <div className="bg-gradient-to-r from-yellow-50 to-rose-300 min-h-screen mx-auto px-6 py-12">
+      <div className="min-h-screen mx-auto px-6 py-12">
         <h1 className="text-5xl font-extrabold text-center text-pink-800 mb-8 drop-shadow-lg">
           Pomodoro Timer
         </h1>

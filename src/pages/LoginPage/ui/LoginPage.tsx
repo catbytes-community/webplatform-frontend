@@ -36,7 +36,12 @@ export function LoginPage() {
           .then(async (userCredential) => {
             const user = userCredential.user;
             const token = await user.getIdToken();
-            console.log("token", token);
+            if (
+              import.meta.env.VITE_ENV === "localhost" ||
+              import.meta.env.VITE_ENV === "dev"
+            ) {
+              console.log("token", token);
+            }
 
             // Send token to backend for authentication
             const loginRes = await axios.post(
@@ -57,7 +62,16 @@ export function LoginPage() {
           })
           .catch((error) => {
             console.error("Sign-in error:", error);
-            setError("Failed to sign in. Please try again.");
+            if (error?.message?.includes("auth/invalid-action-code")) {
+              setError(
+                "The sign-in link is invalid. Please request a new one."
+              );
+            } else {
+              setError(
+                error?.response?.data?.error ||
+                  "Failed to sign in. Please try again."
+              );
+            }
           });
       }
     }

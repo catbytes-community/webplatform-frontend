@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
+import Button from "../../../shared/ui/Button/Button";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../firebaseConfig";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 type User = {
   id: string;
@@ -13,30 +18,71 @@ type User = {
 
 export default function UserProfilePage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [discordLink, setDiscordLink] = useState<string | null>();
 
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get(
-        `${import.meta.env.VITE_DEVAPI}users/${id}`,
-        {
-          withCredentials: true,
-        }
-      );
-      console.log("get user response", response.data);
-      setUser(response.data);
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_DEVAPI}users/${id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log("get user response", response.data);
+        setUser(response.data);
+      } catch(err) {
+        console.error("Get user error", err);
+          signOut(auth)
+                  .then(() => {
+                    Cookies.remove("userUID"); // Clear the cookie on sign out
+                    localStorage.removeItem("user"); // Clear the user data from local storage
+                    navigate("/"); // Redirect to the home page
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              
+              window.location.href = "/login";
+      }
     };
 
     try {
       getUser();
     } catch (err) {
-      console.error(err);
+      console.error("Catch error:", err);
     }
   }, [id]);
 
   if (!user) {
     return <div>Loading...</div>;
   }
+
+  const generateDiscordLink = () => {
+    axios
+      .post(
+        `${import.meta.env.VITE_DEVAPI}generate-invite`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        console.log("res", res);
+        if(res?.data?.invite_link) {
+          setDiscordLink(res.data.invite_link);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        if (err?.response?.data?.error) {
+          setError(err.response.data.error);
+        }
+      });
+  };
 
   return (
     <div>
@@ -62,6 +108,18 @@ export default function UserProfilePage() {
           <span className="font-bold font-montserrat">Member since:</span>{" "}
           {new Date(user.created_at).toDateString()}
         </p>
+        {error && <p className="text-red-500 italic">{error}</p>}
+        {discordLink ? (
+          <a href={discordLink} target="_blank" rel="noreferrer" className="underline text-sky-500">
+            {discordLink}
+          </a>
+        ) : (
+          <Button
+          label="Generate Discord Link"
+          btnType="primary_btn"
+          onClick={generateDiscordLink}
+        />
+        )}
       </div>
     </div>
   );

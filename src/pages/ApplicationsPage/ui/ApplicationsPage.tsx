@@ -4,10 +4,15 @@ import { useEffect, useState } from "react";
 import { ApplicationBlock } from "../components/Application/ApplicationBlock";
 import axios from "axios";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../firebaseConfig";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export const ApplicationsPage = () => {
   const [applications, setApplications] = useState<Application[]>([]);
   const [filter, setFilter] = useState<string>("All");
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
@@ -42,6 +47,20 @@ export const ApplicationsPage = () => {
         })
         .catch((error) => {
           console.error("Error fetching applications:", error);
+          if(error.response?.status === 401) {
+            
+              signOut(auth)
+                .then(() => {
+                  Cookies.remove("userUID"); // Clear the cookie on sign out
+                  localStorage.removeItem("user"); // Clear the user data from local storage
+                  navigate("/"); // Redirect to the home page
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            
+            window.location.href = "/login";
+          }
         });
     } catch (error) {
       console.error("Unexpected error:", error);

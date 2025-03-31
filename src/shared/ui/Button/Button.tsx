@@ -24,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({
 }): ReactElement => {
   return (
     <button
-      className={`${btnType} ${disabled ? "cursor-not-allowed" : ""}`}
+      className={`${btnType} ${disabled ? "cursor-not-allowed" : ""} z-[10000]`}
       onClick={!disabled ? onClick : undefined}
       disabled={disabled} // Важно передать в сам <button>
     >

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Button, { ButtonsEnum } from "../../../shared/ui/Button/Button";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
+import Alert from "../../../shared/ui/Alert/Alert";
 
 export const CreateApplicationPage: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -13,6 +14,7 @@ export const CreateApplicationPage: React.FC = () => {
   const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   //uncommit if need message in ui
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -101,7 +103,7 @@ export const CreateApplicationPage: React.FC = () => {
       });
 
       // if response server sucsessful
-      alert("Application submitted successfully!");
+      setShowAlert(true);
 
       // clean form
       setName("");
@@ -129,6 +131,13 @@ export const CreateApplicationPage: React.FC = () => {
   return (
     <div>
       <Navbar />
+      {showAlert && (
+        <Alert
+          setShowAlert={setShowAlert}
+          title="Application submitted!"
+          subtitle="Thank you for your application. One of our mentors will review it shortly and you will receive a relevant email 😽"
+        />
+      )}
       <p className="font-bold font-montserrat w-80 m-auto my-10 text-center">
         Please complete the below form to apply for joining our community
       </p>
@@ -201,8 +210,8 @@ export const CreateApplicationPage: React.FC = () => {
             <p className="w-[290px] m-auto italic text-sm ">
               Please upload a short video introducing yourslef and why you would
               like to join our community. <br />
-              descYou can upload a video unlisted to YouTube and share the link
-              with us.
+              You can upload a video unlisted to YouTube and share the link with
+              us.
             </p>
             {errors.link && <p className={style.error}>{errors.link}</p>}
           </div>
@@ -226,7 +235,7 @@ export const CreateApplicationPage: React.FC = () => {
             </p>
             {errors.discord && <p className={style.error}>{errors.discord}</p>}
           </div>
-          <div>
+          <div className="mb-5 w-full p-2">
             <input
               type="checkbox"
               checked={agreeToTerms}
@@ -235,10 +244,10 @@ export const CreateApplicationPage: React.FC = () => {
               }
               className="mr-2"
             />
-            <label>
+            <label className="text-sm">
               I agree to the{" "}
-              <a href="/terms" target="_blank">
-                Terms and Conditions
+              <a href="/privacy_policy" target="_blank" className="underline">
+                Privacy Policy
               </a>
             </label>
           </div>

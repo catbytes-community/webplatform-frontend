@@ -1,7 +1,7 @@
 import { RouteProps } from "react-router-dom";
 import { NotFoundPage } from "../../../pages/NotFoundPage";
 import { MainPage } from "../../../pages/MainPage";
-import { AboutPage } from "../../../pages/AboutPage";
+// import { AboutPage } from "../../../pages/AboutPage";
 // import { MentorsPage } from "../../../pages/MentorsPage";
 // import { AddProjectPage } from "../../../pages/AddProjectPage";
 // import { StudyBuddyPage } from "../../../pages/StudyBuddyPage";
@@ -14,10 +14,12 @@ import { Pomodoro } from "../../../pages/Pomodoro";
 // import {ProjectPage} from "../../../pages/ProjectPage";
 import { CreateApplicationPage } from "../../../pages/CreateApplicationPage";
 import { UserProfilePage } from "../../../pages/UserProfilePage";
+import PrivacyPolicy from "../../../pages/PrivacyPolicy";
+import { ProtectedRoute } from "../../../pages/ProtectedRoute";
 
 export enum AppRoutes {
   MAIN = "main",
-  ABOUT = "about",
+  // ABOUT = "about",
   // MENTORS = "mentors",
   // ALL_PROJECTS = "projects",
   // PROJECT = "project",
@@ -31,11 +33,12 @@ export enum AppRoutes {
   LOGIN = "login",
   CREATE_APPLICATION = "create_application",
   USER_PROFILE = "user_profile/:id",
+  PRIVACY_POLICY = "privacy_policy",
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.MAIN]: "/",
-  [AppRoutes.ABOUT]: "/about",
+  // [AppRoutes.ABOUT]: "/about",
   // [AppRoutes.MENTORS]: "/mentors",
   // [AppRoutes.ALL_PROJECTS]: "/projects",
   // [AppRoutes.PROJECT]: "/project/:id",
@@ -49,6 +52,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.LOGIN]: "/login",
   [AppRoutes.CREATE_APPLICATION]: "/create_application",
   [AppRoutes.USER_PROFILE]: "/user_profile/:id",
+  [AppRoutes.PRIVACY_POLICY]: "/privacy_policy",
 };
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
@@ -56,10 +60,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
     path: RoutePath.main,
     element: <MainPage />,
   },
-  [AppRoutes.ABOUT]: {
-    path: RoutePath.about,
-    element: <AboutPage />,
-  },
+  // [AppRoutes.ABOUT]: {
+  //   path: RoutePath.about,
+  //   element: <AboutPage />,
+  // },
   // [AppRoutes.ALL_PROJECTS]: {
   //   path: RoutePath.projects,
   //   element: <AllProjectsPage />,
@@ -98,7 +102,7 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   // },
   [AppRoutes.APPLICATIONS]: {
     path: RoutePath.applications,
-    element: <ApplicationsPage />,
+    element: <ProtectedRoute element={<ApplicationsPage />} />,
   },
   [AppRoutes.LOGIN]: {
     path: RoutePath.login,
@@ -111,5 +115,9 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.USER_PROFILE]: {
     path: RoutePath[AppRoutes.USER_PROFILE],
     element: <UserProfilePage />,
+  },
+  [AppRoutes.PRIVACY_POLICY]: {
+    path: RoutePath.privacy_policy,
+    element: <PrivacyPolicy />,
   },
 };
