@@ -248,6 +248,14 @@ export const CreateApplicationPage: React.FC = () => {
               I agree to the{" "}
               <a href="/privacy_policy" target="_blank" className="underline">
                 Privacy Policy
+              </a>{" "}
+              and{" "}
+              <a
+                href="/terms_and_conditions"
+                target="_blank"
+                className="underline"
+              >
+                Terms and Conditions
               </a>
             </label>
           </div>
