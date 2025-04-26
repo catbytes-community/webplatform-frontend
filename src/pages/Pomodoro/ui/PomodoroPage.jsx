@@ -4,6 +4,7 @@ import Settings from "../lib/Settings.jsx";
 import Navbar from "../../../shared/ui/Navbar/Navbar.tsx";
 import PomodoroTimer from "../components/PomodoroTimer.jsx";
 import { FaPlay, FaPause, FaCog, FaRedo } from "react-icons/fa";
+import Footer from "../../../shared/ui/Footer/Footer.tsx";
 
 export const PomodoroPage = () => {
   const {
@@ -32,8 +33,8 @@ export const PomodoroPage = () => {
   return (
     <div>
       <Navbar />
-      <div className="min-h-screen mx-auto px-6 py-12">
-        <h1 className="text-5xl font-extrabold text-center text-pink-800 mb-8 drop-shadow-lg">
+      <div className="min-h-screen mx-auto py-12 bg-double-background bg-bottom bg-no-repeat bg-contain -mb-20">
+        <h1 className="text-5xl font-extrabold text-center text-black mb-8 drop-shadow-lg">
           Pomodoro Timer
         </h1>
 
@@ -41,11 +42,11 @@ export const PomodoroPage = () => {
           <Settings />
         ) : (
           <div className="flex flex-col items-center justify-center">
-            <ul className="flex mb-10 space-x-6">
+            <ul className="flex mb-10 space-x-6 list-none">
               <li>
                 <button
                   className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${
-                    activeState.active === "work" ? "ring-4 ring-pink-600" : ""
+                    activeState.active === "work" ? "ring-4 ring-rose-700" : ""
                   }`}
                   onClick={() => setCurrentTimer("work")}
                 >
@@ -55,7 +56,7 @@ export const PomodoroPage = () => {
               <li>
                 <button
                   className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${
-                    activeState.active === "short" ? "ring-4 ring-pink-600" : ""
+                    activeState.active === "short" ? "ring-4 ring-rose-700" : ""
                   }`}
                   onClick={() => setCurrentTimer("short")}
                 >
@@ -65,7 +66,7 @@ export const PomodoroPage = () => {
               <li>
                 <button
                   className={`bg-rose-500 text-white py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:ring ${
-                    activeState.active === "long" ? "ring-4 ring-pink-600" : ""
+                    activeState.active === "long" ? "ring-4 ring-rose-700" : ""
                   }`}
                   onClick={() => setCurrentTimer("long")}
                 >
@@ -74,7 +75,7 @@ export const PomodoroPage = () => {
               </li>
             </ul>
 
-            <div className="relative w-96 h-96 flex items-center justify-center rounded-full bg-gradient-to-br from-yellow-300 to-rose-300 shadow-xl mb-6">
+            <div className="relative w-96 h-96 flex items-center justify-center rounded-full bg-[#370413] shadow-xl mb-6">
               <div className="absolute flex items-center justify-center text-6xl font-extrabold text-white">
                 <PomodoroTimer
                   key={counter}
@@ -109,6 +110,7 @@ export const PomodoroPage = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };
