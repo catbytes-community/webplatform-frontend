@@ -131,7 +131,13 @@ export const CreateApplicationPage: React.FC = () => {
   return (
     <div>
       <Navbar />
-      {showAlert && <Alert setShowAlert={setShowAlert} title="Application submitted!" subtitle="Thank you for your application. One of our mentors will review it shortly and you will receive a relevant email 😽" />}
+      {showAlert && (
+        <Alert
+          setShowAlert={setShowAlert}
+          title="Application submitted!"
+          subtitle="Thank you for your application. One of our mentors will review it shortly and you will receive a relevant email 😽"
+        />
+      )}
       <p className="font-bold font-montserrat w-80 m-auto my-10 text-center">
         Please complete the below form to apply for joining our community
       </p>
@@ -204,8 +210,8 @@ export const CreateApplicationPage: React.FC = () => {
             <p className="w-[290px] m-auto italic text-sm ">
               Please upload a short video introducing yourslef and why you would
               like to join our community. <br />
-              You can upload a video unlisted to YouTube and share the link
-              with us.
+              You can upload a video unlisted to YouTube and share the link with
+              us.
             </p>
             {errors.link && <p className={style.error}>{errors.link}</p>}
           </div>
@@ -229,7 +235,7 @@ export const CreateApplicationPage: React.FC = () => {
             </p>
             {errors.discord && <p className={style.error}>{errors.discord}</p>}
           </div>
-          <div>
+          <div className="mb-5 w-full p-2">
             <input
               type="checkbox"
               checked={agreeToTerms}
@@ -238,9 +244,17 @@ export const CreateApplicationPage: React.FC = () => {
               }
               className="mr-2"
             />
-            <label>
+            <label className="text-sm">
               I agree to the{" "}
-              <a href="/terms" target="_blank">
+              <a href="/privacy_policy" target="_blank" className="underline">
+                Privacy Policy
+              </a>{" "}
+              and{" "}
+              <a
+                href="/terms_and_conditions"
+                target="_blank"
+                className="underline"
+              >
                 Terms and Conditions
               </a>
             </label>

@@ -3,7 +3,7 @@ import Button from "../../../shared/ui/Button/Button.tsx";
 import paw from "../../../shared/assets/images/mdi_paw 1.svg";
 import landing_mentor_icons from "../../../shared/assets/images/landing_mentor_icons.svg";
 import announcement from "../../../shared/assets/images/Light-Orange-24.png";
-import cat from "../../../shared/assets/images/cat.svg";
+import cat from "../../../shared/assets/images/cat-cropped.svg";
 import ArrowRightIcon from "../../../shared/ui/icons/ArrowRightIcon.tsx";
 import homeGroup from "../../../shared/assets/images/home_group.png";
 import home_study_buddy from "../../../shared/assets/images/home_study_buddy.png";
@@ -13,6 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 export const HomeSection = () => {
   const navigate = useNavigate();
   function handleClickJoinUs() {
+    console.log("here")
     navigate("/create_application");
   }
 
@@ -42,6 +43,7 @@ export const HomeSection = () => {
               label="JOIN US"
               btnType="primary_big_btn"
               onClick={handleClickJoinUs}
+              disabled={false}
             />
             <img className={style.paw} src={paw} alt="Paw" />
           </div>
@@ -75,10 +77,10 @@ export const HomeSection = () => {
             <img
               src={cat}
               alt="cat"
-              className={`absolute -right-16  h-[300px] lg:h-[330px]
+              className={`absolute -right-2  h-[130px] lg:h-[160px]
                 ${
                   isLogged
-                    ? "bottom-[128px] lg:bottom-[104px]"
+                    ? "bottom-[208px] lg:bottom-[198px]"
                     : "bottom-[114px] lg:bottom-[88px]"
                 }`}
             />

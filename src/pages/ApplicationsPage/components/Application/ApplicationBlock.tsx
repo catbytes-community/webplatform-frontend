@@ -179,7 +179,13 @@ export const ApplicationBlock = ({
         <p>About: {application.about}</p>
         <p>
           Link to video:{" "}
-          <a href={application.video_link}>{application.video_link}</a>
+          <a
+            href={application.video_link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {application.video_link}
+          </a>
         </p>
         {application.status !== "pending" && (
           <div>

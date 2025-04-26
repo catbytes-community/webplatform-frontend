@@ -24,6 +24,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
       : null;
 
     if (user) {
+      console.log("User data from local storage:", user);
       setIsMentor(
         user?.roles?.filter(
           (role: { role_id: number; role_name: string }) =>
@@ -54,6 +55,10 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
 
   function handleClickSignIn() {
     navigate("/login");
+  }
+
+  function handleClickBecomeMentor() {
+    navigate("/create_application_mentor");
   }
 
   function handleClickSignOut() {
@@ -121,7 +126,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
         </div>
         <div className="flex items-center sm:gap-10 gap-2">
           <div className="lg:flex gap-5">
-            {!isAuth && (
+            {!isAuth ? (
               <button
                 onClick={handleClickJoinUs}
                 disabled={isCreateApplication}
@@ -129,6 +134,16 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
               >
                 JOIN US
               </button>
+            ) : (
+              !isMentor && (
+                <button
+                  onClick={handleClickBecomeMentor}
+                  disabled={isCreateApplication}
+                  className="primary_btn hidden lg:block"
+                >
+                  BECOME A MENTOR
+                </button>
+              )
             )}
 
             {!isLogin && (

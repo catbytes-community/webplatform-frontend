@@ -44,11 +44,17 @@ const SettingsContextProvider = (props) => {
   };
 
   function setCurrentTimer(current_state) {
-    updateExecute({
+    // updateExecute({
+    //   ...activeState,
+    //   active: current_state,
+    // });
+    // setTimerTime(activeState);
+    const updatedSettings = {
       ...activeState,
       active: current_state,
-    });
-    setTimerTime(activeState);
+    };
+    updateExecute(updatedSettings);
+    setTimerTime(updatedSettings);
   }
 
   const setTimerTime = (evaluate) => {

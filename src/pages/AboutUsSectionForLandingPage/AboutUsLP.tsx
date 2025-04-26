@@ -36,7 +36,7 @@ const AboutUsLP = () => {
               CatBytes Community
             </p>
             <p className="text-gray-500 text-sm">
-              CatBytes community was created in June 2025 as a private Discord
+              CatBytes community was created in June 2024 as a private Discord
               server, where women who want to learn and grow in tech industry
               and tech professions can gather together and support each other in
               a comfortable, safe and non-toxic environment
