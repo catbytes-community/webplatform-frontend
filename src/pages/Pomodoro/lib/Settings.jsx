@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import { SettingContext } from "./SettingsContext.jsx";
 
 const Settings = () => {
@@ -10,6 +10,13 @@ const Settings = () => {
     long: 3,
     active: "work",
   });
+
+  useEffect(() => {
+    const savedSettings = JSON.parse(localStorage.getItem("timerSettings"));
+    if (savedSettings) {
+      setNewTimer(savedSettings);
+    }
+  }, []);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -42,6 +49,8 @@ const Settings = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
+    // save settings in local storage
+    localStorage.setItem("timerSettings", JSON.stringify(newTimer));
     updateExecute(newTimer);
   }
 
