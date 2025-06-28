@@ -47,13 +47,15 @@ export function LoginPage() {
             const loginRes = await axios.post(
               `${import.meta.env.VITE_DEVAPI}users/login`,
               {},
-              { headers: { token }, withCredentials: true }
+              { headers: { "X-Firebase-Token": token }, withCredentials: true }
             );
+            console.log("loginRes", loginRes);
 
             const userDataRes = await axios.get(
               `${import.meta.env.VITE_DEVAPI}users/${loginRes?.data?.user?.id}`,
-              { headers: { token }, withCredentials: true }
+              { withCredentials: true }
             );
+            console.log("userDataRes", userDataRes);
 
             localStorage.setItem("user", JSON.stringify(userDataRes.data));
             window.localStorage.removeItem("emailForSignIn");
@@ -87,13 +89,13 @@ export function LoginPage() {
 
     try {
       const actionCodeSettings = {
-        // url: "http://localhost:5173/login",
-        url:
-          import.meta.env.VITE_ENV === "localhost"
-            ? "http://localhost:5173/login"
-            : import.meta.env.VITE_ENV === "dev"
-            ? "https://dev.catbytes.io/login"
-            : "https://catbytes.io/login",
+        url: "http://localhost:5173/login",
+        // url:
+        //   import.meta.env.VITE_ENV === "localhost"
+        //     ? "http://localhost:5173/login"
+        //     : import.meta.env.VITE_ENV === "dev"
+        //     ? "https://dev.catbytes.io/login"
+        //     : "https://catbytes.io/login",
         handleCodeInApp: true,
       };
 
