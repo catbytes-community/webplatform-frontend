@@ -18,6 +18,7 @@ import PrivacyPolicy from "../../../pages/PrivacyPolicy";
 import { ProtectedRoute } from "../../../pages/ProtectedRoute";
 import TandC from "../../../pages/TandC";
 import { CreateApplicationMentorPage } from "../../../pages/CreateApplicationMentorPage";
+import { MentorUserProfilePage } from "../../../pages/MentorUserProfilePage";
 
 export enum AppRoutes {
   MAIN = "main",
@@ -38,6 +39,7 @@ export enum AppRoutes {
   PRIVACY_POLICY = "privacy_policy",
   TERMS_AND_CONDITIONS = "terms_and_conditions",
   CREATE_APPLICATION_MENTOR = "create_application_mentor",
+  MENTOR_USER_PROFILE = "mentor_user_profile/:id",
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
@@ -59,6 +61,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.PRIVACY_POLICY]: "/privacy_policy",
   [AppRoutes.TERMS_AND_CONDITIONS]: "/terms_and_conditions",
   [AppRoutes.CREATE_APPLICATION_MENTOR]: "/create_application_mentor",
+  [AppRoutes.MENTOR_USER_PROFILE]: "/mentor_user_profile/:id",
 };
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
@@ -133,5 +136,9 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.CREATE_APPLICATION_MENTOR]: {
     path: RoutePath.create_application_mentor,
     element: <CreateApplicationMentorPage />,
+  },
+  [AppRoutes.MENTOR_USER_PROFILE]: {
+    path: RoutePath[AppRoutes.MENTOR_USER_PROFILE],
+    element: <MentorUserProfilePage />,
   },
 };
