@@ -12,6 +12,7 @@ type User = {
   id: string;
   name: string;
   discord_nickname: string;
+  email: string;
   roles: { role_id: number; role_name: string }[];
   created_at: string;
 };
@@ -24,6 +25,7 @@ export default function UserProfilePage() {
   const [discordLink, setDiscordLink] = useState<string | null>();
 
   useEffect(() => {
+    console.log("Firebase auth user", auth.currentUser);
     const getUser = async () => {
       try {
         const response = await axios.get(
@@ -98,6 +100,12 @@ export default function UserProfilePage() {
           <span className="font-bold font-montserrat">Discord Nickname:</span>{" "}
           {user.discord_nickname}
         </p>
+        {auth.currentUser?.email === user.email && (
+          <p>
+            <span className="font-bold font-montserrat">Email:</span> {auth.currentUser?.email}
+            <p className="italic text-gray-500 text-sm">Note: email is only visible to you</p>
+          </p>
+        )}
         <p>
           <span className="font-bold font-montserrat">Role: </span>
           {user.roles.filter((role) => role.role_name === "mentor").length > 0
