@@ -22,6 +22,9 @@ export default function UserProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [discordLink, setDiscordLink] = useState<string | null>();
+  const currentUserId = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user") as string).id
+    : undefined;
 
   useEffect(() => {
     const getUser = async () => {
@@ -34,19 +37,19 @@ export default function UserProfilePage() {
         );
         console.log("get user response", response.data);
         setUser(response.data);
-      } catch(err) {
+      } catch (err) {
         console.error("Get user error", err);
-          signOut(auth)
-                  .then(() => {
-                    Cookies.remove("userUID"); // Clear the cookie on sign out
-                    localStorage.removeItem("user"); // Clear the user data from local storage
-                    navigate("/"); // Redirect to the home page
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              
-              window.location.href = "/login";
+        signOut(auth)
+          .then(() => {
+            Cookies.remove("userUID"); // Clear the cookie on sign out
+            localStorage.removeItem("user"); // Clear the user data from local storage
+            navigate("/"); // Redirect to the home page
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+
+        window.location.href = "/login";
       }
     };
 
@@ -72,7 +75,7 @@ export default function UserProfilePage() {
       )
       .then((res) => {
         console.log("res", res);
-        if(res?.data?.invite_link) {
+        if (res?.data?.invite_link) {
           setDiscordLink(res.data.invite_link);
         }
       })
@@ -110,15 +113,22 @@ export default function UserProfilePage() {
         </p>
         {error && <p className="text-red-500 italic">{error}</p>}
         {discordLink ? (
-          <a href={discordLink} target="_blank" rel="noreferrer" className="underline text-sky-500">
+          <a
+            href={discordLink}
+            target="_blank"
+            rel="noreferrer"
+            className="underline text-sky-500"
+          >
             {discordLink}
           </a>
         ) : (
-          <Button
-          label="Generate Discord Link"
-          btnType="primary_btn"
-          onClick={generateDiscordLink}
-        />
+          currentUserId === user.id && (
+            <Button
+              label="Generate Discord Link"
+              btnType="primary_btn"
+              onClick={generateDiscordLink}
+            />
+          )
         )}
       </div>
     </div>
