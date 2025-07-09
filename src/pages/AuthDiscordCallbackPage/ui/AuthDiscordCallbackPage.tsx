@@ -22,7 +22,8 @@ export const AuthDiscordCallbackPage = () => {
     } catch (error) {
       console.error("Get user error", error);
 
-      const errorMessage = "Discord authentication failed. Please try again";
+      const errorMessage =
+        "You are not a member of our community yet. Please click Join Us first to join our community.";
 
       navigate("/login", {
         state: { errorMessage },
