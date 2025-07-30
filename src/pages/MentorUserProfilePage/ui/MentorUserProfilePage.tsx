@@ -7,9 +7,8 @@ type Mentor = {
   name: string;
   discord_nickname: string;
   languages: string[];
-  //tags_name: string[]; // how to show mentor tags?
-  about: string; // it's experiance description?
-  // how to show mentor status ?
+  tags: string[];
+  experiance_description: string;
 };
 
 export default function MentorUserProfilePage() {
@@ -25,8 +24,9 @@ export default function MentorUserProfilePage() {
           name: "John Doe",
           discord_nickname: "johndoe#1234",
           languages: ["JavaScript", "Python"],
-          //tags_name: ["Web Development", "AI"],
-          about: "5 years of experience in web development and AI.",
+          tags: ["Web Development", "AI"],
+          experiance_description:
+            "5 years of experience in web development and AI.",
         });
       } catch (err) {
         console.error("get mentor error", err);
@@ -63,15 +63,15 @@ export default function MentorUserProfilePage() {
           <span className="font-bold font-montserrat">Languages:</span>
           {mentor?.languages.join(", ")}
         </p>
-        {/* <p>
+        <p>
           <span className="font-bold font-montserrat">Tags:</span>
-          {mentor?.tags_name.join(", ")}
-        </p> */}
+          {mentor?.tags.join(", ")}
+        </p>
         <p>
           <span className="font-bold font-montserrat">
             Experience description:
           </span>
-          {mentor?.about}
+          {mentor?.experiance_description}
         </p>
       </div>
     </div>
