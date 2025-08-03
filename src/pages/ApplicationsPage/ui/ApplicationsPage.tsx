@@ -6,7 +6,6 @@ import axios from "axios";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebaseConfig";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 export const ApplicationsPage = () => {
@@ -47,18 +46,24 @@ export const ApplicationsPage = () => {
         })
         .catch((error) => {
           console.error("Error fetching applications:", error);
-          if(error.response?.status === 401) {
-            
-              signOut(auth)
-                .then(() => {
-                  Cookies.remove("userUID"); // Clear the cookie on sign out
-                  localStorage.removeItem("user"); // Clear the user data from local storage
-                  navigate("/"); // Redirect to the home page
-                })
-                .catch((error) => {
-                  console.error(error);
-                });
-            
+          if (error.response?.status === 401) {
+
+            signOut(auth)
+              .then(() => {
+                axios.post(
+                  `${import.meta.env.VITE_DEVAPI}users/logout`,
+                  {},
+                  {
+                    withCredentials: true,
+                  }
+                );
+                localStorage.removeItem("user"); // Clear the user data from local storage
+                navigate("/"); // Redirect to the home page
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+
             window.location.href = "/login";
           }
         });
@@ -82,33 +87,29 @@ export const ApplicationsPage = () => {
         </div> */}
         <div className="w-full flex justify-center gap-1 sm:gap-5 p-5">
           <button
-            className={`${style.filterButtons} ${
-              filter === "All" ? "bg-black text-white" : ""
-            }`}
+            className={`${style.filterButtons} ${filter === "All" ? "bg-black text-white" : ""
+              }`}
             onClick={() => setFilter("All")}
           >
             All
           </button>
           <button
-            className={`${style.filterButtons} ${
-              filter === "Pending review" ? "bg-black text-white" : ""
-            }`}
+            className={`${style.filterButtons} ${filter === "Pending review" ? "bg-black text-white" : ""
+              }`}
             onClick={() => setFilter("Pending review")}
           >
             Pending review
           </button>
           <button
-            className={`${style.filterButtons} ${
-              filter === "Approved" ? "bg-black text-white" : ""
-            }`}
+            className={`${style.filterButtons} ${filter === "Approved" ? "bg-black text-white" : ""
+              }`}
             onClick={() => setFilter("Approved")}
           >
             Approved
           </button>
           <button
-            className={`${style.filterButtons} ${
-              filter === "Rejected" ? "bg-black text-white" : ""
-            }`}
+            className={`${style.filterButtons} ${filter === "Rejected" ? "bg-black text-white" : ""
+              }`}
             onClick={() => setFilter("Rejected")}
           >
             Rejected
