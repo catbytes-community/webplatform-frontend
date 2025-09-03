@@ -2,7 +2,7 @@ import Navbar from "../../../shared/ui/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import mentorProfileAvatar from "../../../shared/assets/images/mentorProfileAvatar.png";
-// import style from "./MentorUserProfilePage.module.css";
+import style from "./MentorUserProfilePage.module.css";
 
 type Mentor = {
   mentor_id: string;
@@ -53,48 +53,66 @@ export default function MentorUserProfilePage() {
   }
 
   return (
-    <div>
+    <div className="max-w-[1200px] px-8 mx-auto">
       <Navbar />
-      <div className="w-full max-w-[1200px] mx-auto">
-        <h2 className="text-4xl leading-[1.2] font-semibold mt-10">
-          Cat Bytes Mentor
-        </h2>
 
-        <div className="flex flex-row justify-between rounded-3xl p-8 mt-7 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)]">
+      <h2 className="text-4xl leading-[1.2] font-semibold mt-10 text-[#170103]">
+        Cat Bytes Mentor
+      </h2>
+
+      <div className="flex flex-row flex-wrap mt-7 justify-between">
+        <div className="w-full flex flex-row flex-wrap md:flex-nowrap justify-between rounded-3xl p-8 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)]">
           <div className="flex flex-row gap-6">
             <img
               src={mentorProfileAvatar}
               alt="Avatar Image"
-              className="max-w-[170px] object-cover"
+              className="w-[170px] object-cover overflow-hidden"
             ></img>
 
-            <div className="flex flex-col">
-              <p className="text-3xl font-semibold leading-[1.2]">
+            <div className="w-full flex flex-col h-fit">
+              <p className="text-3xl font-semibold leading-[1.2] text-[#170103]">
                 {mentor?.name}
               </p>
-              <p className="text-base font-montserrat font-medium mt-5 flex items-center gap-3 leading-[1.2]">
-                <span className="text-sm w-[82px] font-normal">Discord:</span>
+              <p className="text-base font-montserrat mt-5 flex items-center gap-3 leading-[1.2] text-[#170103]">
+                <span className="text-sm w-[82px] text-[#4B5563]">
+                  Discord:
+                </span>
                 {mentor?.discord_nickname}
               </p>
-              <p className="text-base font-montserrat font-medium mt-3 flex items-center gap-3 leading-[1.2]">
-                <span className="text-sm w-[82px] font-normal">Languages:</span>
+              <p className="text-base font-montserrat mt-3 flex items-center gap-3 leading-[1.2] text-[#170103]">
+                <span className="text-sm w-[82px] text-[#4B5563]">
+                  Languages:
+                </span>
                 {mentor?.languages.join(", ")}
               </p>
             </div>
           </div>
 
-          <button className="primary_big_btn">Contact</button>
+          <div className="w-full mt-9 md:mt-0 md:w-fit">
+            <button className="primary_big_btn md:w-fit w-full">Contact</button>
+          </div>
         </div>
 
-        <div className="flex flex-col rounded-3xl p-8 mt-5 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)]">
-          <h2 className="text-2xl leading-[1.2] font-medium">Experience</h2>
-          <p className="mt-5 font-montserrat text-lg leading-[1.5]">
+        <div className="w-full md:w-[57%] h-fit flex flex-col rounded-3xl p-8 mt-5 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)]">
+          <h2 className="text-2xl leading-[1.2] font-medium text-[#170103]">
+            Experience
+          </h2>
+          <p className="mt-5 font-montserrat text-lg leading-[1.5] text-[#170103]">
             {mentor?.about}
           </p>
         </div>
 
-        <div className="mt-5">
-          <p>{mentor?.tags.join(", ")}</p>
+        <div
+          className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full md:w-[41%] h-fit justify-center md:justify-start`}
+        >
+          {mentor?.tags.map((tag, idx) => (
+            <span
+              key={idx}
+              className={`${style.tags} text-m font-montserrat font-medium leading-[1.2] text-[#170103]`}
+            >
+              #{tag}
+            </span>
+          ))}
         </div>
       </div>
     </div>
