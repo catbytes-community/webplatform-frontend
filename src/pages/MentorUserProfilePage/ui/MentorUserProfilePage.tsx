@@ -53,34 +53,37 @@ export default function MentorUserProfilePage() {
   }
 
   return (
-    <div className="max-w-[1200px] px-8 mx-auto">
+    <div className="max-w-[1200px] px-5 sm:px-10 mx-auto">
       <Navbar />
 
-      <h2 className="text-4xl leading-[1.2] font-semibold mt-10 text-[#170103]">
+      <h2 className="text-3xl sm:text-4xl font-semibold mt-10 text-[#170103]">
         Cat Bytes Mentor
       </h2>
 
       <div className="flex flex-row flex-wrap mt-7 justify-between">
         <div className="w-full flex flex-row flex-wrap md:flex-nowrap justify-between rounded-3xl p-8 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)]">
-          <div className="flex flex-row gap-6">
-            <img
-              src={mentorProfileAvatar}
-              alt="Avatar Image"
-              className="w-[170px] object-cover overflow-hidden"
-            ></img>
+          <div className="flex flex-row gap-5 sm:gap-6 ">
+            <div className="lg:min-w-[170px]">
+              <img
+                src={mentorProfileAvatar}
+                alt="Avatar Image"
+                className="w-full object-cover overflow-hidden"
+              ></img>
+            </div>
 
             <div className="w-full flex flex-col h-fit">
-              <p className="text-3xl font-semibold leading-[1.2] text-[#170103]">
+              <p className="text-2xl sm:text-3xl font-semibold text-[#170103]">
                 {mentor?.name}
               </p>
-              <p className="text-base font-montserrat mt-5 flex items-center gap-3 leading-[1.2] text-[#170103]">
-                <span className="text-sm w-[82px] text-[#4B5563]">
+
+              <p className="text-sm sm:text-base font-montserrat mt-4 sm:mt-5 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3 text-[#170103]">
+                <span className="text-xs sm:text-sm sm:w-[82px] text-[#4B5563]">
                   Discord:
                 </span>
                 {mentor?.discord_nickname}
               </p>
-              <p className="text-base font-montserrat mt-3 flex items-center gap-3 leading-[1.2] text-[#170103]">
-                <span className="text-sm w-[82px] text-[#4B5563]">
+              <p className="text-sm sm:text-base font-montserrat mt-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3 text-[#170103]">
+                <span className="text-xs sm:text-sm sm:w-[82px] text-[#4B5563]">
                   Languages:
                 </span>
                 {mentor?.languages.join(", ")}
@@ -89,26 +92,26 @@ export default function MentorUserProfilePage() {
           </div>
 
           <div className="w-full mt-9 md:mt-0 md:w-fit">
-            <button className="primary_big_btn md:w-fit w-full">Contact</button>
+            <button className="primary_btn md:w-fit w-full">Contact</button>
           </div>
         </div>
 
-        <div className="w-full md:w-[57%] h-fit flex flex-col rounded-3xl p-8 mt-5 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)]">
-          <h2 className="text-2xl leading-[1.2] font-medium text-[#170103]">
+        <div className="w-full lg:w-[66%] h-fit flex flex-col rounded-3xl p-8 mt-5 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)]">
+          <h2 className="text-lg sm:text-2xl font-medium text-[#170103]">
             Experience
           </h2>
-          <p className="mt-5 font-montserrat text-lg leading-[1.5] text-[#170103]">
+          <p className="mt-4 sm:mt-5 font-montserrat text-base sm:text-lg text-[#170103]">
             {mentor?.about}
           </p>
         </div>
 
         <div
-          className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full md:w-[41%] h-fit justify-center md:justify-start`}
+          className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full lg:w-[32%] h-fit justify-center lg:justify-start`}
         >
           {mentor?.tags.map((tag, idx) => (
             <span
               key={idx}
-              className={`${style.tags} text-m font-montserrat font-medium leading-[1.2] text-[#170103]`}
+              className={`${style.tags} text-sm sm:text-m font-montserrat font-medium text-[#170103]`}
             >
               #{tag}
             </span>
