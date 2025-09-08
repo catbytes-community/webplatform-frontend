@@ -5,7 +5,6 @@ import Navbar from "../../../shared/ui/Navbar/Navbar";
 import Button from "../../../shared/ui/Button/Button";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebaseConfig";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 type User = {
@@ -34,19 +33,25 @@ export default function UserProfilePage() {
         );
         console.log("get user response", response.data);
         setUser(response.data);
-      } catch(err) {
+      } catch (err) {
         console.error("Get user error", err);
-          signOut(auth)
-                  .then(() => {
-                    Cookies.remove("userUID"); // Clear the cookie on sign out
-                    localStorage.removeItem("user"); // Clear the user data from local storage
-                    navigate("/"); // Redirect to the home page
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              
-              window.location.href = "/login";
+        signOut(auth)
+          .then(() => {
+            axios.post(
+              `${import.meta.env.VITE_DEVAPI}users/logout`,
+              {},
+              {
+                withCredentials: true,
+              }
+            );
+            localStorage.removeItem("user"); // Clear the user data from local storage
+            navigate("/"); // Redirect to the home page
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+
+        window.location.href = "/login";
       }
     };
 
@@ -72,7 +77,7 @@ export default function UserProfilePage() {
       )
       .then((res) => {
         console.log("res", res);
-        if(res?.data?.invite_link) {
+        if (res?.data?.invite_link) {
           setDiscordLink(res.data.invite_link);
         }
       })
@@ -115,10 +120,10 @@ export default function UserProfilePage() {
           </a>
         ) : (
           <Button
-          label="Generate Discord Link"
-          btnType="primary_btn"
-          onClick={generateDiscordLink}
-        />
+            label="Generate Discord Link"
+            btnType="primary_btn"
+            onClick={generateDiscordLink}
+          />
         )}
       </div>
     </div>
