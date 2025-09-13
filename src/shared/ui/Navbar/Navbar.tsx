@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { auth } from "../../../firebaseConfig";
 import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import pinkLogo from "../../assets/images/pinkLogo.png";
+import axios from "axios";
 
 export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const [isAuth, setIsAuth] = useState(false);
@@ -64,7 +64,13 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   function handleClickSignOut() {
     signOut(auth)
       .then(() => {
-        Cookies.remove("userUID"); // Clear the cookie on sign out
+        axios.post(
+          `${import.meta.env.VITE_DEVAPI}users/logout`,
+          {},
+          {
+            withCredentials: true,
+          }
+        );
         setIsAuth(false); // Update the authentication state
         localStorage.removeItem("user"); // Clear the user data from local storage
         setIsMentor(false); // Update the mentor state
@@ -85,9 +91,8 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
           </Link>
 
           <nav
-            className={`lg:flex items-center gap-6 ${
-              isMenuOpen ? "block" : "hidden"
-            } absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none p-6 lg:p-0 rounded-lg transition-all duration-300 z-[100]`}
+            className={`lg:flex items-center gap-6 ${isMenuOpen ? "block" : "hidden"
+              } absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none p-6 lg:p-0 rounded-lg transition-all duration-300 z-[100]`}
           >
             <Link
               to="/"

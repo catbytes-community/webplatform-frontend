@@ -5,13 +5,13 @@ import Navbar from "../../../shared/ui/Navbar/Navbar";
 import Button from "../../../shared/ui/Button/Button";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebaseConfig";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 type User = {
   id: string;
   name: string;
   discord_nickname: string;
+  email: string;
   roles: { role_id: number; role_name: string }[];
   created_at: string;
 };
@@ -27,6 +27,7 @@ export default function UserProfilePage() {
     : undefined;
 
   useEffect(() => {
+    console.log("Firebase auth user", auth.currentUser);
     const getUser = async () => {
       try {
         const response = await axios.get(
@@ -41,7 +42,13 @@ export default function UserProfilePage() {
         console.error("Get user error", err);
         signOut(auth)
           .then(() => {
-            Cookies.remove("userUID"); // Clear the cookie on sign out
+            axios.post(
+              `${import.meta.env.VITE_DEVAPI}users/logout`,
+              {},
+              {
+                withCredentials: true,
+              }
+            );
             localStorage.removeItem("user"); // Clear the user data from local storage
             navigate("/"); // Redirect to the home page
           })
@@ -101,6 +108,15 @@ export default function UserProfilePage() {
           <span className="font-bold font-montserrat">Discord Nickname:</span>{" "}
           {user.discord_nickname}
         </p>
+        {auth.currentUser?.email === user.email && (
+          <p>
+            <span className="font-bold font-montserrat">Email:</span>{" "}
+            {auth.currentUser?.email}
+            <p className="italic text-gray-500 text-sm">
+              Note: email is only visible to you
+            </p>
+          </p>
+        )}
         <p>
           <span className="font-bold font-montserrat">Role: </span>
           {user.roles.filter((role) => role.role_name === "mentor").length > 0
