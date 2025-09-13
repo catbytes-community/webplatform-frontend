@@ -22,6 +22,9 @@ export default function UserProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [discordLink, setDiscordLink] = useState<string | null>();
+  const currentUserId = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user") as string).id
+    : undefined;
 
   useEffect(() => {
     console.log("Firebase auth user", auth.currentUser);
@@ -107,8 +110,11 @@ export default function UserProfilePage() {
         </p>
         {auth.currentUser?.email === user.email && (
           <p>
-            <span className="font-bold font-montserrat">Email:</span> {auth.currentUser?.email}
-            <p className="italic text-gray-500 text-sm">Note: email is only visible to you</p>
+            <span className="font-bold font-montserrat">Email:</span>{" "}
+            {auth.currentUser?.email}
+            <p className="italic text-gray-500 text-sm">
+              Note: email is only visible to you
+            </p>
           </p>
         )}
         <p>
@@ -123,15 +129,22 @@ export default function UserProfilePage() {
         </p>
         {error && <p className="text-red-500 italic">{error}</p>}
         {discordLink ? (
-          <a href={discordLink} target="_blank" rel="noreferrer" className="underline text-sky-500">
+          <a
+            href={discordLink}
+            target="_blank"
+            rel="noreferrer"
+            className="underline text-sky-500"
+          >
             {discordLink}
           </a>
         ) : (
-          <Button
-            label="Generate Discord Link"
-            btnType="primary_btn"
-            onClick={generateDiscordLink}
-          />
+          currentUserId === user.id && (
+            <Button
+              label="Generate Discord Link"
+              btnType="primary_btn"
+              onClick={generateDiscordLink}
+            />
+          )
         )}
       </div>
     </div>
