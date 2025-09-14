@@ -3,15 +3,16 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
 import Button from "../../../shared/ui/Button/Button";
+import ConfirmModal from "../../../shared/ui/ConfirmModal/ConfirmModal";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebaseConfig";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 type User = {
   id: string;
   name: string;
   discord_nickname: string;
+  email: string;
   roles: { role_id: number; role_name: string }[];
   created_at: string;
 };
@@ -22,8 +23,13 @@ export default function UserProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [discordLink, setDiscordLink] = useState<string | null>();
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+  const currentUserId = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user") as string).id
+    : undefined;
 
   useEffect(() => {
+    console.log("Firebase auth user", auth.currentUser);
     const getUser = async () => {
       try {
         const response = await axios.get(
@@ -34,19 +40,25 @@ export default function UserProfilePage() {
         );
         console.log("get user response", response.data);
         setUser(response.data);
-      } catch(err) {
+      } catch (err) {
         console.error("Get user error", err);
-          signOut(auth)
-                  .then(() => {
-                    Cookies.remove("userUID"); // Clear the cookie on sign out
-                    localStorage.removeItem("user"); // Clear the user data from local storage
-                    navigate("/"); // Redirect to the home page
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              
-              window.location.href = "/login";
+        signOut(auth)
+          .then(() => {
+            axios.post(
+              `${import.meta.env.VITE_DEVAPI}users/logout`,
+              {},
+              {
+                withCredentials: true,
+              }
+            );
+            localStorage.removeItem("user"); // Clear the user data from local storage
+            navigate("/"); // Redirect to the home page
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+
+        window.location.href = "/login";
       }
     };
 
@@ -72,7 +84,7 @@ export default function UserProfilePage() {
       )
       .then((res) => {
         console.log("res", res);
-        if(res?.data?.invite_link) {
+        if (res?.data?.invite_link) {
           setDiscordLink(res.data.invite_link);
         }
       })
@@ -84,8 +96,33 @@ export default function UserProfilePage() {
       });
   };
 
+  const handleConfirm = (confirm: boolean) => {
+    if (confirm) {
+      axios
+        .delete(`${import.meta.env.VITE_DEVAPI}users/${id}`, {
+          withCredentials: true,
+        })
+        .then(() => {
+          localStorage.removeItem("user");
+          navigate("/");
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(err);
+        });
+    } else {
+      setIsConfirmModalOpen(false);
+    }
+  };
+
   return (
     <div>
+      {isConfirmModalOpen && (
+        <ConfirmModal
+          getConfirmation={handleConfirm}
+          text="Are you sure you want to delete your account?"
+        />
+      )}
       <Navbar />
       <div className="p-10 flex flex-col gap-5 w-96 m-auto">
         <h1 className="font-bold text-xl text-center mb-5 mt-10">
@@ -98,6 +135,15 @@ export default function UserProfilePage() {
           <span className="font-bold font-montserrat">Discord Nickname:</span>{" "}
           {user.discord_nickname}
         </p>
+        {auth.currentUser?.email === user.email && (
+          <p>
+            <span className="font-bold font-montserrat">Email:</span>{" "}
+            {auth.currentUser?.email}
+            <p className="italic text-gray-500 text-sm">
+              Note: email is only visible to you
+            </p>
+          </p>
+        )}
         <p>
           <span className="font-bold font-montserrat">Role: </span>
           {user.roles.filter((role) => role.role_name === "mentor").length > 0
@@ -110,15 +156,29 @@ export default function UserProfilePage() {
         </p>
         {error && <p className="text-red-500 italic">{error}</p>}
         {discordLink ? (
-          <a href={discordLink} target="_blank" rel="noreferrer" className="underline text-sky-500">
+          <a
+            href={discordLink}
+            target="_blank"
+            rel="noreferrer"
+            className="underline text-sky-500"
+          >
             {discordLink}
           </a>
         ) : (
+          currentUserId === user.id && (
+            <Button
+              label="Generate Discord Link"
+              btnType="primary_btn"
+              onClick={generateDiscordLink}
+            />
+          )
+        )}
+        {currentUserId === user.id && (
           <Button
-          label="Generate Discord Link"
-          btnType="primary_btn"
-          onClick={generateDiscordLink}
-        />
+            label="Delete Account"
+            btnType="tertiary_no_arrow_btn"
+            onClick={() => setIsConfirmModalOpen(true)}
+          />
         )}
       </div>
     </div>
