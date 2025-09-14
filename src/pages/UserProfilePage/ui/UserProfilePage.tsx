@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
 import Button from "../../../shared/ui/Button/Button";
@@ -14,6 +14,7 @@ type User = {
   discord_nickname: string;
   email: string;
   roles: { role_id: number; role_name: string }[];
+  mentor_id?: string;
   created_at: string;
 };
 
@@ -150,6 +151,13 @@ export default function UserProfilePage() {
             ? "Mentor"
             : "Member"}
         </p>
+        {user.roles.filter((role) => role.role_name === "mentor").length > 0 && (
+          <p>
+            <span className="font-bold font-montserrat">Link to mentor profile: </span>
+            <br/>
+            <Link to={`/mentor/${user?.mentor_id}`} className="underline italic text-gray-500 text-sm" target="_blank">Click here to view</Link>
+          </p>
+        )}
         <p>
           <span className="font-bold font-montserrat">Member since:</span>{" "}
           {new Date(user.created_at).toDateString()}
