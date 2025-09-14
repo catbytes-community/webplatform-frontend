@@ -7,6 +7,9 @@ import ConfirmModal from "../../../shared/ui/ConfirmModal/ConfirmModal";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
+import EditPencilIcon from "../../../shared/ui/icons/EditPencilIcon";
+import TickIcon from "../../../shared/ui/icons/TickIcon";
+import CancelIcon from "../../../shared/ui/icons/CancelIcon";
 
 type User = {
   id: string;
@@ -28,9 +31,10 @@ export default function UserProfilePage() {
   const currentUserId = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user") as string).id
     : undefined;
+  const [isEdit, setIsEdit] = useState(false);
+  const [newName, setNewName] = useState("");
 
   useEffect(() => {
-    console.log("Firebase auth user", auth.currentUser);
     const getUser = async () => {
       try {
         const response = await axios.get(
@@ -39,7 +43,6 @@ export default function UserProfilePage() {
             withCredentials: true,
           }
         );
-        console.log("get user response", response.data);
         setUser(response.data);
       } catch (err) {
         console.error("Get user error", err);
@@ -116,6 +119,22 @@ export default function UserProfilePage() {
     }
   };
 
+  const updateUser = async (id: string) => {
+    try {
+      // API call to update user name
+      await axios.put(
+        `${import.meta.env.VITE_DEVAPI}users/${id}`,
+        { name: newName },
+        { withCredentials: true }
+      );
+      setIsEdit(false);
+      localStorage.setItem("user", JSON.stringify({ ...user, name: newName }));
+      setUser({ ...user, name: newName });
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
   return (
     <div>
       {isConfirmModalOpen && (
@@ -129,8 +148,24 @@ export default function UserProfilePage() {
         <h1 className="font-bold text-xl text-center mb-5 mt-10">
           User Profile
         </h1>
-        <p>
-          <span className="font-bold font-montserrat">Name:</span> {user.name}
+        <p className="flex gap-2 items-center">
+          <span className="font-bold font-montserrat">Name:</span>
+          {isEdit ? (
+            <div className="flex items-center">
+              <input value={newName} onChange={(e) => setNewName(e.target.value)} />
+              <TickIcon className="inline ml-2 cursor-pointer" size={16} color="green" onClick={() => updateUser(user.id)} />
+              <CancelIcon className="inline ml-2 cursor-pointer" color="red" onClick={() => setIsEdit(false)} />
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <p>{user.name}</p>
+              <EditPencilIcon className="inline ml-2 cursor-pointer" size={16} color="gray" onClick={() => {
+                setNewName(user.name);
+                setIsEdit(true);
+                
+              }}/>
+            </div>
+          )}
         </p>
         <p>
           <span className="font-bold font-montserrat">Discord Nickname:</span>{" "}
