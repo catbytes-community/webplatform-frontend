@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
 import Button from "../../../shared/ui/Button/Button";
+import ConfirmModal from "../../../shared/ui/ConfirmModal/ConfirmModal";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +23,7 @@ export default function UserProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [discordLink, setDiscordLink] = useState<string | null>();
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const currentUserId = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user") as string).id
     : undefined;
@@ -94,8 +96,33 @@ export default function UserProfilePage() {
       });
   };
 
+  const handleConfirm = (confirm: boolean) => {
+    if (confirm) {
+      axios
+        .delete(`${import.meta.env.VITE_DEVAPI}users/${id}`, {
+          withCredentials: true,
+        })
+        .then(() => {
+          localStorage.removeItem("user");
+          navigate("/");
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(err);
+        });
+    } else {
+      setIsConfirmModalOpen(false);
+    }
+  };
+
   return (
     <div>
+      {isConfirmModalOpen && (
+        <ConfirmModal
+          getConfirmation={handleConfirm}
+          text="Are you sure you want to delete your account?"
+        />
+      )}
       <Navbar />
       <div className="p-10 flex flex-col gap-5 w-96 m-auto">
         <h1 className="font-bold text-xl text-center mb-5 mt-10">
@@ -145,6 +172,13 @@ export default function UserProfilePage() {
               onClick={generateDiscordLink}
             />
           )
+        )}
+        {currentUserId === user.id && (
+          <Button
+            label="Delete Account"
+            btnType="tertiary_no_arrow_btn"
+            onClick={() => setIsConfirmModalOpen(true)}
+          />
         )}
       </div>
     </div>
