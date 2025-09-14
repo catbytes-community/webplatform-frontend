@@ -1,7 +1,6 @@
 import Navbar from "../../../shared/ui/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import mentorProfileAvatar from "../../../shared/assets/images/mentorProfileAvatar.png";
 import style from "./MentorUserProfilePage.module.css";
 
 type Mentor = {
@@ -41,11 +40,7 @@ export default function MentorUserProfilePage() {
       }
     };
 
-    try {
-      getMentor();
-    } catch (err) {
-      console.error("Catch error:", err);
-    }
+    getMentor();
   }, [id]);
 
   if (!mentor) {
@@ -63,36 +58,24 @@ export default function MentorUserProfilePage() {
       <div className="flex flex-row flex-wrap mt-7 justify-between">
         <div className="w-full flex flex-row flex-wrap md:flex-nowrap justify-between rounded-3xl p-8 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)]">
           <div className="flex flex-row gap-5 sm:gap-6 ">
-            <div className="lg:min-w-[170px]">
-              <img
-                src={mentorProfileAvatar}
-                alt="Avatar Image"
-                className="w-full object-cover overflow-hidden"
-              ></img>
-            </div>
-
             <div className="w-full flex flex-col h-fit">
               <p className="text-2xl sm:text-3xl font-semibold text-[#170103]">
                 {mentor?.name}
               </p>
 
-              <p className="text-sm sm:text-base font-montserrat mt-4 sm:mt-5 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3 text-[#170103]">
-                <span className="text-xs sm:text-sm sm:w-[82px] text-[#4B5563]">
+              <p className="text-sm sm:text-base font-montserrat mt-4 sm:mt-5 flex flex-row items-center gap-3 text-[#170103]">
+                <span className="text-xs sm:text-sm w-[82px] text-[#4B5563]">
                   Discord:
                 </span>
                 {mentor?.discord_nickname}
               </p>
-              <p className="text-sm sm:text-base font-montserrat mt-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3 text-[#170103]">
-                <span className="text-xs sm:text-sm sm:w-[82px] text-[#4B5563]">
+              <p className="text-sm sm:text-base font-montserrat mt-3 flex flex-row items-center gap-3 text-[#170103]">
+                <span className="text-xs sm:text-sm w-[82px] text-[#4B5563]">
                   Languages:
                 </span>
                 {mentor?.languages.join(", ")}
               </p>
             </div>
-          </div>
-
-          <div className="w-full mt-9 md:mt-0 md:w-fit">
-            <button className="primary_btn md:w-fit w-full">Contact</button>
           </div>
         </div>
 
