@@ -58,3 +58,12 @@ export interface Application {
   comment: string;
   modified_by: string;
 }
+
+export interface MentorApplication {
+  mentor_id: number;
+  user_id: number;
+  about: string;
+  status: string;
+  tags: string[];
+  name: string; 
+}
