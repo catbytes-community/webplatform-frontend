@@ -32,21 +32,8 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
         ).length > 0
       );
       setUserId(user.id);
+      setIsAuth(true);
     }
-
-    // Check if the user is authenticated
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        console.log("User is authenticated via Firebase");
-        setIsAuth(true); // User is authenticated via Firebase
-      } else {
-        console.log("User is not authenticated via Firebase");
-        setIsAuth(false); // User is not authenticated via Firebase
-      }
-    });
-
-    // Clean up the listener when the component unmounts
-    return () => unsubscribe();
   }, []);
 
   function handleClickJoinUs() {
