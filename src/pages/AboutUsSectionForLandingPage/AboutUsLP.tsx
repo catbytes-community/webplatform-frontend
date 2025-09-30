@@ -15,7 +15,7 @@ const AboutUsLP = () => {
       <div className="container mx-auto px-6">
         <div className={styles.sectionGrid}>
           {/* About us block */}
-          <div className={styles.aboutBlock}>
+          <div className={`${styles.aboutBlock} ${styles.visuallyHidden}`}>
             <h2 className={styles.aboutTitle}>About us</h2>
             <p className={styles.aboutSubtitle}>CatBytes Community</p>
             <p className={styles.aboutText}>
@@ -33,7 +33,7 @@ const AboutUsLP = () => {
               alt="Imagine"
               className={styles.bookmarkImg}
             />
-            <h3 className={styles.centralTitle}>CatBytes</h3>
+            <h3 className={styles.centralTitle}>About us</h3>
             <p className={styles.centralText}>
               Our community is a place where you will find amazing women,
               learning resources, mentors for personal and professional
@@ -45,14 +45,13 @@ const AboutUsLP = () => {
           <div className={styles.sideCol}>
             {/* Cat block */}
             <div className={styles.catWrap}>
-              <div className={styles.catCard}>
-                <div className={styles.catImgWrap}>
-                  <img src={catPic} alt="logo" className={styles.catImg} />
-                </div>
-                <p className={styles.catQuote}>
-                  "Comfortable, safe and non-toxic tech space for women"
-                </p>
+              <div className={styles.catImgWrap}>
+                <img src={catPic} alt="logo" className={styles.catImg} />
               </div>
+              <p className={styles.catQuote}>
+                "Comfortable, safe and non-toxic tech space for women"
+              </p>
+              <div className={styles.catCard}></div>
             </div>
 
             {/* Mission block */}

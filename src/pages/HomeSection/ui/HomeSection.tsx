@@ -3,12 +3,12 @@ import Button from '../../../shared/ui/Button/Button.tsx';
 import paw from '../../../shared/assets/images/mdi_paw 1.svg';
 import landing_mentor_icons from '../../../shared/assets/images/landing_mentor_icons.svg';
 import announcement from '../../../shared/assets/images/Light-Orange-24.png';
-import cat from '../../../shared/assets/images/cat-cropped.svg';
 import ArrowRightIcon from '../../../shared/ui/icons/ArrowRightIcon.tsx';
 import homeGroup from '../../../shared/assets/images/home_group.png';
 import home_study_buddy from '../../../shared/assets/images/home_study_buddy.png';
 import landing_projects_logged from '../../../shared/assets/images/landing_projects_logged.svg';
 import { Link, useNavigate } from 'react-router-dom';
+import CatSvg from './CatSvg.tsx';
 
 export const HomeSection = () => {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export const HomeSection = () => {
               <p className={style.subtitle}>Community for women in tech</p>
               <p className={style.description}>
                 We bring women together to support each other in achieving our
-                career goals in tech industry. Join our private Discord server
+                career goals in tech industry. Join our private Discord server.
               </p>
             </div>
 
@@ -66,9 +66,7 @@ export const HomeSection = () => {
               </Link>
             </div>
 
-            <img
-              src={cat}
-              alt="cat"
+            <CatSvg
               className={`${style.catImage} ${
                 isLogged ? style.catLogged : style.catGuest
               }`}

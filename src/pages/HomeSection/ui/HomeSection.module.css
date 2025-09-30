@@ -13,7 +13,6 @@
 }
 
 .leftBlock {
-  height: 508px;
   padding: 80px 36px;
   margin-top: 48px;
   margin-bottom: 160px;
@@ -43,7 +42,7 @@
 
 .description {
   margin-top: 14px;
-  font-size: 14px;
+  font-size: 18px;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -98,12 +97,12 @@
   font-weight: bold;
   font-size: 14px;
   text-decoration: underline;
-  color: #4b5563; /* tailwind text-gray-600 */
+  color: #4b5563;
 }
 
 .catImage {
   position: absolute;
-  right: -8px; /* соответствует -right-2 */
+  right: 13px;
   height: 130px;
 }
 
@@ -114,12 +113,12 @@
 }
 
 .catLogged {
-  bottom: 208px;
+  bottom: 202px;
 }
 
 @media (min-width: 1024px) {
   .catLogged {
-    bottom: 198px;
+    bottom: 202px;
   }
 }
 
@@ -133,9 +132,9 @@
   }
 }
 
-.blur {
+/* .blur {
   display: none;
-}
+} */
 
 @media (min-width: 1024px) {
   .blur {
@@ -147,7 +146,7 @@
     bottom: 0;
     background-color: rgba(250, 103, 115, 0.2);
     border-radius: 20px;
-    filter: blur(30px);
+    filter: blur(10px);
     z-index: 11;
     box-shadow: 0px 6px 10px 0px #fe444440;
     content: '';
@@ -215,13 +214,21 @@
   color: #6b7280;
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1250px) {
   .grid {
     display: block;
   }
+  .leftBlock {
+    margin: 0;
+    padding: 30px 20px 0 20px;
+    height: 100%;
+  }
+  .textBlock {
+    margin-bottom: 20px;
+  }
   .announcementBlock {
     position: static;
-    margin-top: 24px;
+    margin: 24px 0;
   }
 }
 
@@ -306,4 +313,58 @@
   filter: blur(30px);
   z-index: 11;
   box-shadow: 0px 6px 10px 0px #fe444440;
+}
+
+/* Eye cat animation */
+@keyframes lookAround {
+  0%,
+  10% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(9px, 0px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes lookAroundMobile {
+  0%,
+  10% {
+    transform: translate(0, 0);
+  }
+  30% {
+    transform: translate(0px, -3px);
+  }
+  60% {
+    transform: translate(4.5px, -0.5px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+:global(.pupil) {
+  transform-box: fill-box;
+  transform-origin: center;
+
+  animation-name: lookAround;
+  animation-duration: 6s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@media (max-width: 1250px) {
+  :global(.pupil) {
+    animation-name: lookAroundMobile;
+    animation-duration: 6s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.pupil),
+  :global(.pupilRight) {
+    animation: none;
+  }
 }
