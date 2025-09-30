@@ -2,12 +2,12 @@ import Navbar from "../../../shared/ui/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import style from "./MentorUserProfilePage.module.css";
+import axios from "axios";
 
 type Mentor = {
-  mentor_id: string;
   name: string;
   discord_nickname: string;
-  languages: string[];
+  // languages: string[];
   tags: string[];
   about: string;
 };
@@ -19,24 +19,16 @@ export default function MentorUserProfilePage() {
   useEffect(() => {
     const getMentor = async () => {
       try {
-        // TODO: Fetch mentor from API
-        setMentor({
-          mentor_id: "1",
-          name: "Jane Doe",
-          discord_nickname: "janeDoe_123",
-          languages: ["English", "English", "English"],
-          tags: [
-            "Nodejs",
-            "WebDevelopment",
-            "React",
-            "JavaScript",
-            "FrontentDevelopment",
-          ],
-          about:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        });
+        // TODO: test fetch mentor from API
+        const response = await axios.get(
+          `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        setMentor(response.data);
       } catch (err) {
-        console.error("get mentor error", err);
+        console.error("Get mentor error: ", err);
       }
     };
 
@@ -69,12 +61,13 @@ export default function MentorUserProfilePage() {
                 </span>
                 {mentor?.discord_nickname}
               </p>
-              <p className="text-sm sm:text-base font-montserrat mt-3 flex flex-row items-center gap-3 text-[#170103]">
+              {/* TODO: will be implemented later in GET mentors/{mentor_id} */}
+              {/* <p className="text-sm sm:text-base font-montserrat mt-3 flex flex-row items-center gap-3 text-[#170103]">
                 <span className="text-xs sm:text-sm w-[82px] text-[#4B5563]">
                   Languages:
                 </span>
                 {mentor?.languages.join(", ")}
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
