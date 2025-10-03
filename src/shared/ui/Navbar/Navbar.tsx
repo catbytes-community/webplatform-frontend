@@ -32,21 +32,8 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
         ).length > 0
       );
       setUserId(user.id);
+      setIsAuth(true);
     }
-
-    // Check if the user is authenticated
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        console.log('User is authenticated via Firebase');
-        setIsAuth(true); // User is authenticated via Firebase
-      } else {
-        console.log('User is not authenticated via Firebase');
-        setIsAuth(false); // User is not authenticated via Firebase
-      }
-    });
-
-    // Clean up the listener when the component unmounts
-    return () => unsubscribe();
   }, []);
 
   function handleClickJoinUs() {
@@ -64,7 +51,13 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   function handleClickSignOut() {
     signOut(auth)
       .then(() => {
-        Cookies.remove('userUID'); // Clear the cookie on sign out
+        axios.post(
+          `${import.meta.env.VITE_DEVAPI}users/logout`,
+          {},
+          {
+            withCredentials: true,
+          }
+        );
         setIsAuth(false); // Update the authentication state
         localStorage.removeItem('user'); // Clear the user data from local storage
         setIsMentor(false); // Update the mentor state
@@ -85,9 +78,8 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
           </Link>
 
           <nav
-            className={`lg:flex items-center gap-6 ${
-              isMenuOpen ? 'block' : 'hidden'
-            } absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none p-6 lg:p-0 rounded-lg transition-all duration-300 z-[100]`}
+            className={`lg:flex items-center gap-6 ${isMenuOpen ? "block" : "hidden"
+              } absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none p-6 lg:p-0 rounded-lg transition-all duration-300 z-[100]`}
           >
             <Link
               to="/"
