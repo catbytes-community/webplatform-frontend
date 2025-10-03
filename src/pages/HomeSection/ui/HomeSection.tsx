@@ -1,12 +1,12 @@
 import style from './HomeSection.module.css';
 import Button from '../../../shared/ui/Button/Button.tsx';
-import paw from '../../../shared/assets/images/mdi_paw 1.svg';
-import landing_mentor_icons from '../../../shared/assets/images/landing_mentor_icons.svg';
-import announcement from '../../../shared/assets/images/Light-Orange-24.png';
+import paw from '../../../shared/assets/images/paw-icon.svg';
+import landing_mentor_icons from '../../../shared/assets/images/landing-mentor-icons.svg';
+import announcement from '../../../shared/assets/images/announsment-icon.png';
 import ArrowRightIcon from '../../../shared/ui/icons/ArrowRightIcon.tsx';
-import homeGroup from '../../../shared/assets/images/home_group.png';
-import home_study_buddy from '../../../shared/assets/images/home_study_buddy.png';
-import landing_projects_logged from '../../../shared/assets/images/landing_projects_logged.svg';
+import homeGroup from '../../../shared/assets/images/home-group.png';
+import home_study_buddy from '../../../shared/assets/images/home-study-buddy.png';
+import landing_projects_logged from '../../../shared/assets/images/landing-projects-logged.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import CatSvg from './CatSvg.tsx';
 

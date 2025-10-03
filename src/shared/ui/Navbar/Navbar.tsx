@@ -1,11 +1,11 @@
-import Button from "../Button/Button";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { auth } from "../../../firebaseConfig";
-import { signOut } from "firebase/auth";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import pinkLogo from "../../assets/images/pinkLogo.png";
+import Button from '../Button/Button';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { auth } from '../../../firebaseConfig';
+import { signOut } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import pinkLogo from '../../assets/images/pink-logo.png';
 
 export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const [isAuth, setIsAuth] = useState(false);
@@ -13,22 +13,22 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMentor, setIsMentor] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState('');
 
-  const isCreateApplication = location.pathname === "/create_application";
-  const isLogInPage = location.pathname === "/login";
+  const isCreateApplication = location.pathname === '/create_application';
+  const isLogInPage = location.pathname === '/login';
 
   useEffect(() => {
-    const user = localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user") as string)
+    const user = localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user') as string)
       : null;
 
     if (user) {
-      console.log("User data from local storage:", user);
+      console.log('User data from local storage:', user);
       setIsMentor(
         user?.roles?.filter(
           (role: { role_id: number; role_name: string }) =>
-            role.role_name === "mentor"
+            role.role_name === 'mentor'
         ).length > 0
       );
       setUserId(user.id);
@@ -37,10 +37,10 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
     // Check if the user is authenticated
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log("User is authenticated via Firebase");
+        console.log('User is authenticated via Firebase');
         setIsAuth(true); // User is authenticated via Firebase
       } else {
-        console.log("User is not authenticated via Firebase");
+        console.log('User is not authenticated via Firebase');
         setIsAuth(false); // User is not authenticated via Firebase
       }
     });
@@ -50,25 +50,25 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   }, []);
 
   function handleClickJoinUs() {
-    navigate("/create_application");
+    navigate('/create_application');
   }
 
   function handleClickSignIn() {
-    navigate("/login");
+    navigate('/login');
   }
 
   function handleClickBecomeMentor() {
-    navigate("/create_application_mentor");
+    navigate('/create_application_mentor');
   }
 
   function handleClickSignOut() {
     signOut(auth)
       .then(() => {
-        Cookies.remove("userUID"); // Clear the cookie on sign out
+        Cookies.remove('userUID'); // Clear the cookie on sign out
         setIsAuth(false); // Update the authentication state
-        localStorage.removeItem("user"); // Clear the user data from local storage
+        localStorage.removeItem('user'); // Clear the user data from local storage
         setIsMentor(false); // Update the mentor state
-        navigate("/"); // Redirect to the home page
+        navigate('/'); // Redirect to the home page
       })
       .catch((error) => {
         console.error(error);
@@ -86,7 +86,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
 
           <nav
             className={`lg:flex items-center gap-6 ${
-              isMenuOpen ? "block" : "hidden"
+              isMenuOpen ? 'block' : 'hidden'
             } absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none p-6 lg:p-0 rounded-lg transition-all duration-300 z-[100]`}
           >
             <Link
@@ -149,7 +149,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
             {!isLogin && (
               <div className="flex gap-5">
                 <Button
-                  label={isAuth ? "SIGN OUT" : "SIGN IN"}
+                  label={isAuth ? 'SIGN OUT' : 'SIGN IN'}
                   btnType="secondary_btn"
                   onClick={isAuth ? handleClickSignOut : handleClickSignIn}
                   disabled={isLogInPage}

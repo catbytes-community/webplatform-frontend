@@ -1,38 +1,35 @@
-/* AboutUsLP.module.css */
 .appPage {
   position: relative;
-  padding: 64px 14px; /* твои отступы */
-  isolation: isolate; /* создаём свой stacking context */
-  overflow: visible; /* гарантируем, что ничего не режется */
+  padding: 64px 14px 0 14px;
+  isolation: isolate;
+  overflow: visible;
 }
 
-/* Лапка, привязанная к .appPage */
 .appPage::before {
   content: '';
-  position: absolute; /* координаты относительно .appPage */
-  top: -186px; /* подстрой под себя */
-  left: -170px; /* подстрой под себя */
+  position: absolute;
+  top: -186px;
+  left: -170px;
   width: clamp(280px, 45vw, 640px);
   aspect-ratio: 1 / 1;
-  background-image: url('/src/shared/assets/images/big-paw-bacground.png');
+  background-image: url('/src/shared/assets/images/big-paw-background.png');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: top left;
   pointer-events: none;
-  z-index: 0; /* ниже контента секции */
+  z-index: 0;
 }
 
-/* Поднимаем прямых детей секции выше псевдо-элемента */
 .appPage > * {
   position: relative;
   z-index: 1;
 }
-/* Grid layout */
+
+/* Grid-flex layout */
 .sectionGrid {
   display: grid;
-  /* grid-template-columns: 1fr; */
   grid-template-columns: 1fr 2.4fr 1fr;
-  gap: 1.5rem; /* gap-6 */
+  gap: 1.5rem;
 }
 
 .visuallyHidden {
@@ -49,54 +46,64 @@
   overflow: hidden;
 }
 
-/* 
-@media (min-width: 1024px) {
+@media (max-width: 1200px) {
   .sectionGrid {
-    grid-template-columns: 1fr 2.4fr 1fr;
+    display: flex;
+    flex-direction: column;
   }
-} */
+  .appPage::before {
+    background-image: none;
+  }
+  .catCard {
+    width: 100%;
+  }
+  .catImgWrap {
+    top: -172px;
+    z-index: 11;
+  }
+}
 
 /* About block */
 .aboutBlock {
   display: flex;
   flex-direction: column;
-  padding: 1.5rem; /* p-6 */
+  padding: 1.5rem;
   order: 1;
-  width: 75%; /* w-3/4 */
+  width: 75%;
 }
 
 .aboutTitle {
-  font-weight: 800; /* font-extrabold */
-  color: #111827; /* text-gray-900 */
-  margin-bottom: 1rem; /* mb-4 */
-  font-size: 1.5rem; /* text-2xl */
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
   line-height: 2rem;
 }
 
 @media (min-width: 768px) {
   .aboutTitle {
-    font-size: 3rem; /* md:text-5xl */
+    font-size: 3rem;
     line-height: 1.1;
   }
 }
 
 .aboutSubtitle {
-  color: #4b5563; /* text-gray-600 */
-  font-size: 1rem; /* text-base */
+  color: #4b5563;
+  font-size: 1rem;
   line-height: 1.5rem;
-  margin-bottom: 0.75rem; /* mb-3 */
+  margin-bottom: 0.75rem;
 }
 
 @media (min-width: 768px) {
   .aboutSubtitle {
-    font-size: 1.125rem; /* md:text-lg */
+    font-size: 1.125rem;
     line-height: 1.75rem;
   }
 }
 
 .aboutText {
-  color: #6b7280; /* text-gray-500 */
-  font-size: 0.875rem; /* text-sm */
+  color: #6b7280;
+  font-size: 0.875rem;
   line-height: 1.5rem;
 }
 
@@ -104,26 +111,26 @@
 .centralCard {
   position: relative;
   grid-area: 1 / 2 / 2 / 3;
-  border-radius: 1.5rem; /* rounded-3xl */
-  padding: 1rem 1rem 1rem 1.5rem; /* p-4 pl-6 */
+  border-radius: 1.5rem;
+  padding: 1rem 1rem 1rem 1.5rem;
   background-color: #fef6f7;
-  order: 3; /* order-3 */
+  order: 3;
   box-shadow: 0 10px 15px -3px rgba(251, 113, 133, 0.25),
-    /* approx shadow-lg with rose tint */ 0 4px 6px -4px rgba(251, 113, 133, 0.15);
+    0 4px 6px -4px rgba(251, 113, 133, 0.15);
+  margin: auto;
 }
 
-/* md:pl-12, md:order-2 */
 @media (min-width: 768px) {
   .centralCard {
-    padding-left: 3rem; /* md:pl-12 */
+    padding-left: 3rem;
     order: 2;
   }
 }
 
 .bookmarkImg {
   position: absolute;
-  top: 0;
-  right: 1rem;
+  top: -10px;
+  right: 1px;
   margin-top: -1.5rem;
   width: 5rem;
   height: 5rem;
@@ -132,41 +139,41 @@
 
 @media (min-width: 768px) {
   .bookmarkImg {
-    right: 2rem; /* md:right-8 */
-    width: 10rem; /* md:w-40 */
-    height: 10rem; /* md:h-40 */
+    right: 2rem;
+    width: 10rem;
+    height: 10rem;
   }
 }
 
 .centralTitle {
-  font-weight: 700; /* font-bold */
-  color: #111827; /* text-gray-900 */
-  margin-bottom: 1rem; /* mb-4 */
-  padding-top: 3rem; /* pt-12 */
-  font-size: 1.25rem; /* text-xl */
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+  padding-top: 3rem;
+  font-size: 1.25rem;
   line-height: 1.75rem;
 }
 
 @media (min-width: 768px) {
   .centralTitle {
-    padding-top: 4rem; /* md:pt-16 */
-    font-size: 2.25rem; /* md:text-4xl */
+    padding-top: 4rem;
+    font-size: 2.25rem;
     line-height: 2.5rem;
   }
 }
 
 .centralText {
-  color: #4b5563; /* text-gray-600 */
-  font-size: 0.75rem; /* text-[12px] */
+  color: #4b5563;
+  font-size: 0.75rem;
   line-height: 1.5rem;
-  margin-right: 0; /* mr-0 */
-  padding-bottom: 2.5rem; /* pb-10 */
+  margin-right: 0;
+  padding-bottom: 2.5rem;
 }
 
 @media (min-width: 768px) {
   .centralText {
-    font-size: 1.25rem; /* md:text-xl */
-    margin-right: 6rem; /* md:mr-24 */
+    font-size: 1.25rem;
+    margin-right: 6rem;
   }
 }
 
@@ -213,26 +220,15 @@
   box-shadow: 0px 6px 10px 0px #fe444440;
 }
 
-@media (min-width: 768px) {
-  .catCard {
-    width: 16rem; /* md:w-64 */
-  }
-}
-
 .catImgWrap {
   position: absolute;
-  top: -3.5rem; /* approx -top-14 */
+  top: -74px;
   right: 0;
-}
-
-@media (min-width: 768px) {
-  .catImgWrap {
-    top: -72px;
-  }
+  z-index: 9999;
 }
 
 .catImg {
-  width: 8rem; /* w-32 */
+  width: 8rem;
   height: auto;
 }
 
@@ -247,70 +243,67 @@
   font-weight: 700;
   font-style: italic;
   font-size: 18px;
-  line-height: 0;
+  padding: 0;
 }
 
 @media (min-width: 768px) {
   .catQuote {
-    font-size: 1.125rem; /* md:text-lg */
+    font-size: 1.125rem;
     line-height: 1.75rem;
-    padding: 2rem 0; /* md:py-8 */
+    padding: 15px 0;
   }
 }
 
 /* Mission card */
 .missionCard {
-  width: 75%; /* w-3/4 */
-  border-radius: 1.5rem; /* rounded-3xl */
-  padding: 1.5rem; /* p-6 */
-  background: transparent; /* no bg in tailwind snippet */
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  background: transparent;
 }
 
 .missionTitle {
-  font-weight: 700; /* font-bold */
-  color: #111827; /* text-gray-900 */
-  font-size: 1.125rem; /* text-lg */
+  font-weight: 700;
+  color: #111827;
+  font-size: 1.125rem;
   line-height: 1.75rem;
 }
 
 @media (min-width: 768px) {
   .missionTitle {
-    font-size: 1.5rem; /* md:text-2xl */
+    font-size: 1.5rem;
     line-height: 2rem;
   }
 }
 
 .missionText {
-  margin-top: 0.5rem; /* mt-2 */
-  color: #4b5563; /* text-gray-600 */
-  font-size: 0.875rem; /* text-sm */
+  margin-top: 0.5rem;
+  color: #4b5563;
+  font-size: 0.875rem;
   line-height: 1.5rem;
 }
 
 @media (min-width: 768px) {
   .missionText {
-    font-size: 1rem; /* md:text-base */
+    font-size: 1rem;
     line-height: 1.5rem;
   }
 }
 
-/* === Three stats blocks grid === */
+/* Three stats blocks grid */
 .threeGrid {
-  margin-top: 2.5rem; /* mt-10 */
+  margin-top: 2.5rem;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.75rem; /* gap-7 */
-}
-
-@media (min-width: 640px) {
-  /* sm */
-  .threeGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  gap: 1.75rem;
 }
 
 @media (min-width: 768px) {
-  /* md */
+  .threeGrid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
   .threeGrid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -324,56 +317,55 @@
 .membersWrapInner,
 .mentorsWrapInner {
   position: relative;
-  width: 75%; /* w-3/4 */
+  width: 75%;
 }
 
 @media (min-width: 768px) {
   .membersWrapInner,
   .mentorsWrapInner {
-    width: 100%; /* md:w-full */
+    width: 100%;
   }
 }
 .mentorsWrap {
-  justify-content: flex-end; /* flex justify-end */
+  justify-content: flex-end;
 }
 
 /* Base card with shared bg + custom shadow */
 .statsCard {
-  border-radius: 1.5rem; /* rounded-3xl */
+  border-radius: 1.5rem;
   background-color: #fef7f8;
-  box-shadow: 0px 15px 20px rgba(248, 112, 112, 0.4); /* кастомная розовая тень */
+  box-shadow: 0px 15px 20px rgba(248, 112, 112, 0.4);
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative; /* for absolute paw icons */
-  padding: 1.25rem; /* p-5 */
+  position: relative;
+  padding: 1.25rem;
 }
 
 @media (min-width: 768px) {
   .statsCard {
-    padding: 2.5rem; /* md:p-10 */
+    padding: 2.5rem;
   }
 }
 
 /* Common inline layout for icon + text */
 .statsInner {
   display: flex;
-  flex-direction: column; /* mobile: column */
+  flex-direction: column;
   align-items: center;
 }
 
 @media (min-width: 1024px) {
-  /* lg */
   .statsInner {
-    flex-direction: row; /* lg:flex-row */
+    flex-direction: row;
   }
 }
 
 .iconMembers,
 .iconHuman,
 .iconStats {
-  width: 3.5rem; /* ~w-14 */
+  width: 3.5rem;
   height: auto;
 }
 
@@ -381,7 +373,7 @@
   .iconMembers,
   .iconHuman,
   .iconStats {
-    width: 5rem; /* md:w-20 */
+    width: 5rem;
   }
 }
 
@@ -390,16 +382,16 @@
   position: absolute;
   top: -10px;
   right: -25px;
-  width: 2.5rem; /* w-10 ~ md:w-14 later */
+  width: 2.5rem;
   height: 2.5rem;
   display: none;
 }
 
 @media (min-width: 768px) {
   .pawDesktop {
-    display: block; /* hidden md:block */
-    width: 3.5rem; /* md:w-14 */
-    height: 3.5rem; /* md:h-14 */
+    display: block;
+    width: 3.5rem;
+    height: 3.5rem;
   }
 }
 
@@ -407,33 +399,33 @@
 .pawMobileLeft,
 .pawMobileRightLower {
   position: absolute;
-  display: block; /* md:hidden */
+  display: block;
 }
 
 @media (min-width: 768px) {
   .pawMobileRight,
   .pawMobileLeft,
   .pawMobileRightLower {
-    display: none; /* md:hidden */
+    display: none;
   }
 }
 
 /* Specific mobile positions to match Tailwind offsets */
 .pawMobileRight {
-  top: 2.5rem; /* approx top-10 */
-  right: -6rem; /* -right-24 */
-  width: 3.5rem; /* md:w-14 analogue, keep on mobile */
+  top: 2.5rem;
+  right: -6rem;
+  width: 3.5rem;
   height: 3.5rem;
 }
 .pawMobileLeft {
-  top: 2.5rem; /* approx top-10 */
-  left: -6rem; /* -left-24 */
+  top: 2.5rem;
+  left: -6rem;
   width: 3.5rem;
   height: 3.5rem;
 }
 .pawMobileRightLower {
-  top: 5rem; /* approx top-20 */
-  right: -6rem; /* -right-24 */
+  top: 5rem;
+  right: -6rem;
   width: 3.5rem;
   height: 3.5rem;
 }
@@ -441,38 +433,34 @@
 /* Numbers + labels with gradient text */
 .statNumber,
 .statLabel {
-  font-weight: 800; /* bold/extrabold feel */
-  background: linear-gradient(
-    90deg,
-    #f59e0b,
-    #f472b6
-  ); /* from-yellow/orange to pink */
+  font-weight: 800;
+  background: linear-gradient(90deg, #f59e0b, #f472b6);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .statNumber {
-  font-size: 1.875rem; /* text-3xl */
+  font-size: 1.875rem;
   line-height: 2.25rem;
 }
 
 @media (min-width: 768px) {
   .statNumber {
-    font-size: 3rem; /* md:text-5xl */
+    font-size: 3rem;
     line-height: 1.1;
   }
 }
 
 .statLabel {
-  font-size: 1.125rem; /* text-lg */
+  font-size: 1.125rem;
   line-height: 1.75rem;
-  font-weight: 700; /* font-bold */
+  font-weight: 700;
 }
 
 @media (min-width: 768px) {
   .statLabel {
-    font-size: 1.5rem; /* md:text-2xl */
+    font-size: 1.5rem;
     line-height: 2rem;
   }
 }
@@ -484,11 +472,10 @@
 
 @media (min-width: 1024px) {
   .statTextBox {
-    margin-left: 1rem; /* keep same as Tailwind ml-4 */
+    margin-left: 1rem;
   }
 }
 
-/* Small tweaks for left/right negative margins seen in Tailwind */
 .iconHumanShift {
-  margin-left: -0.5rem; /* -ml-2 ~ -ml-4 in Tailwind */
+  margin-left: -0.5rem;
 }

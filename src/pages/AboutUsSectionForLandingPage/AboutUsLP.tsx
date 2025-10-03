@@ -1,18 +1,18 @@
-import catPic from '../../shared/assets/images/catImage.png';
-import bookmarkImage from '../../shared/assets/images/bookmarkImage.png';
-import humanImage from '../../shared/assets/images/humanImage.png';
-import statsImage from '../../shared/assets/images/statsImage.png';
-import pawImage from '../../shared/assets/images/pawImage.png';
-import membersIcon from '../../shared/assets/images/Group 2771.png';
-import PawImageAboutUs from '../../shared/assets/images/PawImageAboutUs.png';
-import PawImageAboutUs2 from '../../shared/assets/images/PawImageAboutUs2.png';
+import catPic from '../../shared/assets/images/cat-about-us-section.png';
+import bookmarkImage from '../../shared/assets/images/bookmark.svg';
+import humanImage from '../../shared/assets/images/user-icon.png';
+import statsImage from '../../shared/assets/images/stats-image.png';
+import pawImage from '../../shared/assets/images/paw-about-us-section.png';
+import membersIcon from '../../shared/assets/images/users-icon.png';
+import PawImageAboutUs from '../../shared/assets/images/paw-image-about-us.png';
+import PawImageAboutUs2 from '../../shared/assets/images/paw-image-about-us-2.png';
 import Footer from '../../shared/ui/Footer/Footer';
 import styles from './AboutUsLP.module.css';
 
 const AboutUsLP = () => {
   return (
     <div className={styles.appPage}>
-      <div className="container mx-auto px-6">
+      <div className="  px-6">
         <div className={styles.sectionGrid}>
           {/* About us block */}
           <div className={`${styles.aboutBlock} ${styles.visuallyHidden}`}>
@@ -135,7 +135,7 @@ const AboutUsLP = () => {
           </div>
 
           {/* areas of study */}
-          <div>
+          <div className={styles.membersWrapInner}>
             <div className={styles.statsCard}>
               {/* mobile-only paw at lower-right */}
               <img
