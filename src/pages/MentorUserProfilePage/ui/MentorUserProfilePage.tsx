@@ -1,15 +1,17 @@
 import Navbar from "../../../shared/ui/Navbar/Navbar";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import style from "./MentorUserProfilePage.module.css";
+import { useParams, Link } from "react-router-dom";
+// import style from "./MentorUserProfilePage.module.css";
 import axios from "axios";
 
 type Mentor = {
   name: string;
   discord_nickname: string;
   // languages: string[];
-  tags: string[];
+  // TODO: tags are not returned from backend at the moment, TBD with backend team
+  // tags: string[];
   about: string;
+  user_id: number;
 };
 
 export default function MentorUserProfilePage() {
@@ -19,13 +21,13 @@ export default function MentorUserProfilePage() {
   useEffect(() => {
     const getMentor = async () => {
       try {
-        // TODO: test fetch mentor from API
         const response = await axios.get(
           `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
           {
             withCredentials: true,
           }
         );
+        console.log(response.data);
         setMentor(response.data);
       } catch (err) {
         console.error("Get mentor error: ", err);
@@ -61,6 +63,14 @@ export default function MentorUserProfilePage() {
                 </span>
                 {mentor?.discord_nickname}
               </p>
+              <Link
+                to={`/user_profile/${mentor.user_id}`}
+                className="underline text-blue-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {mentor?.name}
+              </Link>
               {/* TODO: will be implemented later in GET mentors/{mentor_id} */}
               {/* <p className="text-sm sm:text-base font-montserrat mt-3 flex flex-row items-center gap-3 text-[#170103]">
                 <span className="text-xs sm:text-sm w-[82px] text-[#4B5563]">
@@ -81,10 +91,11 @@ export default function MentorUserProfilePage() {
           </p>
         </div>
 
-        <div
+        {/* below to be finished when tags are ready and can be fetched from backend */}
+        {/* <div
           className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full lg:w-[32%] h-fit justify-center lg:justify-start`}
         >
-          {mentor?.tags.map((tag, idx) => (
+          {mentor?.tags?.map((tag, idx) => (
             <span
               key={idx}
               className={`${style.tags} text-sm sm:text-m font-montserrat font-medium text-[#170103]`}
@@ -92,7 +103,7 @@ export default function MentorUserProfilePage() {
               #{tag}
             </span>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
