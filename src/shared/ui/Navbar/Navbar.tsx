@@ -24,7 +24,6 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
       : null;
 
     if (user) {
-      console.log("User data from local storage:", user);
       setIsMentor(
         user?.roles?.filter(
           (role: { role_id: number; role_name: string }) =>
@@ -78,8 +77,9 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
           </Link>
 
           <nav
-            className={`lg:flex items-center gap-6 ${isMenuOpen ? "block" : "hidden"
-              } absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none p-6 lg:p-0 rounded-lg transition-all duration-300 z-[100]`}
+            className={`lg:flex items-center gap-6 ${
+              isMenuOpen ? "block" : "hidden"
+            } absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none p-6 lg:p-0 rounded-lg transition-all duration-300 z-[100]`}
           >
             <Link
               to="/"
@@ -92,6 +92,12 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
               className="block lg:inline text-gray-600 text-sm leading-[1.5] font-montserrat"
             >
               Tools
+            </Link>
+            <Link
+              to="/mentors"
+              className="block lg:inline text-gray-600 text-sm leading-[1.5] font-montserrat"
+            >
+              Our Mentors
             </Link>
             {isMentor && (
               <Link
@@ -108,11 +114,6 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
               >
                 My Profile
               </Link>
-              // <Button
-              //   label="My Profile"
-              //   btnType="primary_btn"
-              //   onClick={() => navigate()}
-              // />
             )}
           </nav>
         </div>
@@ -149,7 +150,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
               </div>
             )}
           </div>
-          {/* Бургер-меню (для мобильных) */}
+          {/* Burger manu for mobile */}
           <button
             className="block lg:hidden text-gray-600 focus:outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}

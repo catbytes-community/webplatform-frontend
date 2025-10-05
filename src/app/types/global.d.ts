@@ -12,6 +12,9 @@ export interface User {
   photo: string;
 }
 export interface Mentor extends User {
+  mentor_id: number;
+  about: string;
+  status: string;
   direction: Direction[];
   experience: number;
   description: string;
@@ -65,5 +68,5 @@ export interface MentorApplication {
   about: string;
   status: string;
   tags: string[];
-  name: string; 
+  name: string;
 }
