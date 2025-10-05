@@ -2,7 +2,7 @@ import { RouteProps } from "react-router-dom";
 import { NotFoundPage } from "../../../pages/NotFoundPage";
 import { MainPage } from "../../../pages/MainPage";
 // import { AboutPage } from "../../../pages/AboutPage";
-// import { MentorsPage } from "../../../pages/MentorsPage";
+import { MentorsPage } from "../../../pages/MentorsPage";
 // import { AddProjectPage } from "../../../pages/AddProjectPage";
 // import { StudyBuddyPage } from "../../../pages/StudyBuddyPage";
 import { ApplicationsPage } from "../../../pages/ApplicationsPage";
@@ -24,7 +24,7 @@ import { AuthDiscordCallbackPage } from "../../../pages/AuthDiscordCallbackPage"
 export enum AppRoutes {
   MAIN = "main",
   // ABOUT = "about",
-  // MENTORS = "mentors",
+  MENTORS = "mentors",
   // ALL_PROJECTS = "projects",
   // PROJECT = "project",
   // ADD_PROJECT = "add_project",
@@ -47,7 +47,7 @@ export enum AppRoutes {
 export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.MAIN]: "/",
   // [AppRoutes.ABOUT]: "/about",
-  // [AppRoutes.MENTORS]: "/mentors",
+  [AppRoutes.MENTORS]: "/mentors",
   // [AppRoutes.ALL_PROJECTS]: "/projects",
   // [AppRoutes.PROJECT]: "/project/:id",
   // [AppRoutes.ADD_PROJECT]: "/add_project",
@@ -92,10 +92,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   //   path: RoutePath.study_groups,
   //   element: <StudyBuddyPage />,
   // },
-  // [AppRoutes.MENTORS]: {
-  //   path: RoutePath.mentors,
-  //   element: <MentorsPage />,
-  // },
+  [AppRoutes.MENTORS]: {
+    path: RoutePath.mentors,
+    element: <MentorsPage />,
+  },
   [AppRoutes.NOT_FOUND]: {
     path: RoutePath.not_found,
     element: <NotFoundPage />,
