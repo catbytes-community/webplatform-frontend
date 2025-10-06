@@ -19,6 +19,7 @@ type User = {
   roles: { role_id: number; role_name: string }[];
   mentor_id?: string;
   created_at: string;
+  languages: string[];
 };
 
 export default function UserProfilePage() {
@@ -33,6 +34,8 @@ export default function UserProfilePage() {
     : undefined;
   const [isEdit, setIsEdit] = useState(false);
   const [newName, setNewName] = useState("");
+  const [isEditLanguages, setIsEditLanguages] = useState(false);
+  const [newLanguages, setNewLanguages] = useState<string[]>([]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -130,10 +133,28 @@ export default function UserProfilePage() {
       setIsEdit(false);
       localStorage.setItem("user", JSON.stringify({ ...user, name: newName }));
       setUser({ ...user, name: newName });
-    } catch(err) {
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
+
+  const updateLanguages = async (id: string) => {
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_DEVAPI}users/${id}`,
+        { languages: newLanguages },
+        { withCredentials: true }
+      );
+      setIsEditLanguages(false);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...user, languages: newLanguages })
+      );
+      setUser({ ...user, languages: newLanguages });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div>
@@ -152,18 +173,34 @@ export default function UserProfilePage() {
           <span className="font-bold font-montserrat">Name:</span>
           {isEdit ? (
             <div className="flex items-center">
-              <input value={newName} onChange={(e) => setNewName(e.target.value)} />
-              <TickIcon className="inline ml-2 cursor-pointer" size={16} color="green" onClick={() => updateUser(user.id)} />
-              <CancelIcon className="inline ml-2 cursor-pointer" color="red" onClick={() => setIsEdit(false)} />
+              <input
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+              />
+              <TickIcon
+                className="inline ml-2 cursor-pointer"
+                size={16}
+                color="green"
+                onClick={() => updateUser(user.id)}
+              />
+              <CancelIcon
+                className="inline ml-2 cursor-pointer"
+                color="red"
+                onClick={() => setIsEdit(false)}
+              />
             </div>
           ) : (
             <div className="flex items-center">
               <p>{user.name}</p>
-              <EditPencilIcon className="inline ml-2 cursor-pointer" size={16} color="gray" onClick={() => {
-                setNewName(user.name);
-                setIsEdit(true);
-                
-              }}/>
+              <EditPencilIcon
+                className="inline ml-2 cursor-pointer"
+                size={16}
+                color="gray"
+                onClick={() => {
+                  setNewName(user.name);
+                  setIsEdit(true);
+                }}
+              />
             </div>
           )}
         </p>
@@ -186,16 +223,60 @@ export default function UserProfilePage() {
             ? "Mentor"
             : "Member"}
         </p>
-        {user.roles.filter((role) => role.role_name === "mentor").length > 0 && (
+        {user.roles.filter((role) => role.role_name === "mentor").length >
+          0 && (
           <p>
-            <span className="font-bold font-montserrat">Link to mentor profile: </span>
-            <br/>
-            <Link to={`/mentor/${user?.mentor_id}`} className="underline italic text-gray-500 text-sm" target="_blank">Click here to view</Link>
+            <span className="font-bold font-montserrat">
+              Link to mentor profile:{" "}
+            </span>
+            <br />
+            <Link
+              to={`/mentor/${user?.mentor_id}`}
+              className="underline italic text-gray-500 text-sm"
+              target="_blank"
+            >
+              Click here to view
+            </Link>
           </p>
         )}
         <p>
           <span className="font-bold font-montserrat">Member since:</span>{" "}
           {new Date(user.created_at).toDateString()}
+        </p>
+        <p>
+          <span className="font-bold font-montserrat">Languages:</span>{" "}
+          {isEditLanguages ? (
+            <div>
+              <input
+                value={newLanguages.join(", ")}
+                onChange={(e) => setNewLanguages(e.target.value.split(","))}
+              />
+              <TickIcon
+                className="inline ml-2 cursor-pointer"
+                size={16}
+                color="green"
+                onClick={() => updateLanguages(user.id)}
+              />
+              <CancelIcon
+                className="inline ml-2 cursor-pointer"
+                color="red"
+                onClick={() => setIsEditLanguages(false)}
+              />
+            </div>
+          ) : (
+            <div>
+              <p>{user.languages?.join(", ")}</p>
+              <EditPencilIcon
+                className="inline ml-2 cursor-pointer"
+                size={16}
+                color="gray"
+                onClick={() => {
+                  setNewLanguages(user.languages || []);
+                  setIsEditLanguages(true);
+                }}
+              />
+            </div>
+          )}
         </p>
         {error && <p className="text-red-500 italic">{error}</p>}
         {discordLink ? (
