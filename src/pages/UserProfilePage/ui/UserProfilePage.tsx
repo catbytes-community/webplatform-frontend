@@ -137,7 +137,6 @@ export default function UserProfilePage() {
       console.log(err);
     }
   };
-
   const updateLanguages = async (id: string) => {
     try {
       await axios.put(
@@ -155,7 +154,6 @@ export default function UserProfilePage() {
       console.log(err);
     }
   };
-
   return (
     <div>
       {isConfirmModalOpen && (
@@ -231,7 +229,7 @@ export default function UserProfilePage() {
             </span>
             <br />
             <Link
-              to={`/mentor/${user?.mentor_id}`}
+              to={`/mentor_user_profile/${user?.mentor_id}`}
               className="underline italic text-gray-500 text-sm"
               target="_blank"
             >
