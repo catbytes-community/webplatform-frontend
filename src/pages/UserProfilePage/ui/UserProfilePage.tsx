@@ -130,10 +130,10 @@ export default function UserProfilePage() {
       setIsEdit(false);
       localStorage.setItem("user", JSON.stringify({ ...user, name: newName }));
       setUser({ ...user, name: newName });
-    } catch(err) {
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   return (
     <div>
@@ -152,18 +152,34 @@ export default function UserProfilePage() {
           <span className="font-bold font-montserrat">Name:</span>
           {isEdit ? (
             <div className="flex items-center">
-              <input value={newName} onChange={(e) => setNewName(e.target.value)} />
-              <TickIcon className="inline ml-2 cursor-pointer" size={16} color="green" onClick={() => updateUser(user.id)} />
-              <CancelIcon className="inline ml-2 cursor-pointer" color="red" onClick={() => setIsEdit(false)} />
+              <input
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+              />
+              <TickIcon
+                className="inline ml-2 cursor-pointer"
+                size={16}
+                color="green"
+                onClick={() => updateUser(user.id)}
+              />
+              <CancelIcon
+                className="inline ml-2 cursor-pointer"
+                color="red"
+                onClick={() => setIsEdit(false)}
+              />
             </div>
           ) : (
             <div className="flex items-center">
               <p>{user.name}</p>
-              <EditPencilIcon className="inline ml-2 cursor-pointer" size={16} color="gray" onClick={() => {
-                setNewName(user.name);
-                setIsEdit(true);
-                
-              }}/>
+              <EditPencilIcon
+                className="inline ml-2 cursor-pointer"
+                size={16}
+                color="gray"
+                onClick={() => {
+                  setNewName(user.name);
+                  setIsEdit(true);
+                }}
+              />
             </div>
           )}
         </p>
@@ -186,11 +202,20 @@ export default function UserProfilePage() {
             ? "Mentor"
             : "Member"}
         </p>
-        {user.roles.filter((role) => role.role_name === "mentor").length > 0 && (
+        {user.roles.filter((role) => role.role_name === "mentor").length >
+          0 && (
           <p>
-            <span className="font-bold font-montserrat">Link to mentor profile: </span>
-            <br/>
-            <Link to={`/mentor/${user?.mentor_id}`} className="underline italic text-gray-500 text-sm" target="_blank">Click here to view</Link>
+            <span className="font-bold font-montserrat">
+              Link to mentor profile:{" "}
+            </span>
+            <br />
+            <Link
+              to={`/mentor_user_profile/${user?.mentor_id}`}
+              className="underline italic text-gray-500 text-sm"
+              target="_blank"
+            >
+              Click here to view
+            </Link>
           </p>
         )}
         <p>
