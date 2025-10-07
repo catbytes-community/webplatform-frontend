@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 // import style from "./MentorUserProfilePage.module.css";
 import axios from "axios";
+import EditPencilIcon from "../../../shared/ui/icons/EditPencilIcon";
+import TickIcon from "../../../shared/ui/icons/TickIcon";
+import CancelIcon from "../../../shared/ui/icons/CancelIcon";
 
 type Mentor = {
   name: string;
@@ -17,6 +20,8 @@ type Mentor = {
 export default function MentorUserProfilePage() {
   const { id } = useParams();
   const [mentor, setMentor] = useState<Mentor | null>(null);
+  const [isEditAbout, setIsEditAbout] = useState(false);
+  const [newAbout, setNewAbout] = useState("");
 
   useEffect(() => {
     const getMentor = async () => {
@@ -40,6 +45,11 @@ export default function MentorUserProfilePage() {
   if (!mentor) {
     return <div>Loading...</div>;
   }
+
+  // TODO: updateAbout function
+  const updateAbout = () => {
+    console.log("update about...");
+  };
 
   return (
     <div className="max-w-[1200px] px-5 sm:px-10 mx-auto">
@@ -86,9 +96,40 @@ export default function MentorUserProfilePage() {
           <h2 className="text-lg sm:text-2xl font-medium text-[#170103]">
             Experience
           </h2>
-          <p className="mt-4 sm:mt-5 font-montserrat text-base sm:text-lg text-[#170103]">
-            {mentor?.about}
-          </p>
+          {isEditAbout ? (
+            <div>
+              <textarea
+                value={newAbout}
+                onChange={(e) => setNewAbout(e.target.value)}
+              />
+              <TickIcon
+                className="inline ml-2 cursor-pointer"
+                size={16}
+                color="green"
+                onClick={() => updateAbout()}
+              />
+              <CancelIcon
+                className="inline ml-2 cursor-pointer"
+                color="red"
+                onClick={() => setIsEditAbout(false)}
+              />
+            </div>
+          ) : (
+            <div>
+              <p className="mt-4 sm:mt-5 font-montserrat text-base sm:text-lg text-[#170103]">
+                {mentor?.about}
+              </p>
+              <EditPencilIcon
+                className="inline ml-2 cursor-pointer"
+                size={16}
+                color="gray"
+                onClick={() => {
+                  setNewAbout(mentor.about);
+                  setIsEditAbout(true);
+                }}
+              />
+            </div>
+          )}
         </div>
 
         {/* below to be finished when tags are ready and can be fetched from backend */}

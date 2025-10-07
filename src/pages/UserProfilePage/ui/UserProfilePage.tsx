@@ -241,10 +241,10 @@ export default function UserProfilePage() {
           <span className="font-bold font-montserrat">Member since:</span>{" "}
           {new Date(user.created_at).toDateString()}
         </p>
-        <p>
+        <p className="flex gap-2 items-center">
           <span className="font-bold font-montserrat">Languages:</span>{" "}
           {isEditLanguages ? (
-            <div>
+            <div className="flex items-center">
               <input
                 value={newLanguages.join(", ")}
                 onChange={(e) => setNewLanguages(e.target.value.split(","))}
@@ -262,7 +262,7 @@ export default function UserProfilePage() {
               />
             </div>
           ) : (
-            <div>
+            <div className="flex items-center">
               <p>{user.languages?.join(", ")}</p>
               <EditPencilIcon
                 className="inline ml-2 cursor-pointer"
