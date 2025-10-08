@@ -15,6 +15,7 @@ type Mentor = {
   // tags: string[];
   about: string;
   user_id: number;
+  mentor_id: number;
 };
 
 export default function MentorUserProfilePage() {
@@ -46,9 +47,18 @@ export default function MentorUserProfilePage() {
     return <div>Loading...</div>;
   }
 
-  // TODO: updateAbout function
-  const updateAbout = () => {
-    console.log("update about...");
+  const updateAbout = async (id: number) => {
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
+        { about: newAbout },
+        { withCredentials: true }
+      );
+      setIsEditAbout(false);
+      setMentor({ ...mentor, about: newAbout });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -106,7 +116,7 @@ export default function MentorUserProfilePage() {
                 className="inline ml-2 cursor-pointer"
                 size={16}
                 color="green"
-                onClick={() => updateAbout()}
+                onClick={() => updateAbout(mentor.mentor_id)}
               />
               <CancelIcon
                 className="inline ml-2 cursor-pointer"
