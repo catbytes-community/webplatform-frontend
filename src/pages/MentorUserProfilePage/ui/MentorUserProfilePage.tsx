@@ -23,6 +23,8 @@ export default function MentorUserProfilePage() {
   const [mentor, setMentor] = useState<Mentor | null>(null);
   const [isEditAbout, setIsEditAbout] = useState(false);
   const [newAbout, setNewAbout] = useState("");
+  // const [isEditTags, setIsEditTags] = useState(false);
+  // const [newTags, setNewTags] = useState<string[]>([]);
 
   useEffect(() => {
     const getMentor = async () => {
@@ -60,6 +62,20 @@ export default function MentorUserProfilePage() {
       console.log(err);
     }
   };
+
+  // const updateTags = async (id: number) => {
+  //   try {
+  //     await axios.put(
+  //       `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
+  //       { tags: newTags },
+  //       { withCredentials: true }
+  //     );
+  //     setIsEditTags(false);
+  //     setMentor({ ...mentor, tags: newTags });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   return (
     <div className="max-w-[1200px] px-5 sm:px-10 mx-auto">
@@ -143,18 +159,47 @@ export default function MentorUserProfilePage() {
         </div>
 
         {/* below to be finished when tags are ready and can be fetched from backend */}
-        {/* <div
-          className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full lg:w-[32%] h-fit justify-center lg:justify-start`}
-        >
-          {mentor?.tags?.map((tag, idx) => (
-            <span
-              key={idx}
-              className={`${style.tags} text-sm sm:text-m font-montserrat font-medium text-[#170103]`}
-            >
-              #{tag}
-            </span>
-          ))}
-        </div> */}
+        {/* {isEditTags ? (
+          <div>
+            <input
+              value={newTags}
+              onChange={(e) => setNewTags(e.target.value.split(","))}
+            />
+            <TickIcon
+              className="inline ml-2 cursor-pointer"
+              size={16}
+              color="green"
+              onClick={() => updateTags(mentor.mentor_id)}
+            />
+            <CancelIcon
+              className="inline ml-2 cursor-pointer"
+              color="red"
+              onClick={() => setIsEditTags(false)}
+            />
+          </div>
+        ) : (
+          <div
+            className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full lg:w-[32%] h-fit justify-center lg:justify-start`}
+          >
+            {mentor?.tags?.map((tag, idx) => (
+              <span
+                key={idx}
+                className={`${style.tags} text-sm sm:text-m font-montserrat font-medium text-[#170103]`}
+              >
+                #{tag}
+              </span>
+            ))}
+            <EditPencilIcon
+              className="inline ml-2 cursor-pointer"
+              size={16}
+              color="gray"
+              onClick={() => {
+                setNewTags(mentor.tags || []);
+                setIsEditTags(true);
+              }}
+            />
+          </div>
+        )} */}
       </div>
     </div>
   );
