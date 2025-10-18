@@ -1,7 +1,6 @@
 import Navbar from "../../../shared/ui/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-// import style from "./MentorUserProfilePage.module.css";
 import axios from "axios";
 import EditPencilIcon from "../../../shared/ui/icons/EditPencilIcon";
 import TickIcon from "../../../shared/ui/icons/TickIcon";
@@ -10,9 +9,6 @@ import CancelIcon from "../../../shared/ui/icons/CancelIcon";
 type Mentor = {
   name: string;
   discord_nickname: string;
-  // languages: string[];
-  // TODO: tags are not returned from backend at the moment, TBD with backend team
-  // tags: string[];
   about: string;
   user_id: number;
   mentor_id: number;
@@ -23,8 +19,6 @@ export default function MentorUserProfilePage() {
   const [mentor, setMentor] = useState<Mentor | null>(null);
   const [isEditAbout, setIsEditAbout] = useState(false);
   const [newAbout, setNewAbout] = useState("");
-  // const [isEditTags, setIsEditTags] = useState(false);
-  // const [newTags, setNewTags] = useState<string[]>([]);
 
   useEffect(() => {
     const getMentor = async () => {
@@ -63,20 +57,6 @@ export default function MentorUserProfilePage() {
     }
   };
 
-  // const updateTags = async (id: number) => {
-  //   try {
-  //     await axios.put(
-  //       `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
-  //       { tags: newTags },
-  //       { withCredentials: true }
-  //     );
-  //     setIsEditTags(false);
-  //     setMentor({ ...mentor, tags: newTags });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   return (
     <div className="max-w-[1200px] px-5 sm:px-10 mx-auto">
       <Navbar />
@@ -107,13 +87,6 @@ export default function MentorUserProfilePage() {
               >
                 {mentor?.name}
               </Link>
-              {/* TODO: will be implemented later in GET mentors/{mentor_id} */}
-              {/* <p className="text-sm sm:text-base font-montserrat mt-3 flex flex-row items-center gap-3 text-[#170103]">
-                <span className="text-xs sm:text-sm w-[82px] text-[#4B5563]">
-                  Languages:
-                </span>
-                {mentor?.languages.join(", ")}
-              </p> */}
             </div>
           </div>
         </div>
@@ -157,49 +130,6 @@ export default function MentorUserProfilePage() {
             </div>
           )}
         </div>
-
-        {/* below to be finished when tags are ready and can be fetched from backend */}
-        {/* {isEditTags ? (
-          <div>
-            <input
-              value={newTags}
-              onChange={(e) => setNewTags(e.target.value.split(","))}
-            />
-            <TickIcon
-              className="inline ml-2 cursor-pointer"
-              size={16}
-              color="green"
-              onClick={() => updateTags(mentor.mentor_id)}
-            />
-            <CancelIcon
-              className="inline ml-2 cursor-pointer"
-              color="red"
-              onClick={() => setIsEditTags(false)}
-            />
-          </div>
-        ) : (
-          <div
-            className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full lg:w-[32%] h-fit justify-center lg:justify-start`}
-          >
-            {mentor?.tags?.map((tag, idx) => (
-              <span
-                key={idx}
-                className={`${style.tags} text-sm sm:text-m font-montserrat font-medium text-[#170103]`}
-              >
-                #{tag}
-              </span>
-            ))}
-            <EditPencilIcon
-              className="inline ml-2 cursor-pointer"
-              size={16}
-              color="gray"
-              onClick={() => {
-                setNewTags(mentor.tags || []);
-                setIsEditTags(true);
-              }}
-            />
-          </div>
-        )} */}
       </div>
     </div>
   );
