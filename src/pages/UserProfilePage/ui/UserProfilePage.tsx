@@ -20,6 +20,7 @@ type User = {
   mentor_id?: string;
   created_at: string;
   languages: string[];
+  about: string;
 };
 
 export default function UserProfilePage() {
@@ -32,10 +33,12 @@ export default function UserProfilePage() {
   const currentUserId = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user") as string).id
     : undefined;
-  const [isEdit, setIsEdit] = useState(false);
-  const [newName, setNewName] = useState("");
-  const [isEditLanguages, setIsEditLanguages] = useState(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [newName, setNewName] = useState<string>("");
+  const [isEditLanguages, setIsEditLanguages] = useState<boolean>(false);
   const [newLanguages, setNewLanguages] = useState<string[]>([]);
+  const [isEditAbout, setIsEditAbout] = useState<boolean>(false);
+  const [newAbout, setNewAbout] = useState<string>("");
 
   useEffect(() => {
     const getUser = async () => {
@@ -154,6 +157,23 @@ export default function UserProfilePage() {
       console.log(err);
     }
   };
+  const updateAbout = async (id: string) => {
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_DEVAPI}users/${id}`,
+        { about: newAbout },
+        { withCredentials: true }
+      );
+      setIsEditAbout(false);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...user, about: newAbout })
+      );
+      setUser({ ...user, about: newAbout });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div>
       {isConfirmModalOpen && (
@@ -190,15 +210,17 @@ export default function UserProfilePage() {
           ) : (
             <div className="flex items-center">
               <p>{user.name}</p>
-              <EditPencilIcon
-                className="inline ml-2 cursor-pointer"
-                size={16}
-                color="gray"
-                onClick={() => {
-                  setNewName(user.name);
-                  setIsEdit(true);
-                }}
-              />
+              {currentUserId === user.id && (
+                <EditPencilIcon
+                  className="inline ml-2 cursor-pointer"
+                  size={16}
+                  color="gray"
+                  onClick={() => {
+                    setNewName(user.name);
+                    setIsEdit(true);
+                  }}
+                />
+              )}
             </div>
           )}
         </p>
@@ -241,7 +263,7 @@ export default function UserProfilePage() {
           <span className="font-bold font-montserrat">Member since:</span>{" "}
           {new Date(user.created_at).toDateString()}
         </p>
-        <p className="flex gap-2 items-center">
+        <p className="flex gap-2">
           <span className="font-bold font-montserrat">Languages:</span>{" "}
           {isEditLanguages ? (
             <div className="flex items-center">
@@ -264,15 +286,54 @@ export default function UserProfilePage() {
           ) : (
             <div className="flex items-center">
               <p>{user.languages?.join(", ")}</p>
-              <EditPencilIcon
+              {currentUserId === user.id && (
+                <EditPencilIcon
+                  className="inline ml-2 cursor-pointer"
+                  size={16}
+                  color="gray"
+                  onClick={() => {
+                    setNewLanguages(user.languages || []);
+                    setIsEditLanguages(true);
+                  }}
+                />
+              )}
+            </div>
+          )}
+        </p>
+        <p className="flex flex-row gap-2">
+          <span className="font-bold font-montserrat">About:</span>{" "}
+          {isEditAbout ? (
+            <div className="flex items-center">
+              <input
+                value={newAbout}
+                onChange={(e) => setNewAbout(e.target.value)}
+              />
+              <TickIcon
                 className="inline ml-2 cursor-pointer"
                 size={16}
-                color="gray"
-                onClick={() => {
-                  setNewLanguages(user.languages || []);
-                  setIsEditLanguages(true);
-                }}
+                color="green"
+                onClick={() => updateAbout(user.id)}
               />
+              <CancelIcon
+                className="inline ml-2 cursor-pointer"
+                color="red"
+                onClick={() => setIsEditAbout(false)}
+              />
+            </div>
+          ) : (
+            <div className="flex items-center">
+              {user?.about}
+              {currentUserId === user.id && (
+                <EditPencilIcon
+                  className="inline ml-2 cursor-pointer"
+                  size={16}
+                  color="gray"
+                  onClick={() => {
+                    setNewAbout(user.about || "");
+                    setIsEditAbout(true);
+                  }}
+                />
+              )}
             </div>
           )}
         </p>

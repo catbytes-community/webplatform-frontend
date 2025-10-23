@@ -17,8 +17,8 @@ type Mentor = {
 export default function MentorUserProfilePage() {
   const { id } = useParams();
   const [mentor, setMentor] = useState<Mentor | null>(null);
-  const [isEditAbout, setIsEditAbout] = useState(false);
-  const [newAbout, setNewAbout] = useState("");
+  const [isEditAbout, setIsEditAbout] = useState<boolean>(false);
+  const [newAbout, setNewAbout] = useState<string>("");
 
   useEffect(() => {
     const getMentor = async () => {
@@ -91,7 +91,7 @@ export default function MentorUserProfilePage() {
           </div>
         </div>
 
-        <div className="w-full lg:w-[66%] h-fit flex flex-col rounded-3xl p-8 mt-5 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)]">
+        <div className="w-full lg:w-[66%] h-fit flex flex-col rounded-3xl p-8 mt-5 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)] relative">
           <h2 className="text-lg sm:text-2xl font-medium text-[#170103]">
             Experience
           </h2>
@@ -100,6 +100,7 @@ export default function MentorUserProfilePage() {
               <textarea
                 value={newAbout}
                 onChange={(e) => setNewAbout(e.target.value)}
+                className="w-full my-4"
               />
               <TickIcon
                 className="inline ml-2 cursor-pointer"
@@ -118,15 +119,17 @@ export default function MentorUserProfilePage() {
               <p className="mt-4 sm:mt-5 font-montserrat text-base sm:text-lg text-[#170103]">
                 {mentor?.about}
               </p>
-              <EditPencilIcon
-                className="inline ml-2 cursor-pointer"
-                size={16}
-                color="gray"
-                onClick={() => {
-                  setNewAbout(mentor.about);
-                  setIsEditAbout(true);
-                }}
-              />
+              {String(mentor.user_id) === id && (
+                <EditPencilIcon
+                  className="inline ml-2 cursor-pointer absolute top-10 right-8"
+                  size={16}
+                  color="gray"
+                  onClick={() => {
+                    setNewAbout(mentor.about);
+                    setIsEditAbout(true);
+                  }}
+                />
+              )}
             </div>
           )}
         </div>

@@ -86,7 +86,6 @@ export const CreateApplicationPage: React.FC = () => {
       email,
       video_link: link,
       discord_nickname: discord,
-      agreeToTerms,
     };
 
     try {
