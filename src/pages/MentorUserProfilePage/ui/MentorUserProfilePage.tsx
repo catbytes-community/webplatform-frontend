@@ -62,7 +62,6 @@ export default function MentorUserProfilePage() {
     }
   };
 
-  // TODO: test updateContact
   const updateContact = async (id: number) => {
     try {
       await axios.put(
