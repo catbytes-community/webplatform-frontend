@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { auth } from '../../../firebaseConfig';
 import { signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 import pinkLogo from '../../assets/images/pink-logo.png';
+import axios from 'axios';
 
 export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const [isAuth, setIsAuth] = useState(false);
