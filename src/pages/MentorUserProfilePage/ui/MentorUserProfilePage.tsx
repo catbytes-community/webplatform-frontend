@@ -53,7 +53,7 @@ export default function MentorUserProfilePage() {
       setIsEditAbout(false);
       setMentor({ ...mentor, about: newAbout });
     } catch (err) {
-      console.log(err);
+      console.error("Error updating mentor about: ", err);
     }
   };
 

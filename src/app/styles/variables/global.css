@@ -1,12 +1,6 @@
 body {
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(
-    60.15deg,
-    #f8b5bb -15.22%,
-    #fef3f5 34.68%,
-    #fef3f5 70.04%,
-    #f8b5bb 111.09%
-  );
+  font-family: 'Poppins', sans-serif;
+  /* background: linear-gradient(60.15deg, #F8B5BB -15.22%, #FEF3F5 34.68%, #FEF3F5 70.04%, #F8B5BB 111.09%); */
   background-size: cover;
   min-height: 100vh;
 }

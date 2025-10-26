@@ -137,9 +137,10 @@ export default function UserProfilePage() {
       localStorage.setItem("user", JSON.stringify({ ...user, name: newName }));
       setUser({ ...user, name: newName });
     } catch (err) {
-      console.log(err);
+      console.error("Error updating user name: ", err);
     }
   };
+
   const updateLanguages = async (id: string) => {
     try {
       await axios.put(
@@ -154,9 +155,10 @@ export default function UserProfilePage() {
       );
       setUser({ ...user, languages: newLanguages });
     } catch (err) {
-      console.log(err);
+      console.error("Error updating user languages: ", err);
     }
   };
+
   const updateAbout = async (id: string) => {
     try {
       await axios.put(
@@ -171,9 +173,10 @@ export default function UserProfilePage() {
       );
       setUser({ ...user, about: newAbout });
     } catch (err) {
-      console.log(err);
+      console.error("Error updating user about: ", err);
     }
   };
+
   return (
     <div>
       {isConfirmModalOpen && (
