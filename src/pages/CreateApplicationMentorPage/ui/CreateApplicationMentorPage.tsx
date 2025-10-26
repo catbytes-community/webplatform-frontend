@@ -101,42 +101,31 @@ export const CreateApplicationMentorPage: React.FC = () => {
       tags: selectedTags.map((t) => t.value),
     };
 
-    console.log("Data to be sent:", data);
+    console.log("Data to be sent to create mentor application:", data);
 
-    // TODO: when API is ready, need to POST data to the server
-    // try {
-    //   setError(null);
-    //   //uncommit if need message in ui
-    //   setSuccessMessage(null);
+    try {
+      setError(null);
+      setSuccessMessage(null);
 
-    //   // send data on server
+      await axios.post(`${import.meta.env.VITE_DEVAPI}mentors`, data, {
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        withCredentials: true,
+      });
 
-    //   await axios.post(`${import.meta.env.VITE_DEVAPI}mentors`, data, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   });
+      // if response server sucsessful
+      setShowAlert(true);
 
-    //   // if response server sucsessful
-    //   setShowAlert(true);
-
-    //   // clean form
-    //   setAbout("");
-    //   setTags([]);
-    //   setErrors({});
-    // } catch (error) {
-    //   // catch errors
-    //   if (axios.isAxiosError(error)) {
-    //     setError(
-    //       error.response?.data?.error ||
-    //         "An error occurred while submitting the form."
-    //     );
-    //   } else {
-    //     setError("An unexpected error occurred.");
-    //   }
-
-    //   console.error("Error:", error);
-    // }
+      // clean form
+      setAbout("");
+      setTags([]);
+      setErrors({});
+    } catch (error: any) {
+      // catch errors
+      console.error("Error:", error);
+      setError(error.message ? error.message : String(error));
+    }
   };
 
   const handleChangeTags = (
