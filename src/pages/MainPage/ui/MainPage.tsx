@@ -1,13 +1,16 @@
-import Navbar from "../../../shared/ui/Navbar/Navbar";
-import AboutUsLP from "../../AboutUsSectionForLandingPage/AboutUsLP";
-import { HomeSection } from "./HomeSection";
+import Navbar from '../../../shared/ui/Navbar/Navbar';
+import AboutUsLP from '../../AboutUsSectionForLandingPage/AboutUsLP';
+import { HomeSection } from '../../HomeSection/ui/HomeSection';
+import styles from './MainPage.module.css';
 
 export const MainPage = () => {
   return (
     <>
       <Navbar />
-      <HomeSection />
-      <AboutUsLP />
+      <div className={styles.container}>
+        <HomeSection />
+        <AboutUsLP />
+      </div>
     </>
   );
 };

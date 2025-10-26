@@ -1,11 +1,11 @@
-import Button from "../Button/Button";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { auth } from "../../../firebaseConfig";
-import { signOut } from "firebase/auth";
-import { useEffect, useState } from "react";
-import pinkLogo from "../../assets/images/pinkLogo.png";
-import axios from "axios";
+import Button from '../Button/Button';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { auth } from '../../../firebaseConfig';
+import { signOut } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import pinkLogo from '../../assets/images/pink-logo.png';
+import axios from 'axios';
 
 export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const [isAuth, setIsAuth] = useState(false);
@@ -13,21 +13,21 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMentor, setIsMentor] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState('');
 
-  const isCreateApplication = location.pathname === "/create_application";
-  const isLogInPage = location.pathname === "/login";
+  const isCreateApplication = location.pathname === '/create_application';
+  const isLogInPage = location.pathname === '/login';
 
   useEffect(() => {
-    const user = localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user") as string)
+    const user = localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user') as string)
       : null;
 
     if (user) {
       setIsMentor(
         user?.roles?.filter(
           (role: { role_id: number; role_name: string }) =>
-            role.role_name === "mentor"
+            role.role_name === 'mentor'
         ).length > 0
       );
       setUserId(user.id);
@@ -36,15 +36,15 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   }, []);
 
   function handleClickJoinUs() {
-    navigate("/create_application");
+    navigate('/create_application');
   }
 
   function handleClickSignIn() {
-    navigate("/login");
+    navigate('/login');
   }
 
   function handleClickBecomeMentor() {
-    navigate("/create_application_mentor");
+    navigate('/create_application_mentor');
   }
 
   function handleClickSignOut() {
@@ -58,9 +58,9 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
           }
         );
         setIsAuth(false); // Update the authentication state
-        localStorage.removeItem("user"); // Clear the user data from local storage
+        localStorage.removeItem('user'); // Clear the user data from local storage
         setIsMentor(false); // Update the mentor state
-        navigate("/"); // Redirect to the home page
+        navigate('/'); // Redirect to the home page
       })
       .catch((error) => {
         console.error(error);
@@ -142,7 +142,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
             {!isLogin && (
               <div className="flex gap-5">
                 <Button
-                  label={isAuth ? "SIGN OUT" : "SIGN IN"}
+                  label={isAuth ? 'SIGN OUT' : 'SIGN IN'}
                   btnType="secondary_btn"
                   onClick={isAuth ? handleClickSignOut : handleClickSignIn}
                   disabled={isLogInPage}
