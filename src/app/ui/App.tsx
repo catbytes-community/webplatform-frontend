@@ -1,37 +1,38 @@
-import "../styles/reset.css";
-import "../styles/variables/global.css";
-import "../styles/index.css";
-import { Suspense } from "react";
-import { AppRouter } from "../providers/Router";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import '../styles/reset.css';
+import '../styles/variables/global.css';
+import '../styles/index.css';
+import { Suspense, useEffect } from 'react';
+import { AppRouter } from '../providers/Router';
+import { useNavigate } from 'react-router-dom';
+import NeatBackground from '../../shared/ui/NeatBackground/NeatBackground';
 
 function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleLogout = () => {
-      console.log("Logging out user...");
+      console.log('Logging out user...');
       // Clear any frontend state (Redux, Context, etc.)
-      navigate("/login"); // Redirect to login page
+      navigate('/login'); // Redirect to login page
     };
 
     // Listen for logout event
-    window.addEventListener("logout", handleLogout);
+    window.addEventListener('logout', handleLogout);
 
     return () => {
-      window.removeEventListener("logout", handleLogout);
+      window.removeEventListener('logout', handleLogout);
     };
-  },[navigate]);
+  }, [navigate]);
 
   return (
-    <div>
+    <>
+      <NeatBackground />
       <Suspense fallback={<div>Loading...</div>}>
-        {/* общий layout */}
+        {/* common layout */}
         <AppRouter />
-        {/* общий layout */}
+        {/* common layout */}
       </Suspense>
-    </div>
+    </>
   );
 }
 

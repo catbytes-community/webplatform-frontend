@@ -15,6 +15,7 @@ type Mentor = {
   status: string;
   mentor_id: number;
   contact: string;
+  languages: string[];
 };
 
 export default function MentorUserProfilePage() {
@@ -58,7 +59,7 @@ export default function MentorUserProfilePage() {
       );
       setMentor({ ...mentor, status: newStatus });
     } catch (err) {
-      console.log(err);
+      console.error("Error updating status: ", err);
     }
   };
 
@@ -72,7 +73,7 @@ export default function MentorUserProfilePage() {
       setMentor({ ...mentor, contact: newContact });
       setIsEditContact(false);
     } catch (err) {
-      console.log(err);
+      console.error("Error updating contact: ", err);
     }
   };
 
@@ -166,6 +167,13 @@ export default function MentorUserProfilePage() {
             >
               {mentor?.name}
             </Link>
+
+            <p className="text-sm sm:text-base font-montserrat mt-3 flex flex-row items-center gap-3 text-[#170103]">
+              <span className="text-xs sm:text-sm w-[82px] text-[#4B5563]">
+                Languages:
+              </span>
+              {mentor?.languages.join(", ")}
+            </p>
           </div>
         </div>
 
