@@ -138,6 +138,7 @@ export default function UserProfilePage() {
       setUser({ ...user, name: newName });
     } catch (err) {
       console.error("Error updating user name: ", err);
+      setError("Error updating name. Please try again later");
     }
   };
 
@@ -156,6 +157,7 @@ export default function UserProfilePage() {
       setUser({ ...user, languages: newLanguages });
     } catch (err) {
       console.error("Error updating user languages: ", err);
+      setError("Error updating languages. Please try again later");
     }
   };
 
@@ -174,6 +176,7 @@ export default function UserProfilePage() {
       setUser({ ...user, about: newAbout });
     } catch (err) {
       console.error("Error updating user about: ", err);
+      setError("Error updating about information. Please try again later");
     }
   };
 
