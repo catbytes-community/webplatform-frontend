@@ -25,6 +25,7 @@ export default function MentorUserProfilePage() {
   const [isEditContact, setIsEditContact] = useState<boolean>(false);
   const [newContact, setNewContact] = useState<string>("");
   const currentUser = id === mentor?.user_id.toString();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getMentor = async () => {
@@ -60,6 +61,7 @@ export default function MentorUserProfilePage() {
       setMentor({ ...mentor, status: newStatus });
     } catch (err) {
       console.error("Error updating status: ", err);
+      setError("Error updating status. Please try again later");
     }
   };
 
@@ -74,6 +76,7 @@ export default function MentorUserProfilePage() {
       setIsEditContact(false);
     } catch (err) {
       console.error("Error updating contact: ", err);
+      setError("Error updating contact. Please try again later");
     }
   };
 
@@ -84,6 +87,7 @@ export default function MentorUserProfilePage() {
       <h2 className="text-3xl sm:text-4xl font-semibold mt-10 text-[#170103]">
         Cat Bytes Mentor
       </h2>
+      {error && <p className="text-red-500 italic">{error}</p>}
 
       <div className="flex flex-row flex-wrap mt-7 justify-between">
         <div className="w-full flex flex-row flex-wrap md:flex-nowrap justify-between rounded-3xl p-8 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)]">
