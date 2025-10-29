@@ -49,3 +49,35 @@
   mask-composite: exclude;
   z-index: -1;
 }
+
+.toggleBtn {
+  background-color: lightgrey;
+  border: 1px solid grey;
+  border-radius: 99px;
+  width: 50px;
+  height: 28px;
+  transition: background-color 0.1s ease, border-color 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.toggleBtn .thumb {
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  border-radius: 99px;
+  transform: translateX(0);
+  transition: left 0.15s ease;
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.toggleBtn.isToggled {
+  background-color: pink;
+}
+
+.toggleBtn.isToggled .thumb {
+  left: calc(50px - 25px);
+}
