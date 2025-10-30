@@ -21,6 +21,7 @@ type User = {
   created_at: string;
   languages: string[];
   about: string;
+  is_mentor_active: boolean;
 };
 
 export default function UserProfilePage() {
@@ -249,22 +250,23 @@ export default function UserProfilePage() {
             ? "Mentor"
             : "Member"}
         </p>
-        {user.roles.filter((role) => role.role_name === "mentor").length >
-          0 && (
-          <p>
-            <span className="font-bold font-montserrat">
-              Link to mentor profile:{" "}
-            </span>
-            <br />
-            <Link
-              to={`/mentor_user_profile/${user?.mentor_id}`}
-              className="underline italic text-gray-500 text-sm"
-              target="_blank"
-            >
-              Click here to view
-            </Link>
-          </p>
-        )}
+        {user?.is_mentor_active &&
+          user.roles.filter((role) => role.role_name === "mentor").length >
+            0 && (
+            <p>
+              <span className="font-bold font-montserrat">
+                Link to mentor profile:{" "}
+              </span>
+              <br />
+              <Link
+                to={`/mentor_user_profile/${user?.mentor_id}`}
+                className="underline italic text-gray-500 text-sm"
+                target="_blank"
+              >
+                Click here to view
+              </Link>
+            </p>
+          )}
         <p>
           <span className="font-bold font-montserrat">Member since:</span>{" "}
           {new Date(user.created_at).toDateString()}
