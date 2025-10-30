@@ -21,6 +21,8 @@ type Mentor = {
 export default function MentorUserProfilePage() {
   const { id } = useParams();
   const [mentor, setMentor] = useState<Mentor | null>(null);
+  const [isEditAbout, setIsEditAbout] = useState<boolean>(false);
+  const [newAbout, setNewAbout] = useState<string>("");
   const isToggled = mentor?.status === "active";
   const [isEditContact, setIsEditContact] = useState<boolean>(false);
   const [newContact, setNewContact] = useState<string>("");
@@ -49,6 +51,21 @@ export default function MentorUserProfilePage() {
   if (!mentor) {
     return <div>Loading...</div>;
   }
+
+  const updateAbout = async (id: number) => {
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
+        { about: newAbout },
+        { withCredentials: true }
+      );
+      setIsEditAbout(false);
+      setMentor({ ...mentor, about: newAbout });
+    } catch (err) {
+      console.error("Error updating mentor about: ", err);
+      setError("Error updating experience. Please try again later");
+    }
+  };
 
   const updateStatus = async (id: number) => {
     const newStatus = mentor?.status === "active" ? "inactive" : "active";
@@ -147,7 +164,6 @@ export default function MentorUserProfilePage() {
               ) : (
                 <span>
                   {mentor?.contact}
-
                   {currentUser && (
                     <EditPencilIcon
                       className="inline ml-2 cursor-pointer"
@@ -181,13 +197,47 @@ export default function MentorUserProfilePage() {
           </div>
         </div>
 
-        <div className="w-full lg:w-[66%] h-fit flex flex-col rounded-3xl p-8 mt-5 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)]">
+        <div className="w-full lg:w-[66%] h-fit flex flex-col rounded-3xl p-8 mt-5 bg-[#fef7f8] shadow-[0_6px_10px_0_rgba(255,166,173,0.4)] relative">
           <h2 className="text-lg sm:text-2xl font-medium text-[#170103]">
             Experience
           </h2>
-          <p className="mt-4 sm:mt-5 font-montserrat text-base sm:text-lg text-[#170103]">
-            {mentor?.about}
-          </p>
+          {isEditAbout ? (
+            <div>
+              <textarea
+                value={newAbout}
+                onChange={(e) => setNewAbout(e.target.value)}
+                className="w-full my-4"
+              />
+              <TickIcon
+                className="inline ml-2 cursor-pointer"
+                size={16}
+                color="green"
+                onClick={() => updateAbout(mentor.mentor_id)}
+              />
+              <CancelIcon
+                className="inline ml-2 cursor-pointer"
+                color="red"
+                onClick={() => setIsEditAbout(false)}
+              />
+            </div>
+          ) : (
+            <div>
+              <p className="mt-4 sm:mt-5 font-montserrat text-base sm:text-lg text-[#170103]">
+                {mentor?.about}
+              </p>
+              {currentUser && (
+                <EditPencilIcon
+                  className="inline ml-2 cursor-pointer absolute top-10 right-8"
+                  size={16}
+                  color="gray"
+                  onClick={() => {
+                    setNewAbout(mentor.about);
+                    setIsEditAbout(true);
+                  }}
+                />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
