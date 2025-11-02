@@ -23,14 +23,7 @@ export function LoginPage() {
   const [message, setMessage] = useState<string>("");
 
   const sendLoginLinkToEmail = async (email: string ) => {
-     try {
-           const loginLinkResponse = await axios.post(
-              `${import.meta.env.VITE_DEVAPI}users/request-login-link`, { email } );
-
-            console.log("loginLinkResponse", loginLinkResponse);
-        } catch (err) {
-          console.log('error',err)
-        }
+   await axios.post(`${import.meta.env.VITE_DEVAPI}users/request-login-link`, { email } );
   }
 
   useEffect(() => {
