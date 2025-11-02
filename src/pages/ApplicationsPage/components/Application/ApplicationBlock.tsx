@@ -7,7 +7,6 @@ import axios from "axios";
 import { auth } from "../../../../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
-  sendSignInLinkToEmail,
 } from "firebase/auth";
 import { Link } from "react-router-dom";
 
@@ -129,18 +128,6 @@ export const ApplicationBlock = ({
             // Signed up
             const user = userCredential.user;
             console.log("User created: ", user);
-
-            const actionCodeSettings = {
-              url: "https://dev.catbytes.io/",
-              handleCodeInApp: true,
-            };
-            sendSignInLinkToEmail(auth, response.data.email, actionCodeSettings)
-              .then(() => {
-                console.log("Email sent");
-              })
-              .catch((error) => {
-                console.log("Error sending email: ", error);
-              });
           })
           .catch((error) => {
             const errorCode = error.code;
