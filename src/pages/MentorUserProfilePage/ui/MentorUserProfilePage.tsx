@@ -51,7 +51,7 @@ export default function MentorUserProfilePage() {
   if (!mentor) {
     return <div className="flex flex-col sm:flex-row items-center justify-center h-screen text-2xl  sm:text-xl md:text-2xl font-montserrat font-medium gap-2 text-center px-4">
       <p className="mb-2 sm:mb-0">Please login to view this page.</p>
-     <Link to={'/login'} className="underline hover:text-pink-300 decoration-gray-400">Apply here to login</Link>
+     <Link to={'/login'} className="underline hover:text-pink-600 decoration-gray-400">Apply here to login</Link>
      </div>;
 
   }
