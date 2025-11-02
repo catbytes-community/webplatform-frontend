@@ -42,15 +42,21 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-pink-500 pt-5 pb-8 flex flex-col md:flex-row justify-between items-center text-sm text-pink-900">
-          <p className="hover:underline">©2025. All rights reserved</p>
-          <div>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-5 items-center sm:items-end">
             <Link
               to="/privacy_policy"
               className="hover:underline cursor-pointer"
             >
               Privacy policy
             </Link>
+            <Link
+              to="/terms_and_conditions"
+              className="hover:underline cursor-pointer"
+            >
+              Terms and Conditions
+            </Link>
           </div>
+          <p className="mt-5">©2025. All rights reserved</p>
         </div>
       </div>
     </div>
