@@ -102,9 +102,11 @@ export function LoginPage() {
       setIsLinkSent(true);
       setMessage("Sign-in link sent. Please check your email.");
       setError("");
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error sending sign-in link:", error);
-      setError("Failed to send sign-in link. Please try again.");
+
+      const errorMsg = axios.isAxiosError(error) && error?.response?.data?.error || "Please try again."
+      setError(`Failed to send sign-in link. ${errorMsg}`);
     }
   };
 
