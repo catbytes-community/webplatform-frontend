@@ -275,7 +275,11 @@ export default function UserProfilePage() {
             <div className="flex items-center">
               <input
                 value={newLanguages.join(", ")}
-                onChange={(e) => setNewLanguages(e.target.value.split(","))}
+                onChange={(e) =>
+                  setNewLanguages(
+                    e.target.value.split(",").map((lang) => lang.trim())
+                  )
+                }
               />
               <TickIcon
                 className="inline ml-2 cursor-pointer"
