@@ -151,9 +151,10 @@ export const ApplicationBlock = ({
             console.log('User created: ', user);
 
             const actionCodeSettings = {
-              url: 'https://dev.catbytes.io/',
+              url: import.meta.env.VITE_ENV === "localhost" ? "http://localhost:5173/login" : import.meta.env.VITE_ENV === "dev" ? "https://dev.catbytes.io/login" : "https://catbytes.io/login",
               handleCodeInApp: true,
             };
+            console.log("actionCodeSettings", actionCodeSettings);
             sendSignInLinkToEmail(auth, response.data.email, actionCodeSettings)
               .then(() => {
                 console.log('Email sent');

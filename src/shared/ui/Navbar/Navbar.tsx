@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { auth } from "../../../firebaseConfig";
 import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
-import pinkLogo from "../../assets/images/pinkLogo.png";
+import darkLogo from "../../assets/images/dark-logo.png";
 import axios from "axios";
 
 export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
@@ -73,7 +73,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
       <div className="flex items-center gap-10 w-full justify-between">
         <div className="flex items-center gap-10">
           <Link to="/">
-            <img src={pinkLogo} className="w-24" />
+            <img src={darkLogo} className="w-24" />
           </Link>
 
           <nav

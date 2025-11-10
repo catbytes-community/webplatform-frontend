@@ -145,9 +145,13 @@ export const CreateApplicationPage: React.FC = () => {
       return;
     }
 
-    let videoS3Key = '';
-    let finalVideoLink = link.trim() || '';
-    let finalVideoFilename = '';
+    const data = {
+      name,
+      about,
+      email,
+      video_link: link,
+      discord_nickname: discord,
+    };
 
     try {
       setSuccessMessage(null);

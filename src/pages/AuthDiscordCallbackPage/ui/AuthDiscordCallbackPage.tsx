@@ -9,15 +9,26 @@ export const AuthDiscordCallbackPage = () => {
 
   const authWithCode = async (code: string) => {
     try {
-      const response = await axios.post(
+      const loginResponse = await axios.post(
         `${import.meta.env.VITE_DEVAPI}users/login`,
         {},
         { headers: { "X-Discord-Code": code }, withCredentials: true }
       );
 
-      const user = response.data;
+      const userId = loginResponse?.data?.user?.id;
+      if (!userId) throw new Error("User ID not found in login response");
 
-      localStorage.setItem("user", JSON.stringify(user.user));
+      const usersResponse = await axios.get(
+        `${import.meta.env.VITE_DEVAPI}users/${userId}`,
+        {
+        withCredentials: true,
+        }
+      );
+
+      const user = usersResponse.data;
+      if (!user) throw new Error("User data missing");
+
+      localStorage.setItem("user", JSON.stringify(user));
       navigate("/");
     } catch (error) {
       console.error("Get user error", error);

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import {
-  sendSignInLinkToEmail,
   isSignInWithEmailLink,
   signInWithEmailLink,
 } from "firebase/auth";
@@ -22,6 +21,10 @@ export function LoginPage() {
   const [error, setError] = useState<string>("");
   const [isLinkSent, setIsLinkSent] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
+
+  const sendLoginLinkToEmail = async (email: string ) => {
+   await axios.post(`${import.meta.env.VITE_DEVAPI}users/request-login-link`, { email } );
+  }
 
   useEffect(() => {
     // Check if the user clicked the email link to sign in
@@ -94,25 +97,16 @@ export function LoginPage() {
     }
 
     try {
-      const actionCodeSettings = {
-        // url: "http://localhost:5173/login",
-        url:
-          import.meta.env.VITE_ENV === "localhost"
-            ? "http://localhost:5173/login"
-            : import.meta.env.VITE_ENV === "dev"
-            ? "https://dev.catbytes.io/login"
-            : "https://catbytes.io/login",
-        handleCodeInApp: true,
-      };
-
-      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      await sendLoginLinkToEmail(email);
       window.localStorage.setItem("emailForSignIn", email);
       setIsLinkSent(true);
       setMessage("Sign-in link sent. Please check your email.");
       setError("");
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error sending sign-in link:", error);
-      setError("Failed to send sign-in link. Please try again.");
+
+      const errorMsg = axios.isAxiosError(error) && error?.response?.data?.error || "Please try again."
+      setError(`Failed to send sign-in link. ${errorMsg}`);
     }
   };
 
