@@ -52,23 +52,28 @@ export default function UserProfilePage() {
         setUser(response.data);
       } catch (err) {
         console.error("Get user error", err);
-        signOut(auth)
-          .then(() => {
-            axios.post(
-              `${import.meta.env.VITE_DEVAPI}users/logout`,
-              {},
-              {
-                withCredentials: true,
-              }
-            );
-            localStorage.removeItem("user"); // Clear the user data from local storage
-            navigate("/"); // Redirect to the home page
-          })
-          .catch((error) => {
-            console.error(error);
-          });
 
-        window.location.href = "/login";
+        if (currentUserId === id) {
+          signOut(auth)
+            .then(() => {
+              axios.post(
+                `${import.meta.env.VITE_DEVAPI}users/logout`,
+                {},
+                {
+                  withCredentials: true,
+                }
+              );
+              localStorage.removeItem("user"); // Clear the user data from local storage
+              navigate("/"); // Redirect to the home page
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else if (!currentUserId) {
+          navigate('/login')
+        } else {
+          navigate('/')
+        }
       }
     };
 
