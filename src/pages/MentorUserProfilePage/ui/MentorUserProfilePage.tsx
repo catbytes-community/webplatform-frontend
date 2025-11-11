@@ -16,6 +16,7 @@ type Mentor = {
   mentor_id: number;
   contact: string;
   languages: string[];
+  tags: string[] | null;
 };
 
 export default function MentorUserProfilePage() {
@@ -49,11 +50,17 @@ export default function MentorUserProfilePage() {
   }, [id]);
 
   if (!mentor) {
-    return <div className="flex flex-col sm:flex-row items-center justify-center h-screen text-2xl  sm:text-xl md:text-2xl font-montserrat font-medium gap-2 text-center px-4">
-      <p className="mb-2 sm:mb-0">Please login to view this page.</p>
-     <Link to={'/login'} className="underline hover:text-pink-600 decoration-gray-400">Apply here to login</Link>
-     </div>;
-
+    return (
+      <div className="flex flex-col sm:flex-row items-center justify-center h-screen text-2xl  sm:text-xl md:text-2xl font-montserrat font-medium gap-2 text-center px-4">
+        <p className="mb-2 sm:mb-0">Please login to view this page.</p>
+        <Link
+          to={"/login"}
+          className="underline hover:text-pink-600 decoration-gray-400"
+        >
+          Apply here to login
+        </Link>
+      </div>
+    );
   }
 
   const updateAbout = async (id: number) => {
@@ -242,6 +249,19 @@ export default function MentorUserProfilePage() {
               )}
             </div>
           )}
+        </div>
+
+        <div
+          className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full lg:w-[32%] h-fit justify-center lg:justify-start`}
+        >
+          {(mentor?.tags ?? []).map((tag, idx) => (
+            <span
+              key={idx}
+              className={`${style.tags} text-sm sm:text-m font-montserrat font-medium text-[#170103]`}
+            >
+              #{tag}
+            </span>
+          ))}
         </div>
       </div>
     </div>
