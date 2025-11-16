@@ -50,7 +50,6 @@ export interface Project {
 }
 
 export interface Application {
-  video_file: string | undefined;
   id: number;
   name: string;
   about: string;

@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, MouseEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 import style from './CreateApplicationPage.module.css';
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   initialName?: string;
 };
 
-function VideoUploader({ onSelect, initialName }: Props): JSX.Element {
+function VideoUploader({ onSelect }: Props): JSX.Element {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -23,7 +23,9 @@ function VideoUploader({ onSelect, initialName }: Props): JSX.Element {
   return (
     <div className="mb-2">
       <input
+        // TODO: Create a proper styles
         className={style.input}
+        // className="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body"
         type="file"
         accept="video/*"
         onChange={handleFileChange}

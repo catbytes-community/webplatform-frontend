@@ -1,10 +1,12 @@
 import style from './CreateApplicationPage.module.css';
 import React, { useState } from 'react';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import Button, { ButtonsEnum } from '../../../shared/ui/Button/Button';
 import Navbar from '../../../shared/ui/Navbar/Navbar';
 import Alert from '../../../shared/ui/Alert/Alert';
 import VideoUploader from './VideoUploader';
+import { validateField } from '../../../shared/lib/validation/validadeField';
 
 type PresignRequest = {
   objectKey: string;
@@ -14,16 +16,9 @@ type PresignRequest = {
 type PresignResponse = { url: string; filename: string };
 
 const OBJECT_TYPE = 'application_video';
-const PRESIGN_URL = 'https://devapi.catbytes.io/presigned-url'; // как в твоём uploader-е
+const PRESIGN_URL = `${import.meta.env.VITE_DEVAPI}presigned-url`;
 
-// простая генерация UUID
-const uuid = () =>
-  crypto?.randomUUID?.() ??
-  'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+const uuid = uuidv4();
 
 export const CreateApplicationPage: React.FC = () => {
   const [name, setName] = useState<string>('');
@@ -33,7 +28,6 @@ export const CreateApplicationPage: React.FC = () => {
   const [discord, setDiscord] = useState<string>('');
   const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false);
 
-  // новое: файл и итоговый ключ после upload
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoKey, setVideoKey] = useState<string>('');
 
@@ -41,37 +35,6 @@ export const CreateApplicationPage: React.FC = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
-  const validateField = (field: string, value: string): string => {
-    switch (field) {
-      case 'name':
-        return /^[A-Za-z\s]+$/.test(value)
-          ? ''
-          : 'Name must contain only letters and spaces.';
-      case 'email':
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-          ? ''
-          : "Please enter a valid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'";
-      case 'about':
-        return value.trim().length >= 10
-          ? ''
-          : 'About must be at least 10 characters long.';
-      case 'link':
-        // ССЫЛКА СТАЛА ОПЦИОНАЛЬНОЙ — валидируем только если не пусто
-        if (!value.trim()) return '';
-        return /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-._~:/?#[\]@!$&'()*+,;=%]*)*$/.test(
-          value.trim()
-        )
-          ? ''
-          : 'Invalid video link. Valid link https://example.com';
-      case 'discord':
-        return /^(?=.{2,32}$)[a-zA-Z0-9._]+$/.test(value)
-          ? ''
-          : 'Discord username must be 2-32 characters long and can only contain letters, numbers, dots, and underscores.';
-      default:
-        return '';
-    }
-  };
 
   const validateForm = (): boolean => {
     const newErrors: { [key: string]: string } = {};
@@ -81,18 +44,14 @@ export const CreateApplicationPage: React.FC = () => {
     newErrors.link = validateField('link', link);
     newErrors.discord = validateField('discord', discord);
 
-    // Mandate either link OR file upload
     if (!link.trim() && !videoFile) {
       newErrors.video = 'Please provide a video link or attach a video file.';
     } else {
-      // Clear any previous error if valid state is reached (either link or file present)
       newErrors.video = '';
     }
 
-    // Filter out fields that are valid before checking if all are empty
     const hasErrors = Object.values(newErrors).some((e) => e !== '');
 
-    // Update errors state and return validity
     setErrors(newErrors);
     return !hasErrors;
   };
@@ -108,9 +67,8 @@ export const CreateApplicationPage: React.FC = () => {
     if (!videoFile) return '';
 
     try {
-      // 1) presign
       const body: PresignRequest = {
-        objectKey: uuid(),
+        objectKey: uuid,
         contentType: videoFile.type || 'application/octet-stream',
         objectType: OBJECT_TYPE,
       };
@@ -118,17 +76,16 @@ export const CreateApplicationPage: React.FC = () => {
       const { url, filename } = data;
       if (!url || !filename) throw new Error('Invalid presign response');
 
-      // 2) put в S3
       await axios.put(decodeURIComponent(url), videoFile, {
         headers: {
           'Content-Type': videoFile.type || 'application/octet-stream',
         },
       });
 
-      return filename; // Return the S3 key
+      return filename;
     } catch (e) {
       console.error('Video upload failed during presign or PUT:', e);
-      // Re-throw or throw a more specific error to be caught in handleSubmit
+
       throw new Error('Failed to upload video file.');
     }
   };
@@ -137,7 +94,6 @@ export const CreateApplicationPage: React.FC = () => {
     e.preventDefault();
     setError(null);
 
-    // 1. Run validation
     if (!validateForm()) return;
 
     if (!agreeToTerms) {
@@ -153,27 +109,22 @@ export const CreateApplicationPage: React.FC = () => {
       discord_nickname: discord,
     };
 
+    let videoS3Key = '';
+    let finalVideoLink = link.trim() || '';
+    let finalVideoFilename = '';
+
     try {
       setSuccessMessage(null);
 
-      // 2. Upload file if present
-      // videoS3Key will be the S3 key OR ''
       videoS3Key = await uploadFileIfNeeded();
 
-      // 3. Determine final payload values
       if (videoS3Key) {
-        // Case 1: File was uploaded successfully.
-        // Send S3 key as filename, and clear any link the user might have provided.
         finalVideoFilename = videoS3Key;
-        finalVideoLink = ''; // Prioritize file upload, clear link
+        finalVideoLink = '';
       } else if (link.trim()) {
-        // Case 2: Only Link was provided (and passed validation).
-        // Send the link, and an empty string for the filename.
         finalVideoFilename = '';
         finalVideoLink = link.trim();
       }
-
-      // The validation (validateForm) ensures that finalVideoFilename and finalVideoLink are NOT both empty.
 
       const payload = {
         name,
@@ -190,7 +141,7 @@ export const CreateApplicationPage: React.FC = () => {
 
       setShowAlert(true);
 
-      // очистка
+      // clear form
       setName('');
       setEmail('');
       setAbout('');
@@ -198,17 +149,15 @@ export const CreateApplicationPage: React.FC = () => {
       setDiscord('');
       setAgreeToTerms(false);
       setVideoFile(null);
-      setVideoKey(''); // Resetting key is fine
+      setVideoKey('');
       setErrors({});
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        // This catches the 500 from the final API call OR an Axios error from presign/PUT if not specifically caught
         setError(
           err.response?.data?.error ||
             'An error occurred while submitting the form. (Check console for details)'
         );
       } else if (err instanceof Error) {
-        // Catches 'Failed to upload video file.' or 'Invalid presign response'
         setError(err.message);
       } else {
         setError('An unexpected error occurred.');
@@ -224,7 +173,7 @@ export const CreateApplicationPage: React.FC = () => {
         <Alert
           setShowAlert={setShowAlert}
           title="Application submitted!"
-          subtitle="Thank you for your application. One of our mentors will review it shortly and you will receive a relevant email 😽"
+          subtitle="Thank you for your application. One of our team will review it shortly and you will receive a relevant email 😽"
         />
       )}
       <p className="font-bold font-montserrat w-80 m-auto my-10 text-center">
@@ -286,11 +235,11 @@ export const CreateApplicationPage: React.FC = () => {
           <VideoUploader
             onSelect={(f) => {
               setVideoFile(f);
-              // Clear 'video' error immediately if a file is selected OR if the link has content
+
               if (f || link.trim()) {
                 setErrors((prev) => ({ ...prev, video: '' }));
               }
-              // Re-run validation on form state change to catch link/file conflict
+
               validateForm();
             }}
           />
@@ -304,11 +253,11 @@ export const CreateApplicationPage: React.FC = () => {
               value={link}
               onChange={(e) => {
                 setLink(e.target.value);
-                // Clear 'video' error immediately if the link has content OR if a file is present
+
                 if (e.target.value.trim() || videoFile) {
                   setErrors((prev) => ({ ...prev, video: '' }));
                 }
-                // Re-run validation on form state change to catch link/file conflict
+
                 validateForm();
               }}
               onBlur={(e) => handleBlur('link', e.target.value)}

@@ -41,10 +41,8 @@ export const ApplicationBlock = ({
         { withCredentials: true }
       );
       if (data?.video_file) setVideoUrl(data.video_file);
-      else alert('Video link is not available for this application yet.');
     } catch (e) {
       console.error('Error fetching video_file', e);
-      alert('Failed to get video link');
     }
   };
 
