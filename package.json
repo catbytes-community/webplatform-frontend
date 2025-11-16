@@ -30,11 +30,7 @@
     "react-select": "^5.10.1",
     "redux-persist": "^6.0.0",
     "text-to-bullets": "^1.0.5",
-<<<<<<< HEAD
-    "three": "^0.169.0"
-=======
     "uuid": "^13.0.0"
->>>>>>> df9d3de (add chsnges from pr an bug resolved changes)
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
