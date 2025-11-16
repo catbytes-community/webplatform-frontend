@@ -26,7 +26,10 @@ export default function MentorUserProfilePage() {
   const isToggled = mentor?.status === "active";
   const [isEditContact, setIsEditContact] = useState<boolean>(false);
   const [newContact, setNewContact] = useState<string>("");
-  const currentUser = id === mentor?.user_id.toString();
+  const currentUserMentorId = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user") as string).mentor_id
+    : undefined;
+  const isCurrentUser = mentor?.mentor_id === currentUserMentorId;
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -126,7 +129,7 @@ export default function MentorUserProfilePage() {
                   <p className="text-sm sm:text-base font-montserrat">
                     {mentor?.status === "active" ? "🟢 Active " : "⚪ Inactive"}
                   </p>
-                  {currentUser && (
+                  {isCurrentUser && (
                     <button
                       className={`${style.toggleBtn} ${
                         isToggled ? style.isToggled : ""
@@ -174,7 +177,7 @@ export default function MentorUserProfilePage() {
               ) : (
                 <span>
                   {mentor?.contact}
-                  {currentUser && (
+                  {isCurrentUser && (
                     <EditPencilIcon
                       className="inline ml-2 cursor-pointer"
                       size={16}
@@ -235,7 +238,7 @@ export default function MentorUserProfilePage() {
               <p className="mt-4 sm:mt-5 font-montserrat text-base sm:text-lg text-[#170103]">
                 {mentor?.about}
               </p>
-              {currentUser && (
+              {isCurrentUser && (
                 <EditPencilIcon
                   className="inline ml-2 cursor-pointer absolute top-10 right-8"
                   size={16}
