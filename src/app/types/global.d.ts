@@ -1,4 +1,4 @@
-export type Direction = "frontend" | "design" | "test" | "backend" | "QA";
+export type Direction = 'frontend' | 'design' | 'test' | 'backend' | 'QA';
 type mentorLinks = {
   telegram?: string;
   discord: string;
@@ -25,7 +25,7 @@ export type ProjectRole = {
   level: string;
   title: string;
   description: string;
-  status: "Open" | "Closed" | "Applied";
+  status: 'Open' | 'Closed' | 'Applied';
 };
 
 export type Documentation = {
@@ -60,6 +60,8 @@ export interface Application {
   status: string;
   comment: string;
   modified_by: string;
+  video_filename?: string | null;
+  video_file?: string | null;
 }
 
 export interface MentorApplication {
