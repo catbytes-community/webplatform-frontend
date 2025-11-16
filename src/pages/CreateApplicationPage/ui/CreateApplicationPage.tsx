@@ -27,10 +27,7 @@ export const CreateApplicationPage: React.FC = () => {
   const [link, setLink] = useState<string>('');
   const [discord, setDiscord] = useState<string>('');
   const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false);
-
   const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [videoKey, setVideoKey] = useState<string>('');
-
   const [error, setError] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showAlert, setShowAlert] = useState<boolean>(false);
@@ -101,14 +98,6 @@ export const CreateApplicationPage: React.FC = () => {
       return;
     }
 
-    const data = {
-      name,
-      about,
-      email,
-      video_link: link,
-      discord_nickname: discord,
-    };
-
     let videoS3Key = '';
     let finalVideoLink = link.trim() || '';
     let finalVideoFilename = '';
@@ -149,7 +138,6 @@ export const CreateApplicationPage: React.FC = () => {
       setDiscord('');
       setAgreeToTerms(false);
       setVideoFile(null);
-      setVideoKey('');
       setErrors({});
     } catch (err) {
       if (axios.isAxiosError(err)) {
