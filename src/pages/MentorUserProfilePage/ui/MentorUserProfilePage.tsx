@@ -15,6 +15,7 @@ type Mentor = {
   status: string;
   mentor_id: number;
   contact: string;
+  tags: string[] | null;
   languages: string[] | null;
 };
 
@@ -251,6 +252,19 @@ export default function MentorUserProfilePage() {
               )}
             </div>
           )}
+        </div>
+
+        <div
+          className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full lg:w-[32%] h-fit justify-center lg:justify-start`}
+        >
+          {(mentor?.tags ?? []).map((tag, idx) => (
+            <span
+              key={idx}
+              className={`${style.tags} text-sm sm:text-m font-montserrat font-medium text-[#170103]`}
+            >
+              #{tag}
+            </span>
+          ))}
         </div>
       </div>
     </div>
