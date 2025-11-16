@@ -15,7 +15,7 @@ type Mentor = {
   status: string;
   mentor_id: number;
   contact: string;
-  languages: string[];
+  languages: string[] | null;
 };
 
 export default function MentorUserProfilePage() {
@@ -49,11 +49,17 @@ export default function MentorUserProfilePage() {
   }, [id]);
 
   if (!mentor) {
-    return <div className="flex flex-col sm:flex-row items-center justify-center h-screen text-2xl  sm:text-xl md:text-2xl font-montserrat font-medium gap-2 text-center px-4">
-      <p className="mb-2 sm:mb-0">Please login to view this page.</p>
-     <Link to={'/login'} className="underline hover:text-pink-600 decoration-gray-400">Apply here to login</Link>
-     </div>;
-
+    return (
+      <div className="flex flex-col sm:flex-row items-center justify-center h-screen text-2xl  sm:text-xl md:text-2xl font-montserrat font-medium gap-2 text-center px-4">
+        <p className="mb-2 sm:mb-0">Please login to view this page.</p>
+        <Link
+          to={"/login"}
+          className="underline hover:text-pink-600 decoration-gray-400"
+        >
+          Apply here to login
+        </Link>
+      </div>
+    );
   }
 
   const updateAbout = async (id: number) => {
@@ -196,7 +202,7 @@ export default function MentorUserProfilePage() {
               <span className="text-xs sm:text-sm w-[82px] text-[#4B5563]">
                 Languages:
               </span>
-              {mentor?.languages.join(", ")}
+              {(mentor?.languages ?? []).join(", ")}
             </p>
           </div>
         </div>
