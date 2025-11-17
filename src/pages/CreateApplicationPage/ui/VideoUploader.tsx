@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 import style from './CreateApplicationPage.module.css';
 
 type Props = {
@@ -7,15 +7,15 @@ type Props = {
 };
 
 function VideoUploader({ onSelect }: Props): JSX.Element {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  // const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      setSelectedFile(file);
+      // setSelectedFile(file);
       onSelect(file);
     } else {
-      setSelectedFile(null);
+      // setSelectedFile(null);
       onSelect(null);
     }
   };

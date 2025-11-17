@@ -25,11 +25,6 @@ type ApiUser = {
   is_mentor_active: boolean;
 };
 
-type StoredUser = {
-  id?: number | string;
-  name?: string;
-};
-
 export const HomeSection = () => {
   const navigate = useNavigate();
 
