@@ -72,7 +72,7 @@ export default function UserProfilePage() {
         } else if (!currentUserId) {
           navigate("/login");
         } else {
-          navigate("/");
+          navigate('/not_found')
         }
       }
     };
