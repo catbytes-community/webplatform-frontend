@@ -19,7 +19,7 @@ type User = {
   roles: { role_id: number; role_name: string }[];
   mentor_id?: string;
   created_at: string;
-  languages: string[];
+  languages: string[] | null;
   about: string;
 };
 
@@ -36,7 +36,7 @@ export default function UserProfilePage() {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [newName, setNewName] = useState<string>("");
   const [isEditLanguages, setIsEditLanguages] = useState<boolean>(false);
-  const [newLanguages, setNewLanguages] = useState<string[]>([]);
+  const [newLanguages, setNewLanguages] = useState<string>("");
   const [isEditAbout, setIsEditAbout] = useState<boolean>(false);
   const [newAbout, setNewAbout] = useState<string>("");
 
@@ -70,7 +70,7 @@ export default function UserProfilePage() {
               console.error(error);
             });
         } else if (!currentUserId) {
-          navigate('/login')
+          navigate("/login");
         } else {
           navigate('/not_found')
         }
@@ -147,19 +147,26 @@ export default function UserProfilePage() {
     }
   };
 
-  const updateLanguages = async (id: string) => {
+  const parseLanguages = (langs: string): string[] => {
+    return langs
+      .split(/[, ]/)
+      .map((lang) => lang.trim())
+      .filter((lang) => lang.length > 0);
+  };
+
+  const updateLanguages = async (id: string, parsedNewLanguages: string[]) => {
     try {
       await axios.put(
         `${import.meta.env.VITE_DEVAPI}users/${id}`,
-        { languages: newLanguages },
+        { languages: parsedNewLanguages },
         { withCredentials: true }
       );
       setIsEditLanguages(false);
       localStorage.setItem(
         "user",
-        JSON.stringify({ ...user, languages: newLanguages })
+        JSON.stringify({ ...user, languages: parsedNewLanguages })
       );
-      setUser({ ...user, languages: newLanguages });
+      setUser({ ...user, languages: parsedNewLanguages });
     } catch (err) {
       console.error("Error updating user languages: ", err);
       setError("Error updating languages. Please try again later");
@@ -279,18 +286,16 @@ export default function UserProfilePage() {
           {isEditLanguages ? (
             <div className="flex items-center">
               <input
-                value={newLanguages.join(", ")}
-                onChange={(e) =>
-                  setNewLanguages(
-                    e.target.value.split(",").map((lang) => lang.trim())
-                  )
-                }
+                value={newLanguages}
+                onChange={(e) => setNewLanguages(e.target.value)}
               />
               <TickIcon
                 className="inline ml-2 cursor-pointer"
                 size={16}
                 color="green"
-                onClick={() => updateLanguages(user.id)}
+                onClick={() =>
+                  updateLanguages(user.id, parseLanguages(newLanguages))
+                }
               />
               <CancelIcon
                 className="inline ml-2 cursor-pointer"
@@ -300,14 +305,18 @@ export default function UserProfilePage() {
             </div>
           ) : (
             <div className="flex items-center">
-              <p>{user.languages?.join(", ")}</p>
+              <p>{user.languages?.map((lang) => lang.trim()).join(", ")}</p>
               {currentUserId === user.id && (
                 <EditPencilIcon
                   className="inline ml-2 cursor-pointer"
                   size={16}
                   color="gray"
                   onClick={() => {
-                    setNewLanguages(user.languages || []);
+                    setNewLanguages(
+                      (user?.languages ?? [])
+                        .map((lang) => lang.trim())
+                        .join(", ")
+                    );
                     setIsEditLanguages(true);
                   }}
                 />
