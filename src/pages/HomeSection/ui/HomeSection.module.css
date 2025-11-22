@@ -1,3 +1,12 @@
+.container {
+  position: relative;
+  max-width: 1300px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
 .wrapper {
   display: flex;
   justify-content: center;
@@ -113,12 +122,12 @@
 }
 
 .catLogged {
-  bottom: 202px;
+  bottom: 214px;
 }
 
 @media (min-width: 1024px) {
   .catLogged {
-    bottom: 202px;
+    bottom: 196px;
   }
 }
 
