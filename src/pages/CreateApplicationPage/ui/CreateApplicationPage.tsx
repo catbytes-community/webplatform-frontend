@@ -227,8 +227,6 @@ export const CreateApplicationPage: React.FC = () => {
               if (f || link.trim()) {
                 setErrors((prev) => ({ ...prev, video: '' }));
               }
-
-              validateForm();
             }}
           />
           {errors.video && <p className={style.error}>{errors.video}</p>}
@@ -245,8 +243,6 @@ export const CreateApplicationPage: React.FC = () => {
                 if (e.target.value.trim() || videoFile) {
                   setErrors((prev) => ({ ...prev, video: '' }));
                 }
-
-                validateForm();
               }}
               onBlur={(e) => handleBlur('link', e.target.value)}
             />

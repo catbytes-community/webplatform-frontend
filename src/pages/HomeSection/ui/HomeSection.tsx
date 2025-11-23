@@ -87,12 +87,13 @@ export const HomeSection = () => {
           return res.json();
         })
         .then((data: ApiUser) => {
-          console.log('[HOME] User fetched from API:', data);
+          console.log('[HOMESECTION] User fetched from API:', data);
           //array check
           if (!Array.isArray(data.roles)) {
-            console.error('[HOME] Invalid roles:', data.roles);
+            console.error('[HOMESECTION] Invalid roles:', data.roles);
             return;
           }
+          console.log('[HOMESECTION] Roles:', data.roles);
           const highestRole = getHighestRole(data.roles);
           setUserRole(highestRole);
           if (data.name && !userName) {
