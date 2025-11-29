@@ -101,8 +101,6 @@ export const CreateApplicationMentorPage: React.FC = () => {
       tags: selectedTags.map((t) => t.value),
     };
 
-    console.log("Data to be sent to create mentor application:", data);
-
     try {
       setError(null);
       setSuccessMessage(null);

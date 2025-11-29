@@ -42,7 +42,7 @@ export default function MentorUserProfilePage() {
             withCredentials: true,
           }
         );
-        console.log(response.data);
+
         setMentor(response.data);
       } catch (err) {
         console.error("Get mentor error: ", err);

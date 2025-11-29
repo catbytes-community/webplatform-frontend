@@ -11,7 +11,7 @@ export const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
   useEffect(() => {
     if (localStorage.getItem("user")) {
       const user = JSON.parse(localStorage.getItem("user") as string);
-      console.log("user", user);
+
       type Role = {
         role_id: number;
         role_name: string;
