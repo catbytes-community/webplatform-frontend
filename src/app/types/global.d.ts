@@ -5,11 +5,22 @@ type mentorLinks = {
   email?: string;
 };
 
+export interface Role {
+  role_id: number;
+  role_name: string;
+}
 export interface User {
   id: number;
+  mentor_id: number;
+  is_mentor_active: boolean;
   name: string;
-  lastName: string;
-  photo: string;
+  about: string;
+  email: string;
+  discord_nickname: string;
+  languages: string[];
+  img: string | null;
+  roles: Role[];
+  created_at: string;
 }
 export interface Mentor extends User {
   mentor_id: number;
