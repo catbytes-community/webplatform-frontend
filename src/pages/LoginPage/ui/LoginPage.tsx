@@ -53,15 +53,14 @@ export function LoginPage() {
               {},
               { headers: { "X-Firebase-Token": token }, withCredentials: true }
             );
-            console.log("loginRes", loginRes);
 
             const userDataRes = await axios.get(
               `${import.meta.env.VITE_DEVAPI}users/${loginRes?.data?.user?.id}`,
               { withCredentials: true }
             );
-            console.log("userDataRes", userDataRes);
 
             localStorage.setItem("user", JSON.stringify(userDataRes.data));
+            localStorage.setItem("userId", userDataRes.data.id);
             window.localStorage.removeItem("emailForSignIn");
 
             navigate("/");

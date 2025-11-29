@@ -9,15 +9,18 @@ import home_study_buddy from '../../../shared/assets/images/home-study-buddy.png
 import landing_projects_logged from '../../../shared/assets/images/landing-projects-logged.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import CatSvg from './CatSvg.tsx';
+import { useUser } from '../../../shared/lib/customHooks/useUser.ts';
 
 export const HomeSection = () => {
   const navigate = useNavigate();
+  const userId = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
+  const { user } = useUser(userId);
+  
   function handleClickJoinUs() {
-    console.log('here');
     navigate('/create_application');
   }
 
-  const isLogged = true;
+  const isLogged = user ? true : false;
 
   return (
     <div className={style.wrapper}>
