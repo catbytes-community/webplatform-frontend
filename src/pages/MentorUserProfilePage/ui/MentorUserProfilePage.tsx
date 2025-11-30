@@ -6,6 +6,7 @@ import axios from "axios";
 import EditPencilIcon from "../../../shared/ui/icons/EditPencilIcon";
 import TickIcon from "../../../shared/ui/icons/TickIcon";
 import CancelIcon from "../../../shared/ui/icons/CancelIcon";
+import { useUser } from "../../../shared/lib/customHooks/useUser";
 
 type Mentor = {
   name: string;
@@ -27,8 +28,11 @@ export default function MentorUserProfilePage() {
   const isToggled = mentor?.status === "active";
   const [isEditContact, setIsEditContact] = useState<boolean>(false);
   const [newContact, setNewContact] = useState<string>("");
-  const currentUserMentorId = localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user") as string).mentor_id
+  const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
+  const { user } = useUser(userIdFromLocalStorage);
+
+  const currentUserMentorId = user
+    ? user.mentor_id
     : undefined;
   const isCurrentUser = mentor?.mentor_id === currentUserMentorId;
   const [error, setError] = useState<string | null>(null);

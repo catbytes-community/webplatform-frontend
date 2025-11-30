@@ -2,10 +2,13 @@ import { Card } from "../../../shared/ui";
 import s from "./MentorsList.module.css";
 import { MentorsProps } from "../../../pages/MentorsPage/ui/MentorsPage";
 import { Link } from "react-router-dom";
+import { useUser } from "../../../shared/lib/customHooks/useUser";
 
 export const MentorsList = ({ mentors }: MentorsProps) => {
-  const currentUser = localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user") as string)
+  const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
+  const { user } = useUser(userIdFromLocalStorage);
+  const currentUser = user
+    ? user
     : undefined;
 
   return (
@@ -20,7 +23,7 @@ export const MentorsList = ({ mentors }: MentorsProps) => {
             />
             <div>
               <p className="mb-3.5">
-                {mentor?.name} {mentor?.lastName}
+                {mentor?.name}
               </p>
               <p className="text-xs mb-2">{mentor?.description}</p>
               <p className="text-xs mb-2">{mentor?.about}</p>

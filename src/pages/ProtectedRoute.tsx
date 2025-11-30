@@ -1,28 +1,15 @@
 import { NotFoundPage } from "../pages/NotFoundPage";
-import { useState, useEffect } from "react";
+import { useUser } from "../shared/lib/customHooks/useUser";
 
 interface ProtectedRouteProps {
   element: JSX.Element;
 }
 
 export const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
-  const [isAuthorised, setIsAuthorised] = useState(false);
+  const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
+  const { user } = useUser(userIdFromLocalStorage);
 
-  useEffect(() => {
-    if (localStorage.getItem("user")) {
-      const user = JSON.parse(localStorage.getItem("user") as string);
-
-      type Role = {
-        role_id: number;
-        role_name: string;
-      };
-      if (user.roles.some((r: Role) => r.role_name === "mentor")) {
-        setIsAuthorised(true);
-      }
-    }
-  }, []);
-
-  if (!isAuthorised) {
+  if (!user) {
     return <NotFoundPage />;
   }
 
