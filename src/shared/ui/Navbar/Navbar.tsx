@@ -6,23 +6,22 @@ import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import darkLogo from "../../assets/images/dark-logo.png";
 import axios from "axios";
+import { useUser } from "../../lib/customHooks/useUser";
 
 export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const [isAuth, setIsAuth] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
+  const { user } = useUser(userIdFromLocalStorage);
   const location = useLocation();
   const [isMentor, setIsMentor] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState<number>();
 
   const isCreateApplication = location.pathname === "/create_application";
   const isLogInPage = location.pathname === "/login";
 
   useEffect(() => {
-    const user = localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user") as string)
-      : null;
-
     if (user) {
       setIsMentor(
         user?.roles?.filter(
@@ -33,7 +32,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
       setUserId(user.id);
       setIsAuth(true);
     }
-  }, []);
+  }, [user]);
 
   function handleClickJoinUs() {
     navigate("/create_application");

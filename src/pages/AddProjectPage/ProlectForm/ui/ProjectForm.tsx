@@ -22,7 +22,6 @@ export const ProjectForm = (props: ProjectFormProps) => {
 
   const getTodayDate = () => {
     const today = new Date();
-    console.log(today.toISOString())
     return today.toISOString().split("T")[0];
   };
 

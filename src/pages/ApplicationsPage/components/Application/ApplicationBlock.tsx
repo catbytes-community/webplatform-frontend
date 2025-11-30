@@ -126,7 +126,6 @@ export const ApplicationBlock = ({
         ? JSON.parse(localStorage.getItem('user') as string)
         : null;
 
-      console.log('Approve application user: ', application.id, user.id);
       try {
         const response = await axios.put(
           `${import.meta.env.VITE_DEVAPI}applications/${application.id}`,
@@ -139,20 +138,16 @@ export const ApplicationBlock = ({
           }
         );
 
-        console.log('Approve application response: ', response);
         const tempPassword = generatePassword();
         createUserWithEmailAndPassword(auth, response.data.email, tempPassword)
           // TODO: implement flow in case there will be firebase error when creating user
-          .then((userCredential) => {
+          .then((_userCredential) => {
             // Signed up
-            const user = userCredential.user;
-            console.log('User created: ', user);
-
             const actionCodeSettings = {
               url: import.meta.env.VITE_ENV === "localhost" ? "http://localhost:5173/login" : import.meta.env.VITE_ENV === "dev" ? "https://dev.catbytes.io/login" : "https://catbytes.io/login",
               handleCodeInApp: true,
             };
-            console.log("actionCodeSettings", actionCodeSettings);
+
             sendSignInLinkToEmail(auth, response.data.email, actionCodeSettings)
               .then(() => {
                 console.log('Email sent');

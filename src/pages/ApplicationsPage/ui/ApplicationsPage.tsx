@@ -26,7 +26,6 @@ export const ApplicationsPage = () => {
           withCredentials: true,
         })
         .then((res) => {
-          console.log('Applications data:', res.data);
           if (filter === 'All') {
             setApplications(res.data.applications || []);
           } else if (filter === 'Pending review') {

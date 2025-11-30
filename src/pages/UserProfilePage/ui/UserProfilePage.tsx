@@ -98,7 +98,6 @@ export default function UserProfilePage() {
         }
       )
       .then((res) => {
-        console.log("res", res);
         if (res?.data?.invite_link) {
           setDiscordLink(res.data.invite_link);
         }
