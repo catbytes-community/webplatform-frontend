@@ -7,25 +7,12 @@ import landing_mentor_icons from '../../../shared/assets/images/landing-mentor-i
 import announcement from '../../../shared/assets/images/announsment-icon.png';
 import homeGroup from '../../../shared/assets/images/home-group.png';
 import home_study_buddy from '../../../shared/assets/images/home-study-buddy.png';
-
+import CatSvg from './CatSvg.tsx';
 import landing_projects_logged from '../../../shared/assets/images/landing-projects-logged.svg';
+
 import Button from '../../../shared/ui/Button/Button.tsx';
 import ArrowRightIcon from '../../../shared/ui/icons/ArrowRightIcon.tsx';
-import CatSvg from './CatSvg.tsx';
-
-type UserRole = 'admin' | 'member' | 'mentor';
-
-type ApiUser = {
-  id: number;
-  name: string;
-  email: string;
-  about: string;
-  created_at: string;
-  languages: string[] | null;
-  roles: { role_name: UserRole; role_id: number }[];
-  mentor_id: string | null;
-  is_mentor_active: boolean;
-};
+import { ApiUser, UserRole } from '../../../app/types/global';
 
 const ROLE_PRIORITY: Record<UserRole, number> = {
   admin: 0,
@@ -65,52 +52,41 @@ export const HomeSection = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    console.log(
-      'Get user from localstore on HomeSection component',
-      storedUser
-    );
-    if (!storedUser) return;
+
+    if (!storedUser) {
+      setUserRole('guest');
+      setUserName(null);
+      return;
+    }
 
     try {
-      const user = JSON.parse(storedUser);
-      setUserName(user.name);
-      //logik for different roles do not need now
-      // setHasLocalUser(true);
+      const user: Partial<ApiUser> = JSON.parse(storedUser);
 
-      const apiBase = import.meta.env.VITE_DEVAPI;
+      if (user.name) {
+        setUserName(user.name);
+      } else {
+        setUserName(null);
+      }
 
-      const url = `${apiBase}user/${user.id}`;
-
-      fetch(url)
-        .then((res) => {
-          if (!res.ok) throw new Error(`Failed to fetch user: ${res.status}`);
-          return res.json();
-        })
-        .then((data: ApiUser) => {
-          console.log('[HOMESECTION] User fetched from API:', data);
-          //array check
-          if (!Array.isArray(data.roles)) {
-            console.error('[HOMESECTION] Invalid roles:', data.roles);
-            return;
-          }
-          console.log('[HOMESECTION] Roles:', data.roles);
-          const highestRole = getHighestRole(data.roles);
-          setUserRole(highestRole);
-          if (data.name && !userName) {
-            setUserName(data.name);
-          }
-        })
-        .catch((err) => {
-          console.error('Error fetching user from API:', err);
-        });
+      if (Array.isArray(user.roles) && user.roles.length > 0) {
+        const highestRole = getHighestRole(user.roles);
+        setUserRole(highestRole);
+      } else {
+        console.warn(
+          '[HOMESECTION] No valid roles in localStorage, setting guest'
+        );
+        setUserRole('guest');
+      }
     } catch (err) {
       console.error('Error parsing user from localStorage:', err);
+      setUserRole('guest');
+      setUserName(null);
     }
   }, []);
 
-  const isMember = userRole === 'member';
-  const isAdmin = userRole === 'admin';
-  const isMentor = userRole === 'mentor';
+  // const isMember = userRole === 'member';
+  // const isAdmin = userRole === 'admin';
+  // const isMentor = userRole === 'mentor';
 
   //TODO: differend cards if different roles discuss it
   // const isLogged = hasLocalUser ? isAdmin || isMentor || isMember : true;
@@ -118,41 +94,46 @@ export const HomeSection = () => {
 
   const firstName =
     userName?.trim()?.split(' ')?.[0] ||
-    (isAdmin || isMentor || isMember ? 'there' : '');
+    (userRole === 'admin' || userRole === 'mentor' || userRole === 'member'
+      ? 'there'
+      : '');
 
-  const title = isAdmin
-    ? `Welcome, ${firstName}!`
-    : isMentor
-    ? `Welcome mentor, ${firstName}!`
-    : isMember
-    ? `Welcome back, ${firstName}!`
-    : 'Become a part of CatBytes';
+  const title =
+    userRole === 'admin'
+      ? `Welcome, ${firstName}!`
+      : userRole === 'mentor'
+      ? `Welcome mentor, ${firstName}!`
+      : userRole === 'member'
+      ? `Welcome back, ${firstName}!`
+      : 'Become a part of CatBytes';
 
-  const subtitle = isAdmin
-    ? 'You can manage the community and mentor others.'
-    : isMentor
-    ? 'Thank you for supporting other women in tech'
-    : isMember
-    ? 'Happy to see you in our community!'
-    : 'Community for women in tech';
+  const subtitle =
+    userRole === 'admin'
+      ? 'You can manage the community and mentor others.'
+      : userRole === 'mentor'
+      ? 'Thank you for supporting other women in tech'
+      : userRole === 'member'
+      ? 'Happy to see you in our community!'
+      : 'Community for women in tech';
 
-  const description = isAdmin
-    ? 'Soon you will see admin & mentor tools, events and applications here.'
-    : isMentor
-    ? 'Soon you will see events, mentor tools and mentee applications here.'
-    : isMember
-    ? 'Explore projects, study buddies, mentors and more in our community and private Discord server.'
-    : 'We bring women together to support each other in achieving our career goals in the tech industry. Join our private Discord server.';
+  const description =
+    userRole === 'admin'
+      ? 'Soon you will see admin & mentor tools, events and applications here.'
+      : userRole === 'mentor'
+      ? 'Soon you will see events, mentor tools and mentee applications here.'
+      : userRole === 'member'
+      ? 'Explore projects, study buddies, mentors and more in our community and private Discord server.'
+      : 'We bring women together to support each other in achieving our career goals in the tech industry. Join our private Discord server.';
 
   let buttonLabel = 'JOIN US';
   let buttonOnClick: () => void = handleClickJoinUs;
 
-  if (isMember) {
+  if (userRole === 'member') {
     buttonLabel = 'BECOME A MENTOR';
     buttonOnClick = () => navigate('/create_application_mentor');
   }
 
-  if (isMentor || isAdmin) {
+  if (userRole === 'mentor' || userRole === 'admin') {
     buttonLabel = 'EVENTS (SOON)';
     buttonOnClick = () => {
       console.log('Events page will be available soon');
@@ -179,7 +160,7 @@ export const HomeSection = () => {
               label={buttonLabel}
               btnType="primary_big_btn"
               onClick={buttonOnClick}
-              disabled={false}
+              disabled={buttonLabel === 'EVENTS (SOON)' ? true : false}
             />
             <img className={style.paw} src={paw} alt="Paw" />
           </div>

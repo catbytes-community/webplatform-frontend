@@ -1,4 +1,5 @@
 export type Direction = 'frontend' | 'design' | 'test' | 'backend' | 'QA';
+
 type mentorLinks = {
   telegram?: string;
   discord: string;
@@ -11,6 +12,26 @@ export interface User {
   lastName: string;
   photo: string;
 }
+
+export type UserRole = 'admin' | 'member' | 'mentor';
+
+export interface UserRoleRecord {
+  role_name: UserRole;
+  role_id: number;
+}
+
+export interface ApiUser {
+  id: number;
+  name: string;
+  email: string;
+  about: string;
+  created_at: string;
+  languages: string[] | null;
+  roles: UserRoleRecord[];
+  mentor_id: string | null;
+  is_mentor_active: boolean;
+}
+
 export interface Mentor extends User {
   mentor_id: number;
   about: string;
