@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import {
-  sendSignInLinkToEmail,
   isSignInWithEmailLink,
   signInWithEmailLink,
 } from "firebase/auth";
@@ -15,12 +14,17 @@ import style from "./LoginPage.module.css";
 export function LoginPage() {
   // hooks
   const navigate = useNavigate();
+  const location = useLocation();
 
   // component state
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isLinkSent, setIsLinkSent] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
+
+  const sendLoginLinkToEmail = async (email: string ) => {
+   await axios.post(`${import.meta.env.VITE_DEVAPI}users/request-login-link`, { email } );
+  }
 
   useEffect(() => {
     // Check if the user clicked the email link to sign in
@@ -47,15 +51,16 @@ export function LoginPage() {
             const loginRes = await axios.post(
               `${import.meta.env.VITE_DEVAPI}users/login`,
               {},
-              { headers: { token }, withCredentials: true }
+              { headers: { "X-Firebase-Token": token }, withCredentials: true }
             );
 
             const userDataRes = await axios.get(
               `${import.meta.env.VITE_DEVAPI}users/${loginRes?.data?.user?.id}`,
-              { headers: { token }, withCredentials: true }
+              { withCredentials: true }
             );
 
             localStorage.setItem("user", JSON.stringify(userDataRes.data));
+            localStorage.setItem("userId", userDataRes.data.id);
             window.localStorage.removeItem("emailForSignIn");
 
             navigate("/");
@@ -75,6 +80,11 @@ export function LoginPage() {
           });
       }
     }
+
+    const errorMessage = location?.state?.errorMessage;
+    if (errorMessage) {
+      setError(errorMessage);
+    }
   }, [navigate]);
 
   const handleLoginWithEmailLink = async (e: React.FormEvent) => {
@@ -86,25 +96,16 @@ export function LoginPage() {
     }
 
     try {
-      const actionCodeSettings = {
-        // url: "http://localhost:5173/login",
-        url:
-          import.meta.env.VITE_ENV === "localhost"
-            ? "http://localhost:5173/login"
-            : import.meta.env.VITE_ENV === "dev"
-            ? "https://dev.catbytes.io/login"
-            : "https://catbytes.io/login",
-        handleCodeInApp: true,
-      };
-
-      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      await sendLoginLinkToEmail(email);
       window.localStorage.setItem("emailForSignIn", email);
       setIsLinkSent(true);
       setMessage("Sign-in link sent. Please check your email.");
       setError("");
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error sending sign-in link:", error);
-      setError("Failed to send sign-in link. Please try again.");
+
+      const errorMsg = axios.isAxiosError(error) && error?.response?.data?.error || "Please try again."
+      setError(`Failed to send sign-in link. ${errorMsg}`);
     }
   };
 
@@ -128,11 +129,18 @@ export function LoginPage() {
           />
         </div>
         {error && <p className={style.error}>{error}</p>}
-        <div>
+        <div className="flex flex-col gap-5">
           <Button
             label={isLinkSent ? "Resend Link" : "Send Login Link"}
             btnType={ButtonsEnum.PRIMARY}
             onClick={handleLoginWithEmailLink}
+          />
+          <Button
+            label="Login with Discord"
+            btnType={ButtonsEnum.DISCORD_BTN}
+            onClick={() =>
+              window.open(`${import.meta.env.VITE_DEVAPI}auth/discord`)
+            }
           />
         </div>
       </form>

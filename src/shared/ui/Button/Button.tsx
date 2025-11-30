@@ -7,6 +7,7 @@ export enum ButtonsEnum {
   TERTIARY = "tertiary_btn",
   TERTIARY_NO_ARROW = "tertiary_no_arrow_btn",
   PIMARY_BIG = "primary_big_btn",
+  DISCORD_BTN = 'discord_btn',
 }
 
 interface ButtonProps {

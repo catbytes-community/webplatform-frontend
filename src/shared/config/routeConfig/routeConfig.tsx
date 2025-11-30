@@ -2,7 +2,7 @@ import { RouteProps } from "react-router-dom";
 import { NotFoundPage } from "../../../pages/NotFoundPage";
 import { MainPage } from "../../../pages/MainPage";
 // import { AboutPage } from "../../../pages/AboutPage";
-// import { MentorsPage } from "../../../pages/MentorsPage";
+import { MentorsPage } from "../../../pages/MentorsPage";
 // import { AddProjectPage } from "../../../pages/AddProjectPage";
 // import { StudyBuddyPage } from "../../../pages/StudyBuddyPage";
 import { ApplicationsPage } from "../../../pages/ApplicationsPage";
@@ -18,11 +18,13 @@ import PrivacyPolicy from "../../../pages/PrivacyPolicy";
 import { ProtectedRoute } from "../../../pages/ProtectedRoute";
 import TandC from "../../../pages/TandC";
 import { CreateApplicationMentorPage } from "../../../pages/CreateApplicationMentorPage";
+import { MentorUserProfilePage } from "../../../pages/MentorUserProfilePage";
+import { AuthDiscordCallbackPage } from "../../../pages/AuthDiscordCallbackPage";
 
 export enum AppRoutes {
   MAIN = "main",
   // ABOUT = "about",
-  // MENTORS = "mentors",
+  MENTORS = "mentors",
   // ALL_PROJECTS = "projects",
   // PROJECT = "project",
   // ADD_PROJECT = "add_project",
@@ -38,12 +40,14 @@ export enum AppRoutes {
   PRIVACY_POLICY = "privacy_policy",
   TERMS_AND_CONDITIONS = "terms_and_conditions",
   CREATE_APPLICATION_MENTOR = "create_application_mentor",
+  MENTOR_USER_PROFILE = "mentor_user_profile/:id",
+  AUTH_DISCORD_CALLBACK = "auth/discord/callback",
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.MAIN]: "/",
   // [AppRoutes.ABOUT]: "/about",
-  // [AppRoutes.MENTORS]: "/mentors",
+  [AppRoutes.MENTORS]: "/mentors",
   // [AppRoutes.ALL_PROJECTS]: "/projects",
   // [AppRoutes.PROJECT]: "/project/:id",
   // [AppRoutes.ADD_PROJECT]: "/add_project",
@@ -59,6 +63,8 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.PRIVACY_POLICY]: "/privacy_policy",
   [AppRoutes.TERMS_AND_CONDITIONS]: "/terms_and_conditions",
   [AppRoutes.CREATE_APPLICATION_MENTOR]: "/create_application_mentor",
+  [AppRoutes.MENTOR_USER_PROFILE]: "/mentor_user_profile/:id",
+  [AppRoutes.AUTH_DISCORD_CALLBACK]: "/auth/discord/callback",
 };
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
@@ -86,10 +92,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   //   path: RoutePath.study_groups,
   //   element: <StudyBuddyPage />,
   // },
-  // [AppRoutes.MENTORS]: {
-  //   path: RoutePath.mentors,
-  //   element: <MentorsPage />,
-  // },
+  [AppRoutes.MENTORS]: {
+    path: RoutePath.mentors,
+    element: <MentorsPage />,
+  },
   [AppRoutes.NOT_FOUND]: {
     path: RoutePath.not_found,
     element: <NotFoundPage />,
@@ -133,5 +139,13 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.CREATE_APPLICATION_MENTOR]: {
     path: RoutePath.create_application_mentor,
     element: <CreateApplicationMentorPage />,
+  },
+  [AppRoutes.MENTOR_USER_PROFILE]: {
+    path: RoutePath[AppRoutes.MENTOR_USER_PROFILE],
+    element: <MentorUserProfilePage />,
+  },
+  [AppRoutes.AUTH_DISCORD_CALLBACK]: {
+    path: RoutePath[AppRoutes.AUTH_DISCORD_CALLBACK],
+    element: <AuthDiscordCallbackPage />,
   },
 };

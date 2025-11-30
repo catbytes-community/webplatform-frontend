@@ -4,27 +4,25 @@ import { Link } from "react-router-dom";
 import { auth } from "../../../firebaseConfig";
 import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import pinkLogo from "../../assets/images/pinkLogo.png";
+import darkLogo from "../../assets/images/dark-logo.png";
+import axios from "axios";
+import { useUser } from "../../lib/customHooks/useUser";
 
 export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const [isAuth, setIsAuth] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
+  const { user } = useUser(userIdFromLocalStorage);
   const location = useLocation();
   const [isMentor, setIsMentor] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState<number>();
 
   const isCreateApplication = location.pathname === "/create_application";
   const isLogInPage = location.pathname === "/login";
 
   useEffect(() => {
-    const user = localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user") as string)
-      : null;
-
     if (user) {
-      console.log("User data from local storage:", user);
       setIsMentor(
         user?.roles?.filter(
           (role: { role_id: number; role_name: string }) =>
@@ -32,22 +30,9 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
         ).length > 0
       );
       setUserId(user.id);
+      setIsAuth(true);
     }
-
-    // Check if the user is authenticated
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        console.log("User is authenticated via Firebase");
-        setIsAuth(true); // User is authenticated via Firebase
-      } else {
-        console.log("User is not authenticated via Firebase");
-        setIsAuth(false); // User is not authenticated via Firebase
-      }
-    });
-
-    // Clean up the listener when the component unmounts
-    return () => unsubscribe();
-  }, []);
+  }, [user]);
 
   function handleClickJoinUs() {
     navigate("/create_application");
@@ -64,7 +49,13 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   function handleClickSignOut() {
     signOut(auth)
       .then(() => {
-        Cookies.remove("userUID"); // Clear the cookie on sign out
+        axios.post(
+          `${import.meta.env.VITE_DEVAPI}users/logout`,
+          {},
+          {
+            withCredentials: true,
+          }
+        );
         setIsAuth(false); // Update the authentication state
         localStorage.removeItem("user"); // Clear the user data from local storage
         setIsMentor(false); // Update the mentor state
@@ -81,7 +72,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
       <div className="flex items-center gap-10 w-full justify-between">
         <div className="flex items-center gap-10">
           <Link to="/">
-            <img src={pinkLogo} className="w-24" />
+            <img src={darkLogo} className="w-24" />
           </Link>
 
           <nav
@@ -101,6 +92,12 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
             >
               Tools
             </Link>
+            <Link
+              to="/mentors"
+              className="block lg:inline text-gray-600 text-sm leading-[1.5] font-montserrat"
+            >
+              Our Mentors
+            </Link>
             {isMentor && (
               <Link
                 to="/applications"
@@ -116,11 +113,6 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
               >
                 My Profile
               </Link>
-              // <Button
-              //   label="My Profile"
-              //   btnType="primary_btn"
-              //   onClick={() => navigate()}
-              // />
             )}
           </nav>
         </div>
@@ -157,7 +149,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
               </div>
             )}
           </div>
-          {/* Бургер-меню (для мобильных) */}
+          {/* Burger manu for mobile */}
           <button
             className="block lg:hidden text-gray-600 focus:outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}

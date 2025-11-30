@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
-import { Application } from "../../../../app/types/global";
-import Button, { ButtonsEnum } from "../../../../shared/ui/Button/Button";
-import style from "./ApplicationBlock.module.css";
-import ConfirmModal from "../../../../shared/ui/ConfirmModal/ConfirmModal";
-import axios from "axios";
-import { auth } from "../../../../firebaseConfig";
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import {
   createUserWithEmailAndPassword,
   sendSignInLinkToEmail,
-} from "firebase/auth";
-import { Link } from "react-router-dom";
+} from 'firebase/auth';
+
+import style from './ApplicationBlock.module.css';
+
+import { Application } from '../../../../app/types/global';
+import Button, { ButtonsEnum } from '../../../../shared/ui/Button/Button';
+import ConfirmModal from '../../../../shared/ui/ConfirmModal/ConfirmModal';
+import { auth } from '../../../../firebaseConfig';
+import { useUser } from '../../../../shared/lib/customHooks/useUser';
 
 export const ApplicationBlock = ({
   application,
@@ -19,14 +22,32 @@ export const ApplicationBlock = ({
   const [isConfirmRejectShown, setIsConfirmRejectShown] = useState(false);
   const [isConfirmApproveShown, setIsConfirmApproveShown] = useState(false);
   const [isRejected, setIsRejected] = useState(false);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
+  const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
+  const { user } = useUser(userIdFromLocalStorage);
+
+  const [mentorUser, setMentorUser] = useState<User | null>(null);
+
+  //link to video
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
   type User = {
     id: string;
     name: string;
   };
 
-  const [mentorUser, setMentorUser] = useState<User | null>(null);
+  //GET video link
+  const fetchVideoFile = async () => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_DEVAPI}applications/${application.id}`,
+        { withCredentials: true }
+      );
+      if (data?.video_file) setVideoUrl(data.video_file);
+    } catch (e) {
+      console.error('Error fetching video_file', e);
+    }
+  };
 
   const getProfileLink = async (userId: string) => {
     const response = await axios.get(
@@ -57,20 +78,17 @@ export const ApplicationBlock = ({
     setIsConfirmApproveShown(true);
   }
   const handleReject = async (confirm: boolean) => {
+    if(!user) return;
     if (confirm) {
-      const user = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user") as string)
-        : null;
-
-      if (!comment || comment === "") {
-        alert("Please add a comment");
+      if (!comment || comment === '') {
+        alert('Please add a comment');
         return;
       } else {
         try {
           await axios.put(
             `${import.meta.env.VITE_DEVAPI}applications/${application.id}`,
             {
-              status: "rejected",
+              status: 'rejected',
               comment: comment,
               user_id: user.id,
             },
@@ -79,9 +97,9 @@ export const ApplicationBlock = ({
             }
           );
 
-          alert("Application rejected");
+          alert('Application rejected');
           setIsRejected(false);
-          setComment("");
+          setComment('');
         } catch (error) {
           console.log(error);
         }
@@ -93,8 +111,8 @@ export const ApplicationBlock = ({
   function generatePassword() {
     const length = 8;
     const charset =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let retVal = "";
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let retVal = '';
 
     for (let i = 0, n = charset.length; i < length; ++i) {
       retVal += charset.charAt(Math.floor(Math.random() * n));
@@ -103,17 +121,13 @@ export const ApplicationBlock = ({
   }
 
   const handleApprove = async (confirm: boolean) => {
+    if(!user) return;
     if (confirm) {
-      const user = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user") as string)
-        : null;
-
-      console.log("Approve application user: ", application.id, user.id);
       try {
         const response = await axios.put(
           `${import.meta.env.VITE_DEVAPI}applications/${application.id}`,
           {
-            status: "approved",
+            status: 'approved',
             user_id: user.id,
           },
           {
@@ -121,34 +135,31 @@ export const ApplicationBlock = ({
           }
         );
 
-        console.log("Approve application response: ", response);
         const tempPassword = generatePassword();
         createUserWithEmailAndPassword(auth, response.data.email, tempPassword)
           // TODO: implement flow in case there will be firebase error when creating user
-          .then((userCredential) => {
+          .then((_userCredential) => {
             // Signed up
-            const user = userCredential.user;
-            console.log("User created: ", user);
-
             const actionCodeSettings = {
-              url: "https://dev.catbytes.io/",
+              url: import.meta.env.VITE_ENV === "localhost" ? "http://localhost:5173/login" : import.meta.env.VITE_ENV === "dev" ? "https://dev.catbytes.io/login" : "https://catbytes.io/login",
               handleCodeInApp: true,
             };
+
             sendSignInLinkToEmail(auth, response.data.email, actionCodeSettings)
               .then(() => {
-                console.log("Email sent");
+                console.log('Email sent');
               })
               .catch((error) => {
-                console.log("Error sending email: ", error);
+                console.log('Error sending email: ', error);
               });
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log("Error creating user: ", errorCode, errorMessage);
+            console.log('Error creating user: ', errorCode, errorMessage);
           });
 
-        alert("Application approved");
+        alert('Application approved');
       } catch (error) {
         console.log(error);
       }
@@ -178,7 +189,7 @@ export const ApplicationBlock = ({
         <p>Discord: {application.discord_nickname}</p>
         <p>About: {application.about}</p>
         <p>
-          Link to video:{" "}
+          Link to video:{' '}
           <a
             href={application.video_link}
             target="_blank"
@@ -187,10 +198,25 @@ export const ApplicationBlock = ({
             {application.video_link}
           </a>
         </p>
-        {application.status !== "pending" && (
+        {/* Get video link */}
+        {application.video_filename &&
+          (videoUrl ? (
+            <>
+              <video src={videoUrl} controls className="w-full mt-2 rounded" />
+            </>
+          ) : (
+            <button
+              className="bg-pink-500 text-white font-bold py-2 px-4 rounded"
+              onClick={fetchVideoFile}
+            >
+              Get video{' '}
+            </button>
+          ))}
+
+        {application.status !== 'pending' && (
           <div>
             <p>
-              Modified by:{" "}
+              Modified by:{' '}
               <Link
                 to={`/user_profile/${mentorUser?.id}`}
                 className="underline text-blue-500"
@@ -202,7 +228,7 @@ export const ApplicationBlock = ({
             </p>
           </div>
         )}
-        {application.status === "rejected" && (
+        {application.status === 'rejected' && (
           <p>Comment: {application.comment}</p>
         )}
         {isRejected && (
@@ -228,7 +254,7 @@ export const ApplicationBlock = ({
             ></Button>
           </div>
         )}
-        {application.status === "pending" && !isRejected ? (
+        {application.status === 'pending' && !isRejected ? (
           <div className={style.buttons}>
             <Button
               label="Reject"
@@ -241,20 +267,20 @@ export const ApplicationBlock = ({
               onClick={handleApproveClick}
             ></Button>
           </div>
-        ) : application.status === "rejected" && !isRejected ? (
+        ) : application.status === 'rejected' && !isRejected ? (
           <div className="flex justify-end">
             <p className="bg-red-500 p-1 rounded text-center font-bold text-white">
               REJECTED
             </p>
           </div>
-        ) : application.status === "approved" && !isRejected ? (
+        ) : application.status === 'approved' && !isRejected ? (
           <div className="flex justify-end">
             <p className="bg-teal-500 p-1 rounded text-center font-bold text-white">
               APPROVED
             </p>
           </div>
         ) : (
-          ""
+          ''
         )}
       </div>
     </>

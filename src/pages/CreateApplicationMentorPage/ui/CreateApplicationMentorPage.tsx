@@ -1,5 +1,5 @@
 import style from "./CreateApplicationMentorPage.module.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Button, { ButtonsEnum } from "../../../shared/ui/Button/Button";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
@@ -16,9 +16,53 @@ export const CreateApplicationMentorPage: React.FC = () => {
   const [tags, setTags] = useState<
     MultiValue<{ label: string; value: string }>
   >([]);
+  const [selectedTags, setSelectedTags] = useState<
+    MultiValue<{ label: string; value: string }>
+  >([]);
 
   //uncommit if need message in ui
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    // TODO: fetch tags from server
+    const tags = [
+      "react",
+      "react-native",
+      "javascript",
+      "typescript",
+      "web-development",
+      "python",
+      "machine-learning",
+      "data-science",
+      "devops",
+      "cloud-computing",
+      "backend-development",
+      "frontend-development",
+      "full-stack-development",
+      "mobile-development",
+      "ui-ux-design",
+      "game-development",
+      "blockchain",
+      "artificial-intelligence",
+      "cybersecurity",
+      "software-engineering",
+      "agile-methodologies",
+      "project-management",
+      "quality-assurance",
+      "testing",
+      "database-management",
+      "sql",
+      "nosql",
+      "graphql",
+    ];
+
+    setTags(
+      tags.map((tag) => ({
+        label: tag,
+        value: tag.toLowerCase().replace(/\s+/g, "-"), // Convert to lowercase and replace spaces with hyphens
+      }))
+    );
+  }, []);
 
   // Validation rules
   const validateField = (field: string, value: string): string => {
@@ -27,6 +71,8 @@ export const CreateApplicationMentorPage: React.FC = () => {
         return value.trim().length >= 10
           ? ""
           : "About must be at least 10 characters long.";
+      case "contact":
+        return "";
       default:
         return "";
     }
@@ -52,22 +98,18 @@ export const CreateApplicationMentorPage: React.FC = () => {
     const data = {
       about,
       contact,
-      tags: tags.map((t) => t.value),
+      tags: selectedTags.map((t) => t.value),
     };
-
-    console.log("Data to be sent:", data);
 
     try {
       setError(null);
-      //uncommit if need message in ui
       setSuccessMessage(null);
 
-      // send data on server
-
       await axios.post(`${import.meta.env.VITE_DEVAPI}mentors`, data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        withCredentials: true,
       });
 
       // if response server sucsessful
@@ -77,25 +119,17 @@ export const CreateApplicationMentorPage: React.FC = () => {
       setAbout("");
       setTags([]);
       setErrors({});
-    } catch (error) {
+    } catch (error: any) {
       // catch errors
-      if (axios.isAxiosError(error)) {
-        setError(
-          error.response?.data?.error ||
-            "An error occurred while submitting the form."
-        );
-      } else {
-        setError("An unexpected error occurred.");
-      }
-
       console.error("Error:", error);
+      setError(error.message ? error.message : String(error));
     }
   };
 
   const handleChangeTags = (
     selectedOptions: MultiValue<{ label: string; value: string }>
   ) => {
-    setTags(selectedOptions || []);
+    setSelectedTags(selectedOptions || []);
   };
 
   return (
@@ -128,6 +162,7 @@ export const CreateApplicationMentorPage: React.FC = () => {
               placeholder="About"
               value={about}
               rows={3}
+              maxLength={1000}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 setAbout(e.target.value);
                 setErrors((prev) => ({
@@ -145,8 +180,8 @@ export const CreateApplicationMentorPage: React.FC = () => {
           </div>
           <div>
             <p className="w-[290px] m-auto italic text-sm mb-2">
-              Please provide your preferred contact method. It can be either
-              contact nickname, link to LinkedIn profile or telegram channel
+              Please provide your preferred contact method. It can be either a
+              link to your LinkedIn profile or a Telegram channel
             </p>
             <input
               className={style.input}
@@ -157,24 +192,31 @@ export const CreateApplicationMentorPage: React.FC = () => {
                 setContact(e.target.value);
                 setErrors((prev) => ({
                   ...prev,
-                  contact: e.target.value,
+                  contact: validateField("contact", e.target.value),
                 }));
               }}
             />
             {errors.contact && <p className={style.error}>{errors.contact}</p>}
           </div>
 
-          <div className="p-5">
+          <div className="p-5 relative z-10">
             <p className="w-[290px] m-auto italic text-sm mb-2">
               Provide tags related to your area of expertise, for example web
               development, React, JavaScript, Machine Learning etc.
             </p>
-            <CreatableSelect
-              isClearable
-              isMulti
-              options={tags}
-              onChange={handleChangeTags}
-            />
+            <div className="relative z-20">
+              <CreatableSelect
+                isClearable
+                isMulti
+                options={tags}
+                onChange={handleChangeTags}
+                menuPortalTarget={document.body}
+                styles={{
+                  menuPortal: (base) => ({ ...base, zIndex: 11000 }),
+                  menu: (base) => ({ ...base, zIndex: 11000 }),
+                }}
+              />
+            </div>
           </div>
 
           <Button
