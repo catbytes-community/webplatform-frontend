@@ -12,6 +12,7 @@ import { Application } from '../../../../app/types/global';
 import Button, { ButtonsEnum } from '../../../../shared/ui/Button/Button';
 import ConfirmModal from '../../../../shared/ui/ConfirmModal/ConfirmModal';
 import { auth } from '../../../../firebaseConfig';
+import { useUser } from '../../../../shared/lib/customHooks/useUser';
 
 export const ApplicationBlock = ({
   application,
@@ -22,6 +23,8 @@ export const ApplicationBlock = ({
   const [isConfirmApproveShown, setIsConfirmApproveShown] = useState(false);
   const [isRejected, setIsRejected] = useState(false);
   const [comment, setComment] = useState('');
+  const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
+  const { user } = useUser(userIdFromLocalStorage);
 
   const [mentorUser, setMentorUser] = useState<User | null>(null);
 
@@ -75,11 +78,8 @@ export const ApplicationBlock = ({
     setIsConfirmApproveShown(true);
   }
   const handleReject = async (confirm: boolean) => {
+    if(!user) return;
     if (confirm) {
-      const user = localStorage.getItem('user')
-        ? JSON.parse(localStorage.getItem('user') as string)
-        : null;
-
       if (!comment || comment === '') {
         alert('Please add a comment');
         return;
@@ -121,11 +121,8 @@ export const ApplicationBlock = ({
   }
 
   const handleApprove = async (confirm: boolean) => {
+    if(!user) return;
     if (confirm) {
-      const user = localStorage.getItem('user')
-        ? JSON.parse(localStorage.getItem('user') as string)
-        : null;
-
       try {
         const response = await axios.put(
           `${import.meta.env.VITE_DEVAPI}applications/${application.id}`,

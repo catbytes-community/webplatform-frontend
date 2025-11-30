@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import style from './HomeSection.module.css';
 
@@ -12,7 +11,9 @@ import landing_projects_logged from '../../../shared/assets/images/landing-proje
 
 import Button from '../../../shared/ui/Button/Button.tsx';
 import ArrowRightIcon from '../../../shared/ui/icons/ArrowRightIcon.tsx';
-import { ApiUser, UserRole } from '../../../app/types/global';
+import { UserRole } from '../../../app/types/global';
+
+import { useUser } from '../../../shared/lib/customHooks/useUser.ts';
 
 const ROLE_PRIORITY: Record<UserRole, number> = {
   admin: 0,
@@ -22,9 +23,8 @@ const ROLE_PRIORITY: Record<UserRole, number> = {
 
 export const HomeSection = () => {
   const navigate = useNavigate();
-
-  const [userRole, setUserRole] = useState<UserRole | 'guest'>('guest');
-  const [userName, setUserName] = useState<string | null>(null);
+  const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
+  const { user } = useUser(userIdFromLocalStorage);
 
   function handleClickJoinUs() {
     navigate('/create_application');
@@ -50,39 +50,27 @@ export const HomeSection = () => {
     return best ?? 'guest';
   }
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+  // useEffect(() => {
+  //   if (!user) {
+  //     setUserRole('guest');
+  //     return;
+  //   }
 
-    if (!storedUser) {
-      setUserRole('guest');
-      setUserName(null);
-      return;
-    }
-
-    try {
-      const user: Partial<ApiUser> = JSON.parse(storedUser);
-
-      if (user.name) {
-        setUserName(user.name);
-      } else {
-        setUserName(null);
-      }
-
-      if (Array.isArray(user.roles) && user.roles.length > 0) {
-        const highestRole = getHighestRole(user.roles);
-        setUserRole(highestRole);
-      } else {
-        console.warn(
-          '[HOMESECTION] No valid roles in localStorage, setting guest'
-        );
-        setUserRole('guest');
-      }
-    } catch (err) {
-      console.error('Error parsing user from localStorage:', err);
-      setUserRole('guest');
-      setUserName(null);
-    }
-  }, []);
+  //   try {
+  //     if (Array.isArray(user.roles) && user.roles.length > 0) {
+  //       const highestRole = getHighestRole(user.roles);
+  //       setUserRole(highestRole);
+  //     } else {
+  //       console.warn(
+  //         '[HOMESECTION] No valid roles in localStorage, setting guest'
+  //       );
+  //       setUserRole('guest');
+  //     }
+  //   } catch (err) {
+  //     console.error('Error parsing user from localStorage:', err);
+  //     setUserRole('guest');
+  //   }
+  // }, []);
 
   // const isMember = userRole === 'member';
   // const isAdmin = userRole === 'admin';
@@ -90,10 +78,20 @@ export const HomeSection = () => {
 
   //TODO: differend cards if different roles discuss it
   // const isLogged = hasLocalUser ? isAdmin || isMentor || isMember : true;
-  const isLogged = true;
+  let isLogged;
+  let userRole;
+  
+  isLogged = true;
+
+  if (Array.isArray(user?.roles) && user.roles.length > 0) {
+    userRole = getHighestRole(user.roles);
+    // setUserRole(highestRole);
+  } else {
+    userRole = 'guest';
+  }
 
   const firstName =
-    userName?.trim()?.split(' ')?.[0] ||
+    user?.name?.trim()?.split(' ')?.[0] ||
     (userRole === 'admin' || userRole === 'mentor' || userRole === 'member'
       ? 'there'
       : '');
@@ -140,6 +138,7 @@ export const HomeSection = () => {
       // i think later we will navigate("/events") or something else
     };
   }
+
 
   return (
     <div className="flex justify-center px-10 py-3.5 overflow-hidden">

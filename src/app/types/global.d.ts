@@ -10,6 +10,11 @@ export interface Role {
   role_id: number;
   role_name: string;
 }
+export type UserRole = 'admin' | 'member' | 'mentor';
+export interface UserRoleRecord {
+  role_name: UserRole;
+  role_id: number;
+}
 export interface User {
   id: number;
   mentor_id: number;
@@ -20,15 +25,8 @@ export interface User {
   discord_nickname: string;
   languages: string[];
   img: string | null;
-  roles: Role[];
+  roles: UserRoleRecord[];
   created_at: string;
-}
-
-export type UserRole = 'admin' | 'member' | 'mentor';
-
-export interface UserRoleRecord {
-  role_name: UserRole;
-  role_id: number;
 }
 
 export interface ApiUser {
