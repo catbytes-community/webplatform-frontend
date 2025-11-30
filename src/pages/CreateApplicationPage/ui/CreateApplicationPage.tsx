@@ -72,8 +72,8 @@ export const CreateApplicationPage: React.FC = () => {
       const { data } = await axios.post<PresignResponse>(PRESIGN_URL, body);
       const { url, filename } = data;
       if (!url || !filename) throw new Error('Invalid presign response');
-
-      await axios.put(decodeURIComponent(url), videoFile, {
+      
+      await axios.put(url, videoFile, {
         headers: {
           'Content-Type': videoFile.type || 'application/octet-stream',
         },
