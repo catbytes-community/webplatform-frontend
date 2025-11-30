@@ -1,69 +1,192 @@
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import style from './HomeSection.module.css';
-import Button from '../../../shared/ui/Button/Button.tsx';
+
 import paw from '../../../shared/assets/images/paw-icon.svg';
 import landing_mentor_icons from '../../../shared/assets/images/landing-mentor-icons.svg';
 import announcement from '../../../shared/assets/images/announsment-icon.png';
-import ArrowRightIcon from '../../../shared/ui/icons/ArrowRightIcon.tsx';
 import homeGroup from '../../../shared/assets/images/home-group.png';
 import home_study_buddy from '../../../shared/assets/images/home-study-buddy.png';
-import landing_projects_logged from '../../../shared/assets/images/landing-projects-logged.svg';
-import { Link, useNavigate } from 'react-router-dom';
 import CatSvg from './CatSvg.tsx';
-import { useUser } from '../../../shared/lib/customHooks/useUser.ts';
+import landing_projects_logged from '../../../shared/assets/images/landing-projects-logged.svg';
+
+import Button from '../../../shared/ui/Button/Button.tsx';
+import ArrowRightIcon from '../../../shared/ui/icons/ArrowRightIcon.tsx';
+import { ApiUser, UserRole } from '../../../app/types/global';
+
+const ROLE_PRIORITY: Record<UserRole, number> = {
+  admin: 0,
+  mentor: 1,
+  member: 2,
+};
 
 export const HomeSection = () => {
   const navigate = useNavigate();
-  const userId = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
-  const { user } = useUser(userId);
-  
+
+  const [userRole, setUserRole] = useState<UserRole | 'guest'>('guest');
+  const [userName, setUserName] = useState<string | null>(null);
+
   function handleClickJoinUs() {
     navigate('/create_application');
   }
 
-  const isLogged = user ? true : false;
+  function getHighestRole(
+    roles: { role_name: UserRole; role_id: number }[]
+  ): UserRole | 'guest' {
+    if (!roles || roles.length === 0) return 'guest';
+
+    let best: UserRole | null = null;
+
+    for (const r of roles) {
+      if (!best) {
+        best = r.role_name;
+        continue;
+      }
+      if (ROLE_PRIORITY[r.role_name] < ROLE_PRIORITY[best]) {
+        best = r.role_name;
+      }
+    }
+
+    return best ?? 'guest';
+  }
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+
+    if (!storedUser) {
+      setUserRole('guest');
+      setUserName(null);
+      return;
+    }
+
+    try {
+      const user: Partial<ApiUser> = JSON.parse(storedUser);
+
+      if (user.name) {
+        setUserName(user.name);
+      } else {
+        setUserName(null);
+      }
+
+      if (Array.isArray(user.roles) && user.roles.length > 0) {
+        const highestRole = getHighestRole(user.roles);
+        setUserRole(highestRole);
+      } else {
+        console.warn(
+          '[HOMESECTION] No valid roles in localStorage, setting guest'
+        );
+        setUserRole('guest');
+      }
+    } catch (err) {
+      console.error('Error parsing user from localStorage:', err);
+      setUserRole('guest');
+      setUserName(null);
+    }
+  }, []);
+
+  // const isMember = userRole === 'member';
+  // const isAdmin = userRole === 'admin';
+  // const isMentor = userRole === 'mentor';
+
+  //TODO: differend cards if different roles discuss it
+  // const isLogged = hasLocalUser ? isAdmin || isMentor || isMember : true;
+  const isLogged = true;
+
+  const firstName =
+    userName?.trim()?.split(' ')?.[0] ||
+    (userRole === 'admin' || userRole === 'mentor' || userRole === 'member'
+      ? 'there'
+      : '');
+
+  const title =
+    userRole === 'admin'
+      ? `Welcome, ${firstName}!`
+      : userRole === 'mentor'
+      ? `Welcome mentor, ${firstName}!`
+      : userRole === 'member'
+      ? `Welcome back, ${firstName}!`
+      : 'Become a part of CatBytes';
+
+  const subtitle =
+    userRole === 'admin'
+      ? 'You can manage the community and mentor others.'
+      : userRole === 'mentor'
+      ? 'Thank you for supporting other women in tech'
+      : userRole === 'member'
+      ? 'Happy to see you in our community!'
+      : 'Community for women in tech';
+
+  const description =
+    userRole === 'admin'
+      ? 'Soon you will see admin & mentor tools, events and applications here.'
+      : userRole === 'mentor'
+      ? 'Soon you will see events, mentor tools and mentee applications here.'
+      : userRole === 'member'
+      ? 'Explore projects, study buddies, mentors and more in our community and private Discord server.'
+      : 'We bring women together to support each other in achieving our career goals in the tech industry. Join our private Discord server.';
+
+  let buttonLabel = 'JOIN US';
+  let buttonOnClick: () => void = handleClickJoinUs;
+
+  if (userRole === 'member') {
+    buttonLabel = 'BECOME A MENTOR';
+    buttonOnClick = () => navigate('/create_application_mentor');
+  }
+
+  if (userRole === 'mentor' || userRole === 'admin') {
+    buttonLabel = 'EVENTS (SOON)';
+    buttonOnClick = () => {
+      console.log('Events page will be available soon');
+      // i think later we will navigate("/events") or something else
+    };
+  }
 
   return (
-    <div className={style.wrapper}>
-      <div className={style.grid}>
-        <div className={style.relativeBlock}>
+    <div className="flex justify-center px-10 py-3.5 overflow-hidden">
+      <div className={`${style.main} lg:grid grid-cols-[1.6fr_0.8fr] gap-5`}>
+        <div className="relative">
           <div
-            className={`${style.cardShadow} ${style.container} ${style.leftBlock}`}
+            className={`${style.cardShadow} ${style.container} lg:h-[508px]  
+            pt-12 lg:py-20 px-9 rounded-3xl mt-12 lg:mb-40 relative`}
           >
-            <div className={style.textBlock}>
-              <p className={style.title}>Become a part of CatBytes</p>
-              <p className={style.subtitle}>Community for women in tech</p>
-              <p className={style.description}>
-                We bring women together to support each other in achieving our
-                career goals in tech industry. Join our private Discord server.
+            <div className="mb-12">
+              <p className="text-3xl lg:text-5xl font-bold">{title}</p>
+              <p className="text-xl lg:text-2xl font-montserrat font-medium mt-5">
+                {subtitle}
               </p>
+              <p className="font-montserrat mt-3.5 text-sm">{description}</p>
             </div>
-
             <Button
-              label="JOIN US"
+              label={buttonLabel}
               btnType="primary_big_btn"
-              onClick={handleClickJoinUs}
-              disabled={false}
+              onClick={buttonOnClick}
+              disabled={buttonLabel === 'EVENTS (SOON)' ? true : false}
             />
             <img className={style.paw} src={paw} alt="Paw" />
           </div>
-          <div className={`${style.cardShadow} ${style.announcementBlock}`}>
+          <div
+            className={`${style.cardShadow} ${style.announcementContainer}
+             xl:min-w-[426px] rounded-3xl p-6 lg:pt-[27px] lg:pr-[29px] lg:pb-[2px] lg:pl-[52px]
+             my-12 lg:absolute right-5 -bottom-14 xl:bottom-10`}
+          >
             <p
-              className={`${style.announcementTitle} ${
-                isLogged ? style.narrow : ''
-              }`}
+              className={`font-semibold text-xl lg:text-2xl font-poppins ${
+                isLogged ? 'w-44' : ''
+              } `}
             >
               View last announcements
             </p>
-
-            <div className={style.announcementBottom}>
+            <div className="flex items-end justify-between">
               <img
-                className={style.image}
+                className="relative z-30"
                 src={isLogged ? landing_mentor_icons : announcement}
                 alt="landing_mentor_icons"
               />
-              <Link className={style.linkWrapper} to="/">
-                <div className={style.linkContent}>
-                  <p className={style.linkText}>Coming soon</p>
+              <Link className="z-50" to="/">
+                <div className="flex gap-2 mb-8">
+                  <p className="underline font-montserrat text-sm lg:text-md font-bold text-gray-600">
+                    Coming soon
+                  </p>
                   <ArrowRightIcon />
                 </div>
               </Link>
@@ -74,20 +197,19 @@ export const HomeSection = () => {
                 isLogged ? style.catLogged : style.catGuest
               }`}
             />
-
-            <div className={style.blur}></div>
+            <div className={`${style.blur} hidden lg:block`}></div>
           </div>
         </div>
 
-        <div className={style.rightColumn}>
+        <div className="flex flex-col gap-4">
           <div
-            className={`${style.cardShadow} ${style.container} ${style.card}`}
+            className={`${style.cardShadow} ${style.container} flex flex-col p-6 rounded-3xl relative`}
           >
-            <p className={style.cardTitle}>
+            <p className="text-xl lg:text-2xl font-semibold w-64 mb-6">
               Take part in projects and collaborations
             </p>
             <img
-              className={style.cardImageProjects}
+              className="w-56 self-center lg:self-start"
               src={isLogged ? landing_projects_logged : homeGroup}
               alt="Projects"
             />
@@ -101,19 +223,21 @@ export const HomeSection = () => {
             </Link>
           </div>
           <div
-            className={`${style.cardShadow} ${style.container} ${style.card}`}
+            className={`${style.cardShadow} ${style.container} flex flex-col p-6 rounded-3xl relative mb-8`}
           >
-            <p className={style.cardTitle}>
+            <p className="text-xl lg:text-2xl font-semibold w-64 mb-2">
               Find a study buddy to learn together
             </p>
             <img
-              className={style.cardImageBuddy}
+              className="w-48 self-center"
               src={home_study_buddy}
               alt="Studdy Buddy"
             />
-            <Link className={style.cardLink} to="/">
-              <div className={style.cardLinkContent}>
-                <p className={style.cardLinkText}>Coming soon</p>
+            <Link className="self-end" to="/">
+              <div className="flex gap-2 mb-2">
+                <p className="underline text-sm lg:text-md font-montserrat font-bold text-gray-500">
+                  Coming soon
+                </p>
                 <ArrowRightIcon />
               </div>
             </Link>
