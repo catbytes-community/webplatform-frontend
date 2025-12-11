@@ -21,7 +21,7 @@ export default function Footer() {
             <div>
               <ul className="space-y-2 text-center sm:text-left">
                 <li className="text-pink-900 font-medium hover:text-pink-700 cursor-pointer">
-                  Mentorship (Coming soon)
+                  <Link to="/mentors">Mentorship</Link>
                 </li>
                 <li className="text-pink-900 font-medium hover:text-pink-700 cursor-pointer">
                   Collaboration (Coming soon)
