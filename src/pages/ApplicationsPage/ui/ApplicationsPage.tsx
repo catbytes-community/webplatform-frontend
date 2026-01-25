@@ -9,14 +9,33 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../../firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 
+type Status = 'pending' | 'approved' | 'rejected';
+type FilterLabel = 'All' | 'Pending review' | 'Approved' | 'Rejected';
+
 export const ApplicationsPage = () => {
   const [applications, setApplications] = useState<Application[]>([]);
-  const [mentorApplications, setMentorApplications] = useState<
-    MentorApplication[]
-  >([]);
-  const [filter, setFilter] = useState<string>('All');
+  const [mentorApplications, setMentorApplications] = useState<MentorApplication[]>([]);
+  const [filter, setFilter] = useState<FilterLabel>('All');
   const [filterType, setFilterType] = useState<string>('Members');
   const navigate = useNavigate();
+
+  
+  const filterByStatus = <T extends { status: string }>(applications: T[] , filter: FilterLabel) => {
+
+    const statusMap: Record<Exclude<FilterLabel, 'All'>, Status> = {
+      'Pending review': 'pending',
+      Approved: 'approved',
+      Rejected: 'rejected',
+    }
+
+    if (filter === 'All') {
+      return applications;
+    }
+
+    const status = statusMap[filter];
+
+    return applications.filter(application => application.status === status);
+  }
 
   useEffect(() => {
     try {
@@ -26,27 +45,8 @@ export const ApplicationsPage = () => {
           withCredentials: true,
         })
         .then((res) => {
-          if (filter === 'All') {
-            setApplications(res.data.applications || []);
-          } else if (filter === 'Pending review') {
-            setApplications(
-              res.data.applications.filter(
-                (application: Application) => application.status === 'pending'
-              )
-            );
-          } else if (filter === 'Approved') {
-            setApplications(
-              res.data.applications.filter(
-                (application: Application) => application.status === 'approved'
-              )
-            );
-          } else if (filter === 'Rejected') {
-            setApplications(
-              res.data.applications.filter(
-                (application: Application) => application.status === 'rejected'
-              )
-            );
-          }
+          setApplications(filterByStatus<Application>(res.data.applications, filter));
+
           // get mentor applications
           const getMentors = async () => {
             const res = await axios.get(
@@ -60,7 +60,7 @@ export const ApplicationsPage = () => {
 
           getMentors()
             .then((res) => {
-              setMentorApplications(res?.data?.mentors);
+              setMentorApplications(filterByStatus<MentorApplication>(res.data.mentors, filter));
             })
             .catch((err) => console.log('Error getting mentors', err));
         })
