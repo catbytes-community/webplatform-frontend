@@ -28,12 +28,12 @@ export default function MentorUserProfilePage() {
   const isToggled = mentor?.status === "active";
   const [isEditContact, setIsEditContact] = useState<boolean>(false);
   const [newContact, setNewContact] = useState<string>("");
-  const userIdFromLocalStorage = localStorage.getItem("userId")
-    ? Number(localStorage.getItem("userId"))
-    : null;
+  const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
   const { user } = useUser(userIdFromLocalStorage);
 
-  const currentUserMentorId = user ? user.mentor_id : undefined;
+  const currentUserMentorId = user 
+    ? user.mentor_id 
+    : undefined;
   const isCurrentUser = mentor?.mentor_id === currentUserMentorId;
   const [error, setError] = useState<string | null>(null);
 
@@ -44,7 +44,7 @@ export default function MentorUserProfilePage() {
           `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
           {
             withCredentials: true,
-          },
+          }
         );
 
         setMentor(response.data);
@@ -75,7 +75,7 @@ export default function MentorUserProfilePage() {
       await axios.put(
         `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
         { about: newAbout },
-        { withCredentials: true },
+        { withCredentials: true }
       );
       setIsEditAbout(false);
       setMentor({ ...mentor, about: newAbout });
@@ -91,7 +91,7 @@ export default function MentorUserProfilePage() {
       await axios.patch(
         `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
         { status: newStatus },
-        { withCredentials: true },
+        { withCredentials: true }
       );
       setMentor({ ...mentor, status: newStatus });
     } catch (err) {
@@ -105,7 +105,7 @@ export default function MentorUserProfilePage() {
       await axios.put(
         `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
         { contact: newContact },
-        { withCredentials: true },
+        { withCredentials: true }
       );
       setMentor({ ...mentor, contact: newContact });
       setIsEditContact(false);
