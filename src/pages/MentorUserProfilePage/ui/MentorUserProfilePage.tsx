@@ -31,8 +31,8 @@ export default function MentorUserProfilePage() {
   const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
   const { user } = useUser(userIdFromLocalStorage);
 
-  const currentUserMentorId = user 
-    ? user.mentor_id 
+  const currentUserMentorId = user
+    ? user.mentor_id
     : undefined;
   const isCurrentUser = mentor?.mentor_id === currentUserMentorId;
   const [error, setError] = useState<string | null>(null);
