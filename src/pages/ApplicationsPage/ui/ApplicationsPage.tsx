@@ -9,8 +9,11 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../../firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 
-type Status = 'pending' | 'approved' | 'rejected';
-type FilterLabel = 'All' | 'Pending review' | 'Approved' | 'Rejected';
+type Status = 'pending' | 'approved' | 'rejected' | 'active' | 'inactive';
+type FilterLabel = 'All' | 'Pending review' | 'Approved' | 'Rejected' | 'Active' | 'Inactive';
+
+const memberFilters: FilterLabel[] = ['All', 'Pending review', 'Approved', 'Rejected']; 
+const mentorFilters: FilterLabel[] = ['All', 'Pending review', 'Active', 'Inactive', 'Rejected'];
 
 export const ApplicationsPage = () => {
   const [applications, setApplications] = useState<Application[]>([]);
@@ -26,6 +29,8 @@ export const ApplicationsPage = () => {
       'Pending review': 'pending',
       Approved: 'approved',
       Rejected: 'rejected',
+      Active: 'active',
+      Inactive: 'inactive'
     }
 
     if (filter === 'All') {
@@ -117,38 +122,24 @@ export const ApplicationsPage = () => {
           </button>
         </div>
         <div className="w-full flex justify-center gap-1 sm:gap-5 p-5">
-          <button
+          {filterType === 'Members' && memberFilters.map(label => (
+            <button 
             className={`${style.filterButtons} ${
-              filter === 'All' ? 'bg-black text-white' : ''
-            }`}
-            onClick={() => setFilter('All')}
-          >
-            All
-          </button>
-          <button
+              filter === label ? 'bg-black text-white' : ''}`}
+              onClick={() => setFilter(label)}
+              >
+              {label}
+            </button>
+          ))}
+
+          {filterType === 'Mentors' && mentorFilters.map(label => (
+            <button 
             className={`${style.filterButtons} ${
-              filter === 'Pending review' ? 'bg-black text-white' : ''
-            }`}
-            onClick={() => setFilter('Pending review')}
-          >
-            Pending review
-          </button>
-          <button
-            className={`${style.filterButtons} ${
-              filter === 'Approved' ? 'bg-black text-white' : ''
-            }`}
-            onClick={() => setFilter('Approved')}
-          >
-            Approved
-          </button>
-          <button
-            className={`${style.filterButtons} ${
-              filter === 'Rejected' ? 'bg-black text-white' : ''
-            }`}
-            onClick={() => setFilter('Rejected')}
-          >
-            Rejected
-          </button>
+              filter === label ? 'bg-black text-white' : ''}`}
+              onClick={() => setFilter(label)}>
+              {label}
+            </button>
+          ))}
         </div>
         <div className="overflow-y-auto max-h-[70vh] flex flex-col gap-5 p-5">
           {filterType === 'Members' &&
