@@ -9,6 +9,7 @@ import CancelIcon from "../../../shared/ui/icons/CancelIcon";
 import { useUser } from "../../../shared/lib/customHooks/useUser";
 import CreatableSelect from "react-select/creatable";
 import { MultiValue } from "react-select";
+import makeAnimated from "react-select/animated";
 
 type Mentor = {
   name: string;
@@ -44,6 +45,7 @@ export default function MentorUserProfilePage() {
   const [selectedTags, setSelectedTags] = useState<
     MultiValue<{ label: string; value: string }>
   >([]);
+  const animatedComponents = makeAnimated();
 
   useEffect(() => {
     const getMentor = async () => {
@@ -62,7 +64,6 @@ export default function MentorUserProfilePage() {
             label: tag,
             value: tag.toLowerCase().replace(/\s+/g, "-"),
           }));
-
           setSelectedTags(normilizeTags ?? []);
         }
       } catch (err) {
@@ -318,7 +319,22 @@ export default function MentorUserProfilePage() {
         </div>
 
         {isEditTags ? (
-          <div>
+          <div
+            className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full lg:w-[32%] h-fit justify-center lg:justify-start`}
+          >
+            <div className="flex items-center justify-end w-full">
+              <TickIcon
+                className="inline ml-2 cursor-pointer"
+                size={16}
+                color="green"
+                onClick={() => updateTags(mentor.mentor_id)}
+              />
+              <CancelIcon
+                className="inline ml-2 cursor-pointer"
+                color="red"
+                onClick={() => setIsEditTags(false)}
+              />
+            </div>
             <CreatableSelect
               isClearable
               isMulti
@@ -326,21 +342,10 @@ export default function MentorUserProfilePage() {
               value={selectedTags}
               onChange={handleChangeEditingTags}
               menuPortalTarget={document.body}
-              styles={{
-                menuPortal: (base) => ({ ...base, zIndex: 11000 }),
-                menu: (base) => ({ ...base, zIndex: 11000 }),
-              }}
-            />
-            <TickIcon
-              className="inline ml-2 cursor-pointer"
-              size={16}
-              color="green"
-              onClick={() => updateTags(mentor.mentor_id)}
-            />
-            <CancelIcon
-              className="inline ml-2 cursor-pointer"
-              color="red"
-              onClick={() => setIsEditTags(false)}
+              placeholder={"Select tags"}
+              className={style.tagsSelect}
+              classNamePrefix="tags-select"
+              components={animatedComponents}
             />
           </div>
         ) : (
@@ -352,13 +357,13 @@ export default function MentorUserProfilePage() {
                 key={tag.value}
                 className={`${style.tags} text-sm sm:text-m font-montserrat font-medium text-[#170103]`}
               >
-                #{tag.label}
+                {tag.label}
               </span>
             ))}
             {isCurrentUser && (
               <EditPencilIcon
-                className="inline ml-2 cursor-pointer absolute top-10 right-8"
-                size={16}
+                className="inline ml-2 cursor-pointer absolute top-5 right-4"
+                size={20}
                 color="gray"
                 onClick={editTags}
               />
