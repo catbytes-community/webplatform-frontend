@@ -7,6 +7,8 @@ import EditPencilIcon from "../../../shared/ui/icons/EditPencilIcon";
 import TickIcon from "../../../shared/ui/icons/TickIcon";
 import CancelIcon from "../../../shared/ui/icons/CancelIcon";
 import { useUser } from "../../../shared/lib/customHooks/useUser";
+import CreatableSelect from "react-select/creatable";
+import { MultiValue } from "react-select";
 
 type Mentor = {
   name: string;
@@ -28,14 +30,20 @@ export default function MentorUserProfilePage() {
   const isToggled = mentor?.status === "active";
   const [isEditContact, setIsEditContact] = useState<boolean>(false);
   const [newContact, setNewContact] = useState<string>("");
-  const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
+  const userIdFromLocalStorage = localStorage.getItem("userId")
+    ? Number(localStorage.getItem("userId"))
+    : null;
   const { user } = useUser(userIdFromLocalStorage);
-
-  const currentUserMentorId = user
-    ? user.mentor_id
-    : undefined;
+  const currentUserMentorId = user ? user.mentor_id : undefined;
   const isCurrentUser = mentor?.mentor_id === currentUserMentorId;
   const [error, setError] = useState<string | null>(null);
+  const [isEditTags, setIsEditTags] = useState<boolean>(false);
+  const [allTags, setAllTags] = useState<
+    MultiValue<{ label: string; value: string }>
+  >([]);
+  const [selectedTags, setSelectedTags] = useState<
+    MultiValue<{ label: string; value: string }>
+  >([]);
 
   useEffect(() => {
     const getMentor = async () => {
@@ -44,10 +52,19 @@ export default function MentorUserProfilePage() {
           `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
           {
             withCredentials: true,
-          }
+          },
         );
 
         setMentor(response.data);
+
+        if (response.data.tags) {
+          const normilizeTags = response.data.tags.map((tag: string) => ({
+            label: tag,
+            value: tag.toLowerCase().replace(/\s+/g, "-"),
+          }));
+
+          setSelectedTags(normilizeTags ?? []);
+        }
       } catch (err) {
         console.error("Get mentor error: ", err);
       }
@@ -75,7 +92,7 @@ export default function MentorUserProfilePage() {
       await axios.put(
         `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
         { about: newAbout },
-        { withCredentials: true }
+        { withCredentials: true },
       );
       setIsEditAbout(false);
       setMentor({ ...mentor, about: newAbout });
@@ -91,7 +108,7 @@ export default function MentorUserProfilePage() {
       await axios.patch(
         `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
         { status: newStatus },
-        { withCredentials: true }
+        { withCredentials: true },
       );
       setMentor({ ...mentor, status: newStatus });
     } catch (err) {
@@ -105,13 +122,55 @@ export default function MentorUserProfilePage() {
       await axios.put(
         `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
         { contact: newContact },
-        { withCredentials: true }
+        { withCredentials: true },
       );
       setMentor({ ...mentor, contact: newContact });
       setIsEditContact(false);
     } catch (err) {
       console.error("Error updating contact: ", err);
       setError("Error updating contact. Please try again later");
+    }
+  };
+
+  const editTags = async () => {
+    setIsEditTags(true);
+
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_DEVAPI}tags`, {
+        withCredentials: true,
+      });
+
+      const allTags = response?.data?.tags?.map((tag: string) => ({
+        label: tag,
+        value: tag.toLowerCase().replace(/\s+/g, "-"),
+      }));
+
+      setAllTags(allTags ?? []);
+    } catch (err) {
+      console.error("Error fetching tags: ", err);
+      setError("Failed to load tags. Please try again later");
+    }
+  };
+
+  const handleChangeEditingTags = (
+    selectedTags: MultiValue<{ label: string; value: string }>,
+  ) => {
+    setSelectedTags(selectedTags || []);
+  };
+
+  const updateTags = async (id: number) => {
+    try {
+      const newTags = selectedTags.map((tag) => tag.value);
+      await axios.put(
+        `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
+        { tags: newTags },
+        { withCredentials: true },
+      );
+      setMentor({ ...mentor, tags: newTags });
+      setIsEditTags(false);
+    } catch (err) {
+      console.error("Error updating tags: ", err);
+      setError("Error updating tags. Please try again later");
     }
   };
 
@@ -258,18 +317,54 @@ export default function MentorUserProfilePage() {
           )}
         </div>
 
-        <div
-          className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full lg:w-[32%] h-fit justify-center lg:justify-start`}
-        >
-          {(mentor?.tags ?? []).map((tag, idx) => (
-            <span
-              key={idx}
-              className={`${style.tags} text-sm sm:text-m font-montserrat font-medium text-[#170103]`}
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
+        {isEditTags ? (
+          <div>
+            <CreatableSelect
+              isClearable
+              isMulti
+              options={allTags}
+              value={selectedTags}
+              onChange={handleChangeEditingTags}
+              menuPortalTarget={document.body}
+              styles={{
+                menuPortal: (base) => ({ ...base, zIndex: 11000 }),
+                menu: (base) => ({ ...base, zIndex: 11000 }),
+              }}
+            />
+            <TickIcon
+              className="inline ml-2 cursor-pointer"
+              size={16}
+              color="green"
+              onClick={() => updateTags(mentor.mentor_id)}
+            />
+            <CancelIcon
+              className="inline ml-2 cursor-pointer"
+              color="red"
+              onClick={() => setIsEditTags(false)}
+            />
+          </div>
+        ) : (
+          <div
+            className={`${style.cardShadow} ${style.tagsContainer} mt-5 w-full lg:w-[32%] h-fit justify-center lg:justify-start`}
+          >
+            {selectedTags.map((tag) => (
+              <span
+                key={tag.value}
+                className={`${style.tags} text-sm sm:text-m font-montserrat font-medium text-[#170103]`}
+              >
+                #{tag.label}
+              </span>
+            ))}
+            {isCurrentUser && (
+              <EditPencilIcon
+                className="inline ml-2 cursor-pointer absolute top-10 right-8"
+                size={16}
+                color="gray"
+                onClick={editTags}
+              />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
