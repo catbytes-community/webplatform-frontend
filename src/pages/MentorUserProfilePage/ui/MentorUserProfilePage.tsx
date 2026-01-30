@@ -50,6 +50,12 @@ export default function MentorUserProfilePage() {
   >([]);
   const animatedComponents = makeAnimated();
 
+  const normalizeTags = (tags: string[]) =>
+    tags.map((tag) => ({
+      label: tag.replace(/-/g, " "),
+      value: tag.toLowerCase().trim().replace(/\s+/g, "-"),
+    }));
+
   useEffect(() => {
     const getMentor = async () => {
       try {
@@ -61,14 +67,7 @@ export default function MentorUserProfilePage() {
         );
 
         setMentor(response.data);
-
-        if (response.data.tags) {
-          const normilizeTags = response.data.tags.map((tag: string) => ({
-            label: tag,
-            value: tag.toLowerCase().replace(/\s+/g, "-"),
-          }));
-          setSelectedTags(normilizeTags ?? []);
-        }
+        setSelectedTags(normalizeTags(response.data.tags ?? []));
       } catch (err) {
         console.error("Get mentor error: ", err);
       }
@@ -145,12 +144,7 @@ export default function MentorUserProfilePage() {
         withCredentials: true,
       });
 
-      const allTags = response?.data?.tags?.map((tag: string) => ({
-        label: tag,
-        value: tag.toLowerCase().replace(/\s+/g, "-"),
-      }));
-
-      setAllTags(allTags ?? []);
+      setAllTags(normalizeTags(response?.data?.tags ?? []));
     } catch (err) {
       console.error("Error fetching tags: ", err);
       setError("Failed to load tags. Please try again later");
@@ -165,12 +159,16 @@ export default function MentorUserProfilePage() {
 
   const updateTags = async (id: number) => {
     try {
-      const newTags = editingTags.map((tag) => tag.value);
+      const newTags = editingTags.map((tag) =>
+        tag.value.toLowerCase().replace(/\s+/g, "-"),
+      );
+
       await axios.put(
         `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
         { tags: newTags },
         { withCredentials: true },
       );
+
       setSelectedTags(editingTags);
       setMentor({ ...mentor, tags: newTags });
       setIsEditTags(false);
@@ -354,6 +352,10 @@ export default function MentorUserProfilePage() {
               className={style.tagsSelect}
               classNamePrefix="tags-select"
               components={animatedComponents}
+              getNewOptionData={(inputValue) => ({
+                label: inputValue.trim().replace(/-/g, " "),
+                value: inputValue.toLowerCase().trim().replace(/\s+/g, "-"),
+              })}
             />
           </div>
         ) : (
