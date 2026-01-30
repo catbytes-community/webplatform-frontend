@@ -45,6 +45,9 @@ export default function MentorUserProfilePage() {
   const [selectedTags, setSelectedTags] = useState<
     MultiValue<{ label: string; value: string }>
   >([]);
+  const [editingTags, setEditingTags] = useState<
+    MultiValue<{ label: string; value: string }>
+  >([]);
   const animatedComponents = makeAnimated();
 
   useEffect(() => {
@@ -134,6 +137,7 @@ export default function MentorUserProfilePage() {
   };
 
   const editTags = async () => {
+    setEditingTags(selectedTags);
     setIsEditTags(true);
 
     try {
@@ -154,19 +158,20 @@ export default function MentorUserProfilePage() {
   };
 
   const handleChangeEditingTags = (
-    selectedTags: MultiValue<{ label: string; value: string }>,
+    tags: MultiValue<{ label: string; value: string }>,
   ) => {
-    setSelectedTags(selectedTags || []);
+    setEditingTags(tags || []);
   };
 
   const updateTags = async (id: number) => {
     try {
-      const newTags = selectedTags.map((tag) => tag.value);
+      const newTags = editingTags.map((tag) => tag.value);
       await axios.put(
         `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
         { tags: newTags },
         { withCredentials: true },
       );
+      setSelectedTags(editingTags);
       setMentor({ ...mentor, tags: newTags });
       setIsEditTags(false);
     } catch (err) {
@@ -332,14 +337,17 @@ export default function MentorUserProfilePage() {
               <CancelIcon
                 className="inline ml-2 cursor-pointer"
                 color="red"
-                onClick={() => setIsEditTags(false)}
+                onClick={() => {
+                  setIsEditTags(false);
+                  setEditingTags([]);
+                }}
               />
             </div>
             <CreatableSelect
               isClearable
               isMulti
               options={allTags}
-              value={selectedTags}
+              value={editingTags}
               onChange={handleChangeEditingTags}
               menuPortalTarget={document.body}
               placeholder={"Select tags"}
