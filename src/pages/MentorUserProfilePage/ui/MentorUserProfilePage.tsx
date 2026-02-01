@@ -266,7 +266,7 @@ export default function MentorUserProfilePage() {
               key={idx}
               className={`${style.tags} text-sm sm:text-m font-montserrat font-medium text-[#170103]`}
             >
-              #{tag}
+              {tag}
             </span>
           ))}
         </div>
