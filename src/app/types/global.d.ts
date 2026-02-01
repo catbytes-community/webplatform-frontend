@@ -49,6 +49,7 @@ export interface Mentor extends User {
   experience: number;
   description: string;
   links: mentorLinks;
+  tags: string[] | null;
 }
 
 export type ProjectRole = {

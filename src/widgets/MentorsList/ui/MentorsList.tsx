@@ -27,6 +27,7 @@ export const MentorsList = ({ mentors }: MentorsProps) => {
               </p>
               <p className="text-xs mb-2">{mentor?.description}</p>
               <p className="text-xs mb-2">{mentor?.about}</p>
+              {((mentor?.tags ?? []).length > 0) && <p className = "text-xs mb-2">Tags: {mentor?.tags?.join(', ')}</p>}
               {currentUser && (
                 <>
                   <p className="text-xs mb-2">
