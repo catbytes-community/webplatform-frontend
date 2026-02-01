@@ -12,7 +12,9 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
   const [isAuth, setIsAuth] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const userIdFromLocalStorage = localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null;
+  const userIdFromLocalStorage = localStorage.getItem("userId")
+    ? Number(localStorage.getItem("userId"))
+    : null;
   const { user } = useUser(userIdFromLocalStorage);
   const location = useLocation();
   const [isMentor, setIsMentor] = useState(false);
@@ -58,6 +60,7 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
         );
         setIsAuth(false); // Update the authentication state
         localStorage.removeItem("user"); // Clear the user data from local storage
+        localStorage.removeItem("userId");
         setIsMentor(false); // Update the mentor state
         navigate("/"); // Redirect to the home page
       })
