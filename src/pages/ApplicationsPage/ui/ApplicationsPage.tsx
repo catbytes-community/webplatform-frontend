@@ -11,6 +11,15 @@ import { useNavigate } from 'react-router-dom';
 
 type Status = 'pending' | 'approved' | 'rejected' | 'active' | 'inactive';
 type FilterLabel = 'All' | 'Pending review' | 'Approved' | 'Rejected' | 'Active' | 'Inactive';
+type FilterType = 'Members' | 'Mentors';
+
+const statusMap: Record<Exclude<FilterLabel, 'All'>, Status> = {
+  'Pending review': 'pending',
+  Approved: 'approved',
+  Rejected: 'rejected',
+  Active: 'active',
+  Inactive: 'inactive'
+};
 
 const memberFilters: FilterLabel[] = ['All', 'Pending review', 'Approved', 'Rejected']; 
 const mentorFilters: FilterLabel[] = ['All', 'Pending review', 'Active', 'Inactive', 'Rejected'];
@@ -19,20 +28,10 @@ export const ApplicationsPage = () => {
   const [applications, setApplications] = useState<Application[]>([]);
   const [mentorApplications, setMentorApplications] = useState<MentorApplication[]>([]);
   const [filter, setFilter] = useState<FilterLabel>('All');
-  const [filterType, setFilterType] = useState<string>('Members');
+  const [filterType, setFilterType] = useState<FilterType>('Members');
   const navigate = useNavigate();
 
-  
   const filterByStatus = <T extends { status: string }>(applications: T[] , filter: FilterLabel) => {
-
-    const statusMap: Record<Exclude<FilterLabel, 'All'>, Status> = {
-      'Pending review': 'pending',
-      Approved: 'approved',
-      Rejected: 'rejected',
-      Active: 'active',
-      Inactive: 'inactive'
-    }
-
     if (filter === 'All') {
       return applications;
     }
@@ -42,6 +41,14 @@ export const ApplicationsPage = () => {
     return applications.filter(application => application.status === status);
   }
 
+  const changeFilterType = (type: FilterType, allowedFilters: FilterLabel[]) => {
+    setFilterType(type);
+
+    if(!allowedFilters.includes(filter)) {
+      setFilter('All')
+    }
+  }
+  
   useEffect(() => {
     try {
       // get member applications
@@ -50,7 +57,7 @@ export const ApplicationsPage = () => {
           withCredentials: true,
         })
         .then((res) => {
-          setApplications(filterByStatus<Application>(res.data.applications, filter));
+          setApplications(filterByStatus<Application>(res?.data?.applications, filter));
 
           // get mentor applications
           const getMentors = async () => {
@@ -65,7 +72,7 @@ export const ApplicationsPage = () => {
 
           getMentors()
             .then((res) => {
-              setMentorApplications(filterByStatus<MentorApplication>(res.data.mentors, filter));
+              setMentorApplications(filterByStatus<MentorApplication>(res?.data?.mentors, filter));
             })
             .catch((err) => console.log('Error getting mentors', err));
         })
@@ -108,7 +115,7 @@ export const ApplicationsPage = () => {
             className={`${style.filterButtons} ${
               filterType === 'Members' ? 'bg-black text-white' : ''
             }`}
-            onClick={() => setFilterType('Members')}
+            onClick={() => changeFilterType('Members', memberFilters)}
           >
             Members
           </button>
@@ -116,7 +123,7 @@ export const ApplicationsPage = () => {
             className={`${style.filterButtons} ${
               filterType === 'Mentors' ? 'bg-black text-white' : ''
             }`}
-            onClick={() => setFilterType('Mentors')}
+            onClick={() => changeFilterType('Mentors', mentorFilters)}
           >
             Mentors
           </button>
