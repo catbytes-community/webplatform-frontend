@@ -29,12 +29,12 @@ export const CreateApplicationMentorPage: React.FC = () => {
         const response = await axios.get(`${import.meta.env.VITE_DEVAPI}tags`, {
           withCredentials: true,
         });
-        const fetchedTags = response.data.tags;
+        const fetchedTags = response?.data?.tags;
         setTags(
           fetchedTags.map((tag: string) => ({
             label: tag,
-            value: tag.toLowerCase().replace(/\s+/g, "-"), // Convert to lowercase and replace spaces with hyphens
-          }))
+            value: tag,
+          })),
         );
       } catch (error) {
         console.error("Error fetching tags:", error);
@@ -108,7 +108,7 @@ export const CreateApplicationMentorPage: React.FC = () => {
   };
 
   const handleChangeTags = (
-    selectedOptions: MultiValue<{ label: string; value: string }>
+    selectedOptions: MultiValue<{ label: string; value: string }>,
   ) => {
     setSelectedTags(selectedOptions || []);
   };
