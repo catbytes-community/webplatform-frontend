@@ -52,8 +52,8 @@ export default function MentorUserProfilePage() {
 
   const normalizeTags = (tags: string[]) =>
     tags.map((tag) => ({
-      label: tag.replace(/-/g, " "),
-      value: tag.toLowerCase().trim().replace(/\s+/g, "-"),
+      label: tag,
+      value: tag,
     }));
 
   useEffect(() => {
@@ -159,9 +159,7 @@ export default function MentorUserProfilePage() {
 
   const updateTags = async (id: number) => {
     try {
-      const newTags = editingTags.map((tag) =>
-        tag.value.toLowerCase().replace(/\s+/g, "-"),
-      );
+      const newTags = editingTags.map((tag) => tag.value);
 
       await axios.put(
         `${import.meta.env.VITE_DEVAPI}mentors/${id}`,
@@ -353,8 +351,8 @@ export default function MentorUserProfilePage() {
               classNamePrefix="tags-select"
               components={animatedComponents}
               getNewOptionData={(inputValue) => ({
-                label: inputValue.trim().replace(/-/g, " "),
-                value: inputValue.toLowerCase().trim().replace(/\s+/g, "-"),
+                label: inputValue.toLowerCase().trim(),
+                value: inputValue.toLowerCase().trim(),
               })}
             />
           </div>
