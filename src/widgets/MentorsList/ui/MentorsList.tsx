@@ -15,7 +15,7 @@ export const MentorsList = ({ mentors }: MentorsProps) => {
     <div className="flex flex-col gap-5">
       {mentors?.map((mentor) => (
         <Card className={s.cardStyle} key={mentor?.mentor_id}>
-          <div className="flex gap-5">
+          <div className={s.cardRows}>
             <img
               className={s.mentorPhoto}
               src={`https://robohash.org/${mentor.mentor_id}.png`}
@@ -27,7 +27,6 @@ export const MentorsList = ({ mentors }: MentorsProps) => {
               </p>
               <p className="text-xs mb-2">{mentor?.description}</p>
               <p className="text-xs mb-2">{mentor?.about}</p>
-              {((mentor?.tags ?? []).length > 0) && <p className = "text-xs mb-2">Tags: {mentor?.tags?.join(', ')}</p>}
               {currentUser && (
                 <>
                   <p className="text-xs mb-2">
@@ -44,6 +43,17 @@ export const MentorsList = ({ mentors }: MentorsProps) => {
                 </>
               )}
             </div>
+
+            {((mentor?.tags ?? []).length > 0) &&  
+              <div className={`${s.tagsContainer}  h-fit`}>
+                {mentor.tags?.map((tag, idx) => (
+                  <span key={idx} 
+                    className={`${s.tags} font-montserrat font-medium text-[#170103]`}>
+                    {tag}
+                  </span>
+                ))}
+              </div>}
+        
           </div>
         </Card>
       ))}
