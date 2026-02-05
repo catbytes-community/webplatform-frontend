@@ -122,6 +122,10 @@ export const CreateApplicationMentorPage: React.FC = () => {
     } catch (error: any) {
       // catch errors
       console.error("Error:", error);
+      if (error?.response?.status === 409) {
+        setError("You can’t submit this application again. Your previous submission was reviewed and rejected");
+        return;
+      }
       setError(error.message ? error.message : String(error));
     }
   };
