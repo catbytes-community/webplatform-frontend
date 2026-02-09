@@ -57,6 +57,8 @@ export default function MentorUserProfilePage() {
     }));
 
   useEffect(() => {
+    if (!userIdFromLocalStorage) return;
+
     const getMentor = async () => {
       try {
         const response = await axios.get(
@@ -74,9 +76,9 @@ export default function MentorUserProfilePage() {
     };
 
     getMentor();
-  }, [id]);
+  }, [id, userIdFromLocalStorage]);
 
-  if (!mentor) {
+  if (!mentor || !userIdFromLocalStorage) {
     return (
       <div className="flex flex-col sm:flex-row items-center justify-center h-screen text-2xl  sm:text-xl md:text-2xl font-montserrat font-medium gap-2 text-center px-4">
         <p className="mb-2 sm:mb-0">Please login to view this page.</p>
