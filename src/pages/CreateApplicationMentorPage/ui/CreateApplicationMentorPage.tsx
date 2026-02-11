@@ -24,44 +24,25 @@ export const CreateApplicationMentorPage: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    // TODO: fetch tags from server
-    const tags = [
-      "react",
-      "react-native",
-      "javascript",
-      "typescript",
-      "web-development",
-      "python",
-      "machine-learning",
-      "data-science",
-      "devops",
-      "cloud-computing",
-      "backend-development",
-      "frontend-development",
-      "full-stack-development",
-      "mobile-development",
-      "ui-ux-design",
-      "game-development",
-      "blockchain",
-      "artificial-intelligence",
-      "cybersecurity",
-      "software-engineering",
-      "agile-methodologies",
-      "project-management",
-      "quality-assurance",
-      "testing",
-      "database-management",
-      "sql",
-      "nosql",
-      "graphql",
-    ];
+    const fetchTags = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_DEVAPI}tags`, {
+          withCredentials: true,
+        });
+        const fetchedTags = response?.data?.tags;
+        setTags(
+          fetchedTags.map((tag: string) => ({
+            label: tag,
+            value: tag,
+          })),
+        );
+      } catch (error) {
+        console.error("Error fetching tags:", error);
+        setError("Failed to load tags. Please try again later");
+      }
+    };
 
-    setTags(
-      tags.map((tag) => ({
-        label: tag,
-        value: tag.toLowerCase().replace(/\s+/g, "-"), // Convert to lowercase and replace spaces with hyphens
-      }))
-    );
+    fetchTags();
   }, []);
 
   // Validation rules
@@ -122,12 +103,16 @@ export const CreateApplicationMentorPage: React.FC = () => {
     } catch (error: any) {
       // catch errors
       console.error("Error:", error);
+      if (error?.response?.status === 409) {
+        setError("You can’t submit this application again. Your previous submission was reviewed and rejected");
+        return;
+      }
       setError(error.message ? error.message : String(error));
     }
   };
 
   const handleChangeTags = (
-    selectedOptions: MultiValue<{ label: string; value: string }>
+    selectedOptions: MultiValue<{ label: string; value: string }>,
   ) => {
     setSelectedTags(selectedOptions || []);
   };

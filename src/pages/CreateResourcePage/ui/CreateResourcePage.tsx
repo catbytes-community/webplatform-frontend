@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./CreateResourcePage.module.css";
 import { useNavigate } from "react-router-dom";
 import { Resource } from "../../CommunityResourcesPage/ui/constants";
@@ -7,13 +7,17 @@ import CreatableSelect from "react-select/creatable";
 import { MultiValue } from "react-select";
 import { useUser } from "../../../shared/lib/customHooks/useUser";
 import axios from "axios";
+import ConfirmModal from "../../../shared/ui/ConfirmModal/ConfirmModal";
+import Navbar from "../../../shared/ui/Navbar/Navbar";
+import makeAnimated from "react-select/animated";
+import Footer from "../../../shared/ui/Footer/Footer";
 
 interface CreateResourcePageProps {
   addResource?: (newResource: Resource) => void;
 }
 
-type ResourceType = "post" | "youtube" | "";
-type Visibility = "everyone" | "members" | "mentors";
+type Type = "post" | "youtube video" | "";
+type Audience = "public" | "member" | "mentor";
 
 export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
   addResource,
@@ -22,7 +26,7 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
     ? Number(localStorage.getItem("userId"))
     : null;
   const { user } = useUser(userIdFromLocalStorage);
-  const [resourceType, setResourceType] = useState<ResourceType>("");
+  const [type, setType] = useState<Type>("");
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [tags, setTags] = useState<
@@ -31,24 +35,26 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
   const [selectedTags, setSelectedTags] = useState<
     MultiValue<{ value: string; label: string }>
   >([]);
-  const [visibility, setVisibility] = useState<Visibility>("everyone");
+  const [audience, setAudience] = useState<Audience>("public");
   const [isMentor, setIsMentor] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const navigate = useNavigate();
+  const animatedComponent = makeAnimated();
 
   const resourceTypeOptions = [
-    { value: "post", label: "post" },
-    { value: "youtube video", label: "youtube video" },
+    { value: "post", label: "Post" },
+    { value: "youtube video", label: "YouTube video" },
   ];
 
-  const visibilityOptions: {
-    value: Visibility;
+  const audienceOptions: {
+    value: Audience;
     label: string;
-    forMentorOnly?: boolean;
+    isMentorOnly?: boolean;
   }[] = [
-    { value: "everyone", label: "Everyone" },
-    { value: "members", label: "Members only" },
-    { value: "mentors", label: "Mentors only", forMentorOnly: isMentor },
+    { value: "public", label: "Everyone" },
+    { value: "member", label: "Members only" },
+    { value: "mentor", label: "Mentors only", isMentorOnly: isMentor },
   ];
 
   useEffect(() => {
@@ -92,14 +98,13 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
   const validate = () => {
     const validateErrors: Record<string, string> = {};
 
-    if (!resourceType)
-      validateErrors.resourceType = "Resource type is required";
+    if (!type) validateErrors.type = "Resource type is required";
     if (!title.trim()) {
       validateErrors.title = "Title is required";
     } else if (title.trim().length < 1 || title.trim().length > 100) {
       validateErrors.title = "Title must be between 1 and 100 characters";
     }
-    if (resourceType === "post" && !description.trim()) {
+    if (type === "post" && !description.trim()) {
       validateErrors.description = "Description is required for posts";
     }
     if (selectedTags.length === 0)
@@ -109,23 +114,22 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
     return Object.keys(validateErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handlePublishClick = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!validate()) return;
 
-    // if (!selectedTag) {
-    //   alert("Please select a tag for the resource.");
-    //   return;
-    // }
+    setIsConfirmModalOpen(true);
+  };
 
+  const submitResource = () => {
     const newResource = {
       id: Date.now(),
+      type,
       title,
       description,
-      // file,
-      // fullInfo,
-      // tags: [selectedTag],
       tags: selectedTags.map((tag) => tag.value),
+      audience,
     };
 
     if (addResource) {
@@ -135,113 +139,144 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
     navigate("/community_resources");
 
     setTitle("");
+    setType("");
     setDescription("");
-    // setFile(null);
-    // setFullInfo("");
-    // setSelectedTag(null);
+    setSelectedTags([]);
+    setAudience("public");
+  };
+
+  const handleConfirmation = (confirmed: boolean) => {
+    setIsConfirmModalOpen(false);
+
+    if (confirmed) {
+      submitResource();
+    }
   };
 
   return (
-    <div className={styles.container}>
-      <h3 className={styles.title}>Add new resource</h3>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Resource type*</label>
-          <Select
-            placeholder="Select"
-            options={resourceTypeOptions}
-            value={
-              resourceTypeOptions.find((opt) => opt.value === resourceType) ||
-              null
-            }
-            onChange={(opt) =>
-              setResourceType((opt?.value as ResourceType) || "")
-            }
-          />
-          {errors.resourceType && (
-            <p className="text-sm text-red-500">{errors.resourceType}</p>
-          )}
-        </div>
+    <div className="max-w-7xl px-5 mx-auto sm:px-10">
+      <Navbar />
+      <div className="mt-10">
+        <h3 className="font-bold text-4xl">Add new resource</h3>
+        <form
+          className="mt-8 flex flex-col gap-6 md:flex-row justify-between"
+          onSubmit={handlePublishClick}
+        >
+          <div className="flex flex-col gap-6 px-6 py-8 rounded-3xl md:w-3/5 bg-white/40 shadow-[0_6px_10px_#ffa6ad66]">
+            <div className="flex w-full flex-col gap-2">
+              <label className="text-sm text-slate-600">Resource type*</label>
+              <Select
+                placeholder="Select"
+                options={resourceTypeOptions}
+                value={
+                  resourceTypeOptions.find((opt) => opt.value === type) || null
+                }
+                onChange={(opt) => setType((opt?.value as Type) || "")}
+                className={styles.select}
+                classNamePrefix="select"
+              />
+              {errors.type && (
+                <p className="text-sm text-red-500">{errors.type}</p>
+              )}
+            </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Title*</label>
-          <input
-            type="text"
-            placeholder="Add title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            maxLength={100}
-            // className={styles.input}
-          />
-          {errors.title && (
-            <p className="text-sm text-red-500">{errors.title}</p>
-          )}
-          <p className="text-xs text-gray-400">{title.length}/100</p>
-        </div>
+            <div className="flex w-full flex-col gap-2">
+              <span className="flex flex-row items-end justify-between">
+                <label className="text-sm text-slate-600">Title*</label>
+                <p className="text-xs text-slate-500">{title.length}/100</p>
+              </span>
+              <input
+                type="text"
+                placeholder="Add title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full bg-transparent rounded-md border border-slate-500 p-3 text-sm outline-none transition placeholder:text-slate-500 focus:border-slate-400 hover:border-slate-400"
+                maxLength={100}
+              />
+              {errors.title && (
+                <p className="text-sm text-red-500">{errors.title}</p>
+              )}
+            </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Description*</label>
-          <textarea
-            placeholder="Write a short description of the resource"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={4}
-            className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            // className={styles.input}
-          />
-          {errors.description && (
-            <p className="text-sm text-red-500">{errors.description}</p>
-          )}
-        </div>
+            <div className="flex w-full flex-col gap-2">
+              <label className="text-sm text-slate-600">Description*</label>
+              <textarea
+                placeholder="Add description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={4}
+                className="w-full bg-transparent rounded-md border border-slate-500 p-3 text-sm outline-none transition placeholder:text-slate-500 focus:border-slate-400 hover:border-slate-400"
+              />
+              {errors.description && (
+                <p className="text-sm text-red-500">{errors.description}</p>
+              )}
+            </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Add Tags*</label>
-          <CreatableSelect
-            isClearable
-            isMulti
-            placeholder="Select"
-            options={tags}
-            value={selectedTags}
-            onChange={handleTagChange}
-            getNewOptionData={(inputValue) => ({
-              label: inputValue.trim().toLowerCase(),
-              value: inputValue.trim().toLowerCase(),
-            })}
-          />
-          {errors.selectedTags && (
-            <p className="text-sm text-red-500">{errors.selectedTags}</p>
-          )}
-        </div>
-
-        <div>
-          <h3 className="text-lg font-medium mb-3">This resource is for:</h3>
-          <div className="space-y-3">
-            {visibilityOptions
-              .filter((opt) => opt.forMentorOnly !== false)
-              .map((opt) => (
-                <label
-                  key={opt.value}
-                  className="flex items-center gap-3 cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="visibility"
-                    value={opt.value}
-                    checked={visibility === opt.value}
-                    onChange={() => setVisibility(opt.value)}
-                    className="accent-pink-600"
-                  />
-                  {opt.label}
-                </label>
-              ))}
+            <div className="flex w-full flex-col gap-2">
+              <label className="text-sm text-slate-600">Add tags*</label>
+              <CreatableSelect
+                isClearable
+                isMulti
+                placeholder="Select"
+                options={tags}
+                value={selectedTags}
+                onChange={handleTagChange}
+                getNewOptionData={(inputValue) => ({
+                  label: inputValue.trim().toLowerCase(),
+                  value: inputValue.trim().toLowerCase(),
+                })}
+                className={styles.select}
+                classNamePrefix="select"
+                components={animatedComponent}
+                menuShouldScrollIntoView={false}
+              />
+              {errors.selectedTags && (
+                <p className="text-sm text-red-500">{errors.selectedTags}</p>
+              )}
+            </div>
           </div>
-        </div>
 
-        <button type="submit" className={styles.submitButton}>
-          Published
-        </button>
-      </form>
+          <div
+            className={`${styles.audienceContainer} flex flex-col mt-6 rounded-3xl py-8 px-6 h-fit md:mt-0 md:w-2/5`}
+          >
+            <h3 className="text-xl font-semibold">This resource is for:</h3>
+            <div className="mt-5 gap-4 flex flex-col">
+              {audienceOptions
+                .filter((opt) => opt.isMentorOnly !== false)
+                .map((opt) => (
+                  <label
+                    key={opt.value}
+                    className="flex items-center gap-3 cursor-pointer"
+                  >
+                    <input
+                      type="radio"
+                      name="audience"
+                      value={opt.value}
+                      checked={audience === opt.value}
+                      onChange={() => setAudience(opt.value)}
+                      className="relative h-5 w-5 appearance-none rounded-full border border-slate-500 bg-rose-100 transition checked:border-rose-400 checked:bg-rose-400 before:absolute before:inset-1 before:rounded-full before:bg-white before:opacity-0 checked:before:opacity-100 cursor-pointer"
+                    />
+                    {opt.label}
+                  </label>
+                ))}
+            </div>
+            <button
+              type="submit"
+              className="mt-10 w-full text-sm font-bold uppercase py-4 bg-rose-400 text-white rounded-3xl"
+            >
+              Publish now
+            </button>
+          </div>
+        </form>
+
+        {isConfirmModalOpen && (
+          <ConfirmModal
+            text="Are you sure you want to add new resource?"
+            getConfirmation={handleConfirmation}
+          />
+        )}
+      </div>
+      <Footer />
     </div>
   );
 };
