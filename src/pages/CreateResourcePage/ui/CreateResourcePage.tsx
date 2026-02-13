@@ -11,6 +11,7 @@ import ConfirmModal from "../../../shared/ui/ConfirmModal/ConfirmModal";
 import Navbar from "../../../shared/ui/Navbar/Navbar";
 import makeAnimated from "react-select/animated";
 import Footer from "../../../shared/ui/Footer/Footer";
+import Button, { ButtonsEnum } from "../../../shared/ui/Button/Button";
 
 interface CreateResourcePageProps {
   addResource?: (newResource: Resource) => void;
@@ -240,7 +241,7 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
             className={`${styles.audienceContainer} flex flex-col mt-6 rounded-3xl py-8 px-6 h-fit md:mt-0 md:w-2/5`}
           >
             <h3 className="text-xl font-semibold">This resource is for:</h3>
-            <div className="mt-5 gap-4 flex flex-col">
+            <div className="mt-5 mb-10 gap-4 flex flex-col">
               {audienceOptions
                 .filter((opt) => opt.isMentorOnly !== false)
                 .map((opt) => (
@@ -254,18 +255,17 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
                       value={opt.value}
                       checked={audience === opt.value}
                       onChange={() => setAudience(opt.value)}
-                      className="relative h-5 w-5 appearance-none rounded-full border border-slate-500 bg-rose-100 transition checked:border-rose-400 checked:bg-rose-400 before:absolute before:inset-1 before:rounded-full before:bg-white before:opacity-0 checked:before:opacity-100 cursor-pointer"
+                      className="relative h-5 w-5 appearance-none rounded-full bg-[#fef7f8] transition checked:bg-rose-400 before:absolute before:inset-1 before:rounded-full before:bg-[#fef7f8] before:opacity-0 checked:before:opacity-100 cursor-pointer"
                     />
                     {opt.label}
                   </label>
                 ))}
             </div>
-            <button
-              type="submit"
-              className="mt-10 w-full text-sm font-bold uppercase py-4 bg-rose-400 text-white rounded-3xl"
-            >
-              Publish now
-            </button>
+            <Button
+              btnType={ButtonsEnum.PRIMARY}
+              onClick={handlePublishClick}
+              label="Publish now"
+            />
           </div>
         </form>
 
