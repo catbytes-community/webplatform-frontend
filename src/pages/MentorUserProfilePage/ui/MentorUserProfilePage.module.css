@@ -28,6 +28,8 @@
   display: inline-block;
   background-color: #fef7f8;
   padding: 10px 16px;
+  min-width: 60px;
+  text-align: center;
   border-radius: 100px;
   z-index: 0;
 }
@@ -43,7 +45,8 @@
     rgba(255, 55, 127, 1) 0%,
     rgba(255, 212, 130, 1) 85%
   );
-  mask: linear-gradient(90deg, #fff 0%, #fff 100%) content-box,
+  mask:
+    linear-gradient(90deg, #fff 0%, #fff 100%) content-box,
     linear-gradient(90deg, #fff 0%, #fff 100%);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
@@ -56,7 +59,9 @@
   border-radius: 99px;
   width: 50px;
   height: 28px;
-  transition: background-color 0.1s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.1s ease,
+    border-color 0.2s ease;
   cursor: pointer;
   position: relative;
 }
@@ -80,4 +85,78 @@
 
 .toggleBtn.isToggled .thumb {
   left: calc(50px - 25px);
+}
+
+.tagsSelect {
+  width: 100%;
+}
+
+:global(.tags-select__control) {
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  border-bottom: 1px solid #fef7f8 !important;
+  padding-bottom: 4px !important;
+  box-shadow: none !important;
+}
+
+:global(.tags-select__value-container) {
+  cursor: text !important;
+  padding: 0 !important;
+}
+
+:global(.tags-select__indicators) {
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: end !important;
+}
+
+:global(.tags-select__clear-indicator svg) {
+  fill: rgb(96, 96, 96) !important;
+}
+
+:global(.tags-select__clear-indicator:hover svg) {
+  fill: #374151 !important;
+}
+
+:global(.tags-select__dropdown-indicator svg) {
+  fill: rgb(96, 96, 96) !important;
+}
+
+:global(.tags-select__dropdown-indicator:hover svg) {
+  fill: #374151 !important;
+}
+
+:global(.tags-select__indicator-separator) {
+  display: none !important;
+}
+
+:global(.tags-select__multi-value) {
+  background-color: #fef7f8 !important;
+  border-radius: 100px !important;
+  padding: 5px 8px !important;
+}
+
+:global(.tags-select__multi-value__label) {
+  color: #170103 !important;
+  font-size: 14px !important;
+}
+
+:global(.tags-select__multi-value__remove:hover) {
+  background-color: transparent !important;
+}
+
+:global(.tags-select__menu) {
+  background-color: #fef7f8 !important;
+  border-radius: 8px !important;
+}
+
+:global(.tags-select__option) {
+  color: #170103 !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+}
+
+:global(.tags-select__option--is-focused) {
+  background-color: rgba(241, 233, 233, 0.9) !important;
 }
