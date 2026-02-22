@@ -48,7 +48,11 @@ export default function MentorUserProfilePage() {
   const [editingTags, setEditingTags] = useState<
     MultiValue<{ label: string; value: string }>
   >([]);
+  const [selectTagError, setSelectTagError] = useState<string | null>(null);
+
   const animatedComponents = makeAnimated();
+
+  const MAX_TAGS = 10;
 
   const normalizeTags = (tags: string[]) =>
     tags.map((tag) => ({
@@ -156,7 +160,14 @@ export default function MentorUserProfilePage() {
   const handleChangeEditingTags = (
     tags: MultiValue<{ label: string; value: string }>,
   ) => {
-    setEditingTags(tags || []);
+     if(tags.length <= MAX_TAGS) {
+      setEditingTags(tags || []);
+      setSelectTagError('');
+
+      return
+    }
+
+    setSelectTagError(`You can select up to ${MAX_TAGS} tags only`);
   };
 
   const updateTags = async (id: number) => {
@@ -357,6 +368,8 @@ export default function MentorUserProfilePage() {
                 value: inputValue.toLowerCase().trim(),
               })}
             />
+            {selectTagError && <p className="text-red-500 italic">{selectTagError}</p>}
+
           </div>
         ) : (
           <div
