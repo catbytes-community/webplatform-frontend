@@ -90,6 +90,12 @@ export default function Navbar({ isLogin = false }: { isLogin?: boolean }) {
               Home
             </Link>
             <Link
+                to="/resources_page"
+                className="block lg:inline text-gray-600 text-sm leading-[1.5] font-montserrat"
+            >
+              Resources
+            </Link>
+            <Link
               to="/pomodoro"
               className="block lg:inline text-gray-600 text-sm leading-[1.5] font-montserrat"
             >

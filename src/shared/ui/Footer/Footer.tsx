@@ -34,7 +34,7 @@ export default function Footer() {
                   Study Buddy (Coming soon)
                 </li>
                 <li className="text-pink-900 font-medium hover:text-pink-700 cursor-pointer">
-                  Resources (Coming soon)
+                 <Link to="/resources_page">Resources</Link>
                 </li>
               </ul>
             </div>

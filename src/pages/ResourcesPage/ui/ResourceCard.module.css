@@ -1,0 +1,142 @@
+.cardContainer {
+    background-image:
+            linear-gradient(
+                    180deg,
+                    rgba(253, 225, 190, 0) 0%,
+                    rgba(253, 225, 190, 0) 120px,
+                    rgba(253, 225, 190, 1) 220px,
+                    rgba(245, 181, 203, 1) 100%
+            ),
+            /*my original image*/
+            url('../images/folder-bg-full.png');
+
+    background-repeat: no-repeat, no-repeat;
+    background-size: 100% 100%, 100% auto;
+    background-position: top center, top center;
+
+    border-radius: 0 0 24px 24px;
+    overflow: hidden;
+
+    padding-top: 65px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-height: 350px;
+
+    /*white border*/
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+    break-inside: avoid;
+    margin-bottom: 20px;
+}
+
+/*cutting the border on the top*/
+.cardContainer::after {
+    content: "";
+    position: absolute;
+    top: 60px;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    border-left: 1.5px solid #ffffff;
+    border-right: 1.5px solid #ffffff;
+    border-bottom: 1.5px solid #ffffff;
+
+    border-radius: 0 0 24px 24px;
+
+    pointer-events: none;
+
+    z-index: 5;
+}
+
+.tagsRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.mockTag {
+    background-color: #f898d0;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.cardTitle {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #111827;
+    line-height: 1.3;
+}
+
+.cardMeta {
+    font-size: 0.875rem;
+    color: #4b5563;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cardMeta strong {
+    color: #000;
+    text-decoration: underline;
+}
+
+.cardDescription {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #374151;
+    margin: 0;
+}
+
+.cardLink {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #000;
+    text-decoration: underline;
+    word-break: break-all;
+    margin-top: auto;
+}
+
+/*make a longer body if required*/
+.layer3GradientBody {
+    position: relative;
+    z-index: 3;
+
+    background-image:
+            url('../images/block_gradient.png'),
+            linear-gradient(180deg, #FFF3E4 0%, #FFD6E0 100%);
+
+    background-size:
+            100% auto,
+            100% 100%;
+
+    background-repeat:
+            no-repeat,
+            no-repeat;
+
+    background-position:
+            top center,
+            center center;
+
+    margin-top: -3px;
+
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    border-radius: 0 0 24px 24px;
+    overflow: hidden;
+}
