@@ -23,6 +23,8 @@ export const CreateApplicationMentorPage: React.FC = () => {
   //uncommit if need message in ui
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+  const MAX_TAGS = 10;
+
   useEffect(() => {
     const fetchTags = async () => {
       try {
@@ -114,7 +116,14 @@ export const CreateApplicationMentorPage: React.FC = () => {
   const handleChangeTags = (
     selectedOptions: MultiValue<{ label: string; value: string }>,
   ) => {
-    setSelectedTags(selectedOptions || []);
+    if(selectedOptions.length <= MAX_TAGS) {
+      setSelectedTags(selectedOptions || []);
+      setErrors((prev) => ({...prev, tags: ''}));
+
+      return
+    }
+
+    setErrors((prev) => ({...prev, tags: `You can select up to ${MAX_TAGS} tags only`}));
   };
 
   return (
@@ -194,6 +203,7 @@ export const CreateApplicationMentorPage: React.FC = () => {
                 isClearable
                 isMulti
                 options={tags}
+                value={selectedTags}
                 onChange={handleChangeTags}
                 menuPortalTarget={document.body}
                 styles={{
@@ -201,6 +211,8 @@ export const CreateApplicationMentorPage: React.FC = () => {
                   menu: (base) => ({ ...base, zIndex: 11000 }),
                 }}
               />
+              {errors.tags && <p className={style.error}>{errors.tags}</p>}
+
             </div>
           </div>
 

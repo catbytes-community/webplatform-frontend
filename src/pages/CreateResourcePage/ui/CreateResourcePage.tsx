@@ -17,7 +17,7 @@ interface CreateResourcePageProps {
   addResource?: (newResource: Resource) => void;
 }
 
-type Type = "post" | "youtube video" | "";
+type Type = "post" | "video";
 type Audience = "public" | "member" | "mentor";
 
 export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
@@ -27,7 +27,7 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
     ? Number(localStorage.getItem("userId"))
     : null;
   const { user } = useUser(userIdFromLocalStorage);
-  const [type, setType] = useState<Type>("");
+  const [selectedType, setSelectedType] = useState<Type>("post");
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [tags, setTags] = useState<
@@ -45,7 +45,7 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
 
   const resourceTypeOptions = [
     { value: "post", label: "Post" },
-    { value: "youtube video", label: "YouTube video" },
+    { value: "video", label: "YouTube video" },
   ];
 
   const audienceOptions: {
@@ -94,22 +94,22 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
     selectedOptions: MultiValue<{ value: string; label: string }>,
   ) => {
     setSelectedTags(selectedOptions || []);
+    setErrors((prev) => ({ ...prev, selectedTags: "" }));
   };
 
   const validate = () => {
     const validateErrors: Record<string, string> = {};
 
-    if (!type) validateErrors.type = "Resource type is required";
     if (!title.trim()) {
       validateErrors.title = "Title is required";
     } else if (title.trim().length < 1 || title.trim().length > 100) {
       validateErrors.title = "Title must be between 1 and 100 characters";
     }
-    if (type === "post" && !description.trim()) {
-      validateErrors.description = "Description is required for posts";
+    if (selectedType === "post" && !description.trim()) {
+      validateErrors.description = "Description is required for post";
     }
-    if (selectedTags.length === 0)
-      validateErrors.selectedTags = "Please add at least one tag";
+    if (selectedTags.length === 0 || selectedTags.length >= 10)
+      validateErrors.selectedTags = "Please add from one to ten tags";
 
     setErrors(validateErrors);
     return Object.keys(validateErrors).length === 0;
@@ -126,7 +126,7 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
   const submitResource = () => {
     const newResource = {
       id: Date.now(),
-      type,
+      selectedType,
       title,
       description,
       tags: selectedTags.map((tag) => tag.value),
@@ -138,9 +138,8 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
     }
 
     navigate("/community_resources");
-
     setTitle("");
-    setType("");
+    setSelectedType("post");
     setDescription("");
     setSelectedTags([]);
     setAudience("public");
@@ -169,10 +168,14 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
               <Select
                 placeholder="Select"
                 options={resourceTypeOptions}
-                value={
-                  resourceTypeOptions.find((opt) => opt.value === type) || null
-                }
-                onChange={(opt) => setType((opt?.value as Type) || "")}
+                value={resourceTypeOptions.find(
+                  (opt) => opt.value === selectedType,
+                )}
+                onChange={(opt) => {
+                  if (opt) {
+                    setSelectedType(opt.value as Type);
+                  }
+                }}
                 className={styles.select}
                 classNamePrefix="select"
               />
@@ -190,7 +193,10 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
                 type="text"
                 placeholder="Add title"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  setErrors((prev) => ({ ...prev, title: "" }));
+                }}
                 className="w-full bg-transparent rounded-md border border-slate-500 p-3 text-sm outline-none transition placeholder:text-slate-500 focus:border-slate-400 hover:border-slate-400"
                 maxLength={100}
               />
@@ -204,7 +210,10 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
               <textarea
                 placeholder="Add description"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                  setErrors((prev) => ({ ...prev, description: "" }));
+                }}
                 rows={4}
                 className="w-full bg-transparent rounded-md border border-slate-500 p-3 text-sm outline-none transition placeholder:text-slate-500 focus:border-slate-400 hover:border-slate-400"
               />
