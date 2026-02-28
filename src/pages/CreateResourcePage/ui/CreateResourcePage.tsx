@@ -109,7 +109,7 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
       validateErrors.description = "Description is required for post";
     }
     if (selectedTags.length === 0 || selectedTags.length >= 10)
-      validateErrors.selectedTags = "Please add from one to ten tags";
+      validateErrors.selectedTags = "Please add from 1 to 10 tags";
 
     setErrors(validateErrors);
     return Object.keys(validateErrors).length === 0;
@@ -223,7 +223,12 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
             </div>
 
             <div className="flex w-full flex-col gap-2">
-              <label className="text-sm text-slate-600">Add tags*</label>
+              <span className="flex flex-row items-end justify-between">
+                <label className="text-sm text-slate-600">Add tags*</label>
+                <p className="text-xs text-slate-500">
+                  {selectedTags.length}/10
+                </p>
+              </span>
               <CreatableSelect
                 isClearable
                 isMulti
@@ -235,6 +240,7 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
                   label: inputValue.trim().toLowerCase(),
                   value: inputValue.trim().toLowerCase(),
                 })}
+                isOptionDisabled={() => selectedTags.length >= 10}
                 className={styles.select}
                 classNamePrefix="select"
                 components={animatedComponent}
