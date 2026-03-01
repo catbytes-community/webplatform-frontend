@@ -13,6 +13,7 @@ dist-ssr
 *.local
 *.env
 .env
+.env.*
 
 .vite/
 
@@ -28,3 +29,15 @@ dist-ssr
 *.sw?
 .vite
 *.tsbuildinfo
+
+# Terraform
+**/.terraform/*
+**/.terraform.lock.hcl
+**/terraform.tfstate
+**/terraform.tfstate.*
+**/.terraform.tfstate.lock.info
+**/crash.log
+
+# Sensitive variables
+**/terraform.tfvars
+**/*.auto.tfvars
