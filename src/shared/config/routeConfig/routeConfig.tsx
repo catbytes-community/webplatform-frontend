@@ -20,6 +20,7 @@ import TandC from "../../../pages/TandC";
 import { CreateApplicationMentorPage } from "../../../pages/CreateApplicationMentorPage";
 import { MentorUserProfilePage } from "../../../pages/MentorUserProfilePage";
 import { AuthDiscordCallbackPage } from "../../../pages/AuthDiscordCallbackPage";
+import { ResourcePage } from "../../../pages/ResourcePage";
 
 export enum AppRoutes {
   MAIN = "main",
@@ -42,6 +43,7 @@ export enum AppRoutes {
   CREATE_APPLICATION_MENTOR = "create_application_mentor",
   MENTOR_USER_PROFILE = "mentor_user_profile/:id",
   AUTH_DISCORD_CALLBACK = "auth/discord/callback",
+  RESOURCE = "resource",
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
@@ -65,6 +67,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.CREATE_APPLICATION_MENTOR]: "/create_application_mentor",
   [AppRoutes.MENTOR_USER_PROFILE]: "/mentor_user_profile/:id",
   [AppRoutes.AUTH_DISCORD_CALLBACK]: "/auth/discord/callback",
+  [AppRoutes.RESOURCE]: "/resource",
 };
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
@@ -147,5 +150,9 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.AUTH_DISCORD_CALLBACK]: {
     path: RoutePath[AppRoutes.AUTH_DISCORD_CALLBACK],
     element: <AuthDiscordCallbackPage />,
+  },
+  [AppRoutes.RESOURCE]: {
+    path: RoutePath.resource,
+    element: <ResourcePage />,
   },
 };
