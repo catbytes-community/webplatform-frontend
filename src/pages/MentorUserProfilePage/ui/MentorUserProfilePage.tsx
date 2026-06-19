@@ -53,6 +53,7 @@ export default function MentorUserProfilePage() {
   const animatedComponents = makeAnimated();
 
   const MAX_TAGS = 10;
+  const MAX_TAG_LENGTH = 50;
 
   const normalizeTags = (tags: string[]) =>
     tags.map((tag) => ({
@@ -367,6 +368,10 @@ export default function MentorUserProfilePage() {
                 label: inputValue.toLowerCase().trim(),
                 value: inputValue.toLowerCase().trim(),
               })}
+              isValidNewOption={(inputValue) =>
+                inputValue.trim().length > 0 &&
+                inputValue.trim().length <= MAX_TAG_LENGTH
+              }
             />
             {selectTagError && <p className="text-red-500 italic">{selectTagError}</p>}
 

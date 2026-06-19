@@ -24,6 +24,7 @@ export const CreateApplicationMentorPage: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const MAX_TAGS = 10;
+  const MAX_TAG_LENGTH = 50;
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -210,6 +211,10 @@ export const CreateApplicationMentorPage: React.FC = () => {
                   menuPortal: (base) => ({ ...base, zIndex: 11000 }),
                   menu: (base) => ({ ...base, zIndex: 11000 }),
                 }}
+                isValidNewOption={(inputValue) =>
+                  inputValue.trim().length > 0 &&
+                  inputValue.trim().length <= MAX_TAG_LENGTH
+                }
               />
               {errors.tags && <p className={style.error}>{errors.tags}</p>}
 
