@@ -42,6 +42,7 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const navigate = useNavigate();
   const animatedComponent = makeAnimated();
+  const MAX_TAG_LENGTH = 50;
 
   const resourceTypeOptions = [
     { value: "post", label: "Post" },
@@ -245,6 +246,10 @@ export const CreateResourcePage: React.FC<CreateResourcePageProps> = ({
                 classNamePrefix="select"
                 components={animatedComponent}
                 menuShouldScrollIntoView={false}
+                isValidNewOption={(inputValue) =>
+                  inputValue.trim().length > 0 &&
+                  inputValue.trim().length <= MAX_TAG_LENGTH
+                }
               />
               {errors.selectedTags && (
                 <p className="text-sm text-red-500">{errors.selectedTags}</p>
